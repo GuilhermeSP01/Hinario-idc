@@ -11,7 +11,10 @@
     "typecheck": "corepack pnpm -r run typecheck",
     "cap:sync": "corepack pnpm --filter @hinario/mobile cap:sync",
     "cap:android": "corepack pnpm --filter @hinario/mobile cap:android",
-    "cap:ios": "corepack pnpm --filter @hinario/mobile cap:ios"
+    "cap:ios": "corepack pnpm --filter @hinario/mobile cap:ios",
+    "deploy": "corepack pnpm build && firebase deploy --only firestore,hosting",
+    "deploy:hosting": "corepack pnpm build && firebase deploy --only hosting",
+    "deploy:rules": "firebase deploy --only firestore"
   },
   "devDependencies": {
     "typescript": "^5.7.3"

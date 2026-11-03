@@ -94,18 +94,18 @@ async function goToNext() {
 
       <!-- Navegação Anterior / Próximo -->
       <footer
-        class="mt-10 flex items-center justify-between gap-3 border-t pt-5"
+        class="mt-10 grid grid-cols-2 gap-3 border-t pt-5"
         style="border-color: var(--border-subtle)"
       >
         <button
           type="button"
           :disabled="!hymnsStore.previousHymn"
           @click="goToPrevious"
-          class="flex flex-1 items-center gap-2 rounded-xl border px-3.5 py-3 text-left transition-opacity disabled:opacity-40 cursor-pointer disabled:cursor-not-allowed"
+          class="flex min-w-0 items-center gap-2 overflow-hidden rounded-xl border px-3.5 py-3 text-left transition-opacity disabled:opacity-40 cursor-pointer disabled:cursor-not-allowed"
           style="background-color: var(--bg-surface); border-color: var(--border-subtle)"
         >
           <ChevronLeft :size="18" class="shrink-0" style="color: var(--accent-primary)" />
-          <div class="min-w-0">
+          <div class="min-w-0 flex-1">
             <span class="block text-[11px] font-medium" style="color: var(--text-muted)">
               Anterior
             </span>
@@ -126,10 +126,10 @@ async function goToNext() {
           type="button"
           :disabled="!hymnsStore.nextHymn"
           @click="goToNext"
-          class="flex flex-1 items-center justify-end gap-2 rounded-xl border px-3.5 py-3 text-right transition-opacity disabled:opacity-40 cursor-pointer disabled:cursor-not-allowed"
+          class="flex min-w-0 items-center justify-end gap-2 overflow-hidden rounded-xl border px-3.5 py-3 text-right transition-opacity disabled:opacity-40 cursor-pointer disabled:cursor-not-allowed"
           style="background-color: var(--bg-surface); border-color: var(--border-subtle)"
         >
-          <div class="min-w-0">
+          <div class="min-w-0 flex-1">
             <span class="block text-[11px] font-medium" style="color: var(--text-muted)">
               Próximo
             </span>

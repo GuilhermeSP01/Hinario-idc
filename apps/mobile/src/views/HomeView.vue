@@ -48,7 +48,7 @@ function onSearchInput(event: Event) {
         <input
           :value="hymnsStore.searchQuery"
           @input="onSearchInput"
-          type="search"
+          type="text"
           inputmode="search"
           autocomplete="off"
           autocorrect="off"

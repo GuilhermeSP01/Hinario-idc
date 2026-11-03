@@ -4,7 +4,6 @@ import {
   DEFAULT_USER_SETTINGS,
   getStoredUserSettings,
   setStoredUserSettings,
-  type FontFamilyMode,
   type ThemeMode,
 } from '@/services/preferences';
 
@@ -14,7 +13,6 @@ export const FONT_SCALE_STEP = 10;
 
 export const useSettingsStore = defineStore('settings', () => {
   const theme = ref<ThemeMode>(DEFAULT_USER_SETTINGS.theme);
-  const fontFamily = ref<FontFamilyMode>(DEFAULT_USER_SETTINGS.fontFamily);
   const fontScale = ref<number>(DEFAULT_USER_SETTINGS.fontScale);
   const keepAwake = ref<boolean>(DEFAULT_USER_SETTINGS.keepAwake);
   const isLoaded = ref(false);
@@ -37,14 +35,12 @@ export const useSettingsStore = defineStore('settings', () => {
     const root = document.documentElement;
 
     root.setAttribute('data-theme', effectiveTheme);
-    root.setAttribute('data-font', fontFamily.value);
     root.style.setProperty('--hymn-font-scale', String(fontScale.value / 100));
   }
 
   async function initSettings(): Promise<void> {
     const stored = await getStoredUserSettings();
     theme.value = stored.theme;
-    fontFamily.value = stored.fontFamily;
     fontScale.value = stored.fontScale;
     keepAwake.value = stored.keepAwake;
     isLoaded.value = true;
@@ -65,10 +61,6 @@ export const useSettingsStore = defineStore('settings', () => {
     theme.value = newTheme;
   }
 
-  function setFontFamily(newFont: FontFamilyMode): void {
-    fontFamily.value = newFont;
-  }
-
   function increaseFontScale(): void {
     fontScale.value = Math.min(FONT_SCALE_MAX, fontScale.value + FONT_SCALE_STEP);
   }
@@ -85,12 +77,11 @@ export const useSettingsStore = defineStore('settings', () => {
     keepAwake.value = enabled;
   }
 
-  watch([theme, fontFamily, fontScale, keepAwake], async () => {
+  watch([theme, fontScale, keepAwake], async () => {
     applyThemeAndTypography();
     if (!isLoaded.value) return;
     await setStoredUserSettings({
       theme: theme.value,
-      fontFamily: fontFamily.value,
       fontScale: fontScale.value,
       keepAwake: keepAwake.value,
     });
@@ -98,13 +89,11 @@ export const useSettingsStore = defineStore('settings', () => {
 
   return {
     theme,
-    fontFamily,
     fontScale,
     keepAwake,
     isLoaded,
     initSettings,
     setTheme,
-    setFontFamily,
     increaseFontScale,
     decreaseFontScale,
     resetFontScale,

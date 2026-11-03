@@ -79,19 +79,14 @@ async function goToNext() {
         </button>
       </header>
 
-      <!-- Corpo do Hino (Estrofes e Coro apenas em negrito) -->
+      <!-- Corpo do Hino (Estrofes e Coro em negrito com contraste reforçado) -->
       <article class="hymn-reading-typography flex flex-col gap-6 select-text">
         <section
           v-for="(section, idx) in hymnsStore.currentHymn.sections"
           :key="idx"
-          :class="section.type === 'chorus' ? 'font-bold' : ''"
+          :class="section.type === 'chorus' ? 'hymn-chorus-section' : 'hymn-verse-section'"
         >
-          <p
-            v-for="(line, lineIdx) in section.lines"
-            :key="lineIdx"
-            class="m-0"
-            style="color: var(--text-primary)"
-          >
+          <p v-for="(line, lineIdx) in section.lines" :key="lineIdx" class="m-0">
             {{ line }}
           </p>
         </section>

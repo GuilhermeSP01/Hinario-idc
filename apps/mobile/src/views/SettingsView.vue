@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { BookOpen, Monitor, Moon, RotateCcw, Sun, Type } from 'lucide-vue-next';
+import { BookOpen, Monitor, Moon, RotateCcw, Sun } from 'lucide-vue-next';
 import {
   FONT_SCALE_MAX,
   FONT_SCALE_MIN,
   useSettingsStore,
 } from '@/stores/settingsStore';
-import type { FontFamilyMode, ThemeMode } from '@/services/preferences';
+import type { ThemeMode } from '@/services/preferences';
 
 const settingsStore = useSettingsStore();
 
@@ -14,21 +14,6 @@ const themeOptions: { value: ThemeMode; label: string; icon: typeof Sun }[] = [
   { value: 'dark', label: 'Escuro', icon: Moon },
   { value: 'sepia', label: 'Sépia', icon: BookOpen },
   { value: 'system', label: 'Sistema', icon: Monitor },
-];
-
-const fontOptions: { value: FontFamilyMode; label: string; description: string; fontPreviewClass: string }[] = [
-  {
-    value: 'sans',
-    label: 'Sem Serifa',
-    description: 'Inter — limpa e direta',
-    fontPreviewClass: 'font-sans',
-  },
-  {
-    value: 'serif',
-    label: 'Serifada',
-    description: 'Literata — leitura editorial confortável',
-    fontPreviewClass: 'font-serif',
-  },
 ];
 </script>
 
@@ -81,69 +66,18 @@ const fontOptions: { value: FontFamilyMode; label: string; description: string; 
         </div>
       </section>
 
-      <!-- Tipografia e Tamanho da Fonte -->
+      <!-- Tamanho da Fonte -->
       <section
         class="rounded-2xl border p-4"
         style="background-color: var(--bg-surface); border-color: var(--border-subtle)"
       >
         <div class="mb-3 flex items-center justify-between">
           <h2 class="text-sm font-semibold" style="color: var(--text-primary)">
-            Fonte de Leitura
+            Tamanho da Fonte
           </h2>
           <span class="text-xs font-bold" style="color: var(--accent-primary)">
             {{ settingsStore.fontScale }}%
           </span>
-        </div>
-
-        <!-- Escolha entre Sem Serifa e Serifada -->
-        <div class="grid grid-cols-2 gap-2.5 mb-4">
-          <button
-            v-for="font in fontOptions"
-            :key="font.value"
-            type="button"
-            @click="settingsStore.setFontFamily(font.value)"
-            class="flex flex-col items-start rounded-xl border p-3 text-left transition-all cursor-pointer"
-            :style="{
-              backgroundColor:
-                settingsStore.fontFamily === font.value
-                  ? 'var(--accent-soft)'
-                  : 'var(--bg-primary)',
-              borderColor:
-                settingsStore.fontFamily === font.value
-                  ? 'var(--accent-primary)'
-                  : 'var(--border-subtle)',
-            }"
-          >
-            <div class="flex items-center gap-1.5">
-              <Type
-                :size="15"
-                :style="{
-                  color:
-                    settingsStore.fontFamily === font.value
-                      ? 'var(--accent-primary)'
-                      : 'var(--text-secondary)',
-                }"
-              />
-              <span
-                class="text-xs font-bold"
-                :style="{
-                  color:
-                    settingsStore.fontFamily === font.value
-                      ? 'var(--accent-primary)'
-                      : 'var(--text-primary)',
-                  fontFamily:
-                    font.value === 'serif'
-                      ? 'Literata, Georgia, serif'
-                      : 'Inter, system-ui, sans-serif',
-                }"
-              >
-                {{ font.label }}
-              </span>
-            </div>
-            <span class="mt-0.5 text-[11px]" style="color: var(--text-muted)">
-              {{ font.description }}
-            </span>
-          </button>
         </div>
 
         <!-- Controle de Tamanho A- / A+ -->
@@ -192,7 +126,7 @@ const fontOptions: { value: FontFamilyMode; label: string; description: string; 
           </button>
         </div>
 
-        <!-- Pré-visualização ao vivo -->
+        <!-- Pré-visualização ao vivo (estrofe normal + coro em negrito) -->
         <div
           class="mt-4 rounded-xl border p-3.5"
           style="background-color: var(--bg-primary); border-color: var(--border-subtle)"
@@ -203,13 +137,14 @@ const fontOptions: { value: FontFamilyMode; label: string; description: string; 
           >
             Pré-visualização
           </span>
-          <div class="hymn-reading-typography">
-            <p class="m-0" style="color: var(--text-primary)">
-              Deus prometeu com certeza
-            </p>
-            <p class="m-0" style="color: var(--text-primary)">
-              Chuvas de graça mandar;
-            </p>
+          <div class="hymn-reading-typography flex flex-col gap-2">
+            <div class="hymn-verse-section">
+              <p class="m-0">Deus prometeu com certeza</p>
+              <p class="m-0">Chuvas de graça mandar;</p>
+            </div>
+            <div class="hymn-chorus-section">
+              <p class="m-0">Chuvas de graça, chuvas pedimos, Senhor;</p>
+            </div>
           </div>
         </div>
       </section>

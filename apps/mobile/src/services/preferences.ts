@@ -1,11 +1,9 @@
 import { Preferences } from '@capacitor/preferences';
 
 export type ThemeMode = 'light' | 'dark' | 'sepia' | 'system';
-export type FontFamilyMode = 'sans' | 'serif';
 
 export interface UserSettings {
   theme: ThemeMode;
-  fontFamily: FontFamilyMode;
   /** Escala percentual de fonte: 85 a 145 (padrão 100) */
   fontScale: number;
   keepAwake: boolean;
@@ -20,7 +18,6 @@ const KEYS = {
 
 export const DEFAULT_USER_SETTINGS: UserSettings = {
   theme: 'system',
-  fontFamily: 'sans',
   fontScale: 100,
   keepAwake: true,
 };
@@ -73,10 +70,6 @@ export async function getStoredUserSettings(): Promise<UserSettings> {
         parsed.theme === 'system'
           ? parsed.theme
           : DEFAULT_USER_SETTINGS.theme,
-      fontFamily:
-        parsed.fontFamily === 'serif' || parsed.fontFamily === 'sans'
-          ? parsed.fontFamily
-          : DEFAULT_USER_SETTINGS.fontFamily,
       fontScale:
         typeof parsed.fontScale === 'number' && parsed.fontScale >= 80 && parsed.fontScale <= 150
           ? parsed.fontScale

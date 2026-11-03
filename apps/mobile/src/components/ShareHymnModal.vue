@@ -242,8 +242,9 @@ async function handleCopyText() {
             </button>
           </div>
 
-          <!-- Seletor de Abas: Imagem vs Texto -->
-          <div class="px-5 pt-3.5">
+          <!-- Corpo Rolável (Seletor Imagem/Texto + Pré-visualização + Opções) -->
+          <div class="flex-1 overflow-y-auto px-5 py-4 flex flex-col gap-4">
+            <!-- Seletor de Abas: Imagem vs Texto -->
             <div
               class="grid grid-cols-2 gap-1.5 rounded-xl p-1"
               style="background-color: var(--bg-primary)"
@@ -282,10 +283,7 @@ async function handleCopyText() {
                 <span>Texto</span>
               </button>
             </div>
-          </div>
 
-          <!-- Corpo Rolável (Pré-visualização + Opções) -->
-          <div class="flex-1 overflow-y-auto px-5 py-4 flex flex-col gap-4">
             <!-- Pré-visualização da Imagem -->
             <div
               v-if="activeTab === 'image'"

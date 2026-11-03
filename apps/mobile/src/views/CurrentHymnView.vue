@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, onActivated, onDeactivated, onMounted, onUnmounted, ref, watch } from 'vue';
-import { Check, ChevronLeft, ChevronRight, Share2, X } from 'lucide-vue-next';
+import { Check, ChevronLeft, ChevronRight, Share2 } from 'lucide-vue-next';
 import { useHymnsStore } from '@/stores/hymnsStore';
 import { useFavoritesStore } from '@/stores/favoritesStore';
 import { useSettingsStore } from '@/stores/settingsStore';
@@ -177,19 +177,6 @@ async function goToNext() {
               </div>
             </header>
 
-            <!-- Dica contextual quando no modo de seleção -->
-            <div
-              v-if="isSelectingBlocks"
-              class="mb-4 flex items-center justify-between rounded-xl px-3.5 py-2 text-xs font-medium"
-              style="background-color: var(--accent-soft); color: var(--accent-primary)"
-            >
-              <span>Toque nos blocos que deseja compartilhar</span>
-              <span class="font-bold">
-                {{ selectedBlockIndices.length }}
-                {{ selectedBlockIndices.length === 1 ? 'selecionado' : 'selecionados' }}
-              </span>
-            </div>
-
             <!-- Corpo do Hino (Estrofes e Coro) -->
             <article
               class="hymn-reading-typography flex flex-col transition-all"
@@ -257,43 +244,41 @@ async function goToNext() {
         "
       >
         <!-- Modo de Seleção de Compartilhamento -->
-        <div v-if="isSelectingBlocks" class="flex items-center gap-2.5">
+        <div v-if="isSelectingBlocks" class="grid grid-cols-3 gap-2.5">
           <button
             type="button"
             @click="exitSelectionMode"
-            class="flex items-center justify-center gap-1.5 rounded-xl border px-3.5 py-2.5 text-xs font-semibold cursor-pointer"
+            class="flex h-11 items-center justify-center whitespace-nowrap rounded-xl border px-3 text-xs font-semibold cursor-pointer"
             style="
               background-color: var(--bg-surface);
               border-color: var(--border-subtle);
               color: var(--text-secondary);
             "
           >
-            <X :size="15" />
-            <span>Cancelar</span>
+            Cancelar
           </button>
 
           <button
             type="button"
             @click="toggleSelectAllBlocks"
-            class="flex items-center justify-center rounded-xl border px-3.5 py-2.5 text-xs font-semibold cursor-pointer"
+            class="flex h-11 items-center justify-center whitespace-nowrap rounded-xl border px-3 text-xs font-semibold cursor-pointer"
             style="
               background-color: var(--bg-surface);
               border-color: var(--border-subtle);
               color: var(--text-primary);
             "
           >
-            {{ allBlocksSelected ? 'Limpar' : 'Selecionar todos' }}
+            {{ allBlocksSelected ? 'Limpar' : 'Tudo' }}
           </button>
 
           <button
             type="button"
             :disabled="selectedBlockIndices.length === 0"
             @click="openSharePreview"
-            class="flex flex-1 items-center justify-center gap-1.5 rounded-xl py-2.5 px-4 text-xs font-bold text-white transition-opacity disabled:opacity-40 cursor-pointer disabled:cursor-not-allowed"
+            class="flex h-11 items-center justify-center whitespace-nowrap rounded-xl px-3 text-xs font-bold text-white transition-opacity disabled:opacity-40 cursor-pointer disabled:cursor-not-allowed"
             style="background-color: var(--accent-primary)"
           >
-            <Share2 :size="15" />
-            <span>Continuar ({{ selectedBlockIndices.length }})</span>
+            Continuar
           </button>
         </div>
 

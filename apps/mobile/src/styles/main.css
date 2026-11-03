@@ -1,0 +1,82 @@
+@import "tailwindcss";
+
+:root,
+html[data-theme="light"] {
+  --bg-primary: #f8fafc;
+  --bg-surface: #ffffff;
+  --bg-elevated: #f1f5f9;
+  --bg-chorus: #eff6ff;
+  --border-subtle: #e2e8f0;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+  --accent-primary: #2563eb;
+  --accent-soft: #dbeafe;
+  --chorus-border: #3b82f6;
+}
+
+html[data-theme="dark"] {
+  --bg-primary: #0b0f19;
+  --bg-surface: #111827;
+  --bg-elevated: #1e293b;
+  --bg-chorus: #172554;
+  --border-subtle: #1f2937;
+  --text-primary: #f1f5f9;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  --accent-primary: #60a5fa;
+  --accent-soft: #1e3a8a;
+  --chorus-border: #60a5fa;
+}
+
+html[data-theme="sepia"] {
+  --bg-primary: #f4ecd8;
+  --bg-surface: #fbf5e6;
+  --bg-elevated: #eadec2;
+  --bg-chorus: #efe4c8;
+  --border-subtle: #dfd1b2;
+  --text-primary: #3b2f20;
+  --text-secondary: #5c4b37;
+  --text-muted: #7d6850;
+  --accent-primary: #9a5b13;
+  --accent-soft: #e6d2b5;
+  --chorus-border: #b46e1d;
+}
+
+:root {
+  --hymn-font-scale: 1;
+  --font-ui: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-reading: var(--font-ui);
+}
+
+html[data-font="sans"] {
+  --font-reading: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+html[data-font="serif"] {
+  --font-reading: Georgia, Cambria, "Times New Roman", Times, serif;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+  margin: 0;
+  padding: 0;
+  overscroll-behavior-y: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.hymn-reading-typography {
+  font-family: var(--font-reading);
+  font-size: calc(1.125rem * var(--hymn-font-scale));
+  line-height: calc(1.85rem * var(--hymn-font-scale));
+}
+
+.safe-top {
+  padding-top: env(safe-area-inset-top, 0px);
+}
+
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}

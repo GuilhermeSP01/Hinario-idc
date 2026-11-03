@@ -5,13 +5,13 @@
   "description": "Ecossistema Hinário IDC — Monorepo (App Mobile Capacitor, Domínio Compartilhado, Firestore Sync e Ferramentas)",
   "packageManager": "pnpm@12.16.1",
   "scripts": {
-    "dev": "pnpm --filter @hinario/mobile dev",
-    "build": "pnpm --filter @hinario/mobile build",
-    "preview": "pnpm --filter @hinario/mobile preview",
-    "typecheck": "pnpm -r run typecheck",
-    "cap:sync": "pnpm --filter @hinario/mobile cap:sync",
-    "cap:android": "pnpm --filter @hinario/mobile cap:android",
-    "cap:ios": "pnpm --filter @hinario/mobile cap:ios"
+    "dev": "corepack pnpm --filter @hinario/mobile dev",
+    "build": "corepack pnpm --filter @hinario/mobile build",
+    "preview": "corepack pnpm --filter @hinario/mobile preview",
+    "typecheck": "corepack pnpm -r run typecheck",
+    "cap:sync": "corepack pnpm --filter @hinario/mobile cap:sync",
+    "cap:android": "corepack pnpm --filter @hinario/mobile cap:android",
+    "cap:ios": "corepack pnpm --filter @hinario/mobile cap:ios"
   },
   "devDependencies": {
     "typescript": "^5.7.3"

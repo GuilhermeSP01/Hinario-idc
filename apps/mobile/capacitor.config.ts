@@ -1,0 +1,13 @@
+import type { CapacitorConfig } from '@capacitor/cli';
+
+const config: CapacitorConfig = {
+  appId: 'br.org.idc.hinario',
+  appName: 'Hinário IDC',
+  webDir: 'dist',
+  bundledWebRuntime: false,
+  server: {
+    androidScheme: 'https',
+  },
+};
+
+export default config;

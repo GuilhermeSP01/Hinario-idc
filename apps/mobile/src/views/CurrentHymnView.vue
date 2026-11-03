@@ -42,30 +42,23 @@ async function goToNext() {
 <template>
   <div class="mx-auto max-w-xl px-4 pb-28 pt-4">
     <template v-if="hymnsStore.currentHymn">
-      <!-- Cabeçalho do Hino -->
+      <!-- Cabeçalho do Hino: "X. Título" alinhado com o botão de favorito -->
       <header
-        class="mb-6 flex items-start justify-between gap-4 border-b pb-4"
+        class="mb-6 flex items-center justify-between gap-4 border-b pb-4"
         style="border-color: var(--border-subtle)"
       >
-        <div>
-          <span
-            class="inline-flex items-center rounded-md px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider"
-            style="background-color: var(--accent-soft); color: var(--accent-primary)"
-          >
-            Hino {{ hymnsStore.currentHymn.number }}
-          </span>
-          <h1
-            class="mt-2 text-2xl font-bold leading-tight"
-            style="color: var(--text-primary)"
-          >
-            {{ hymnsStore.currentHymn.title }}
-          </h1>
-        </div>
+        <h1
+          class="text-xl sm:text-2xl font-bold leading-snug tracking-tight"
+          style="color: var(--text-primary)"
+        >
+          <span style="color: var(--accent-primary)">{{ hymnsStore.currentHymn.number }}.</span>
+          {{ ' ' + hymnsStore.currentHymn.title }}
+        </h1>
 
         <button
           type="button"
           @click="favoritesStore.toggleFavorite(hymnsStore.currentHymn.id)"
-          class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border transition-colors cursor-pointer"
+          class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border transition-colors cursor-pointer"
           :style="{
             backgroundColor: 'var(--bg-surface)',
             borderColor: 'var(--border-subtle)',
@@ -80,45 +73,19 @@ async function goToNext() {
           "
         >
           <Heart
-            :size="22"
+            :size="20"
             :fill="favoritesStore.isFavorite(hymnsStore.currentHymn.id) ? '#ef4444' : 'none'"
           />
         </button>
       </header>
 
-      <!-- Corpo do Hino (Estrofes e Coro tipados) -->
+      <!-- Corpo do Hino (Estrofes e Coro apenas em negrito) -->
       <article class="hymn-reading-typography flex flex-col gap-6 select-text">
         <section
           v-for="(section, idx) in hymnsStore.currentHymn.sections"
           :key="idx"
-          :class="[
-            'transition-colors',
-            section.type === 'chorus' ? 'rounded-xl border-l-4 py-3.5 pl-4 pr-3 italic' : '',
-          ]"
-          :style="
-            section.type === 'chorus'
-              ? {
-                  backgroundColor: 'var(--bg-chorus)',
-                  borderColor: 'var(--chorus-border)',
-                }
-              : {}
-          "
+          :class="section.type === 'chorus' ? 'font-bold' : ''"
         >
-          <div
-            v-if="section.type === 'chorus'"
-            class="mb-1.5 text-xs font-bold uppercase tracking-wider not-italic"
-            style="color: var(--accent-primary)"
-          >
-            Coro
-          </div>
-          <div
-            v-else-if="section.number"
-            class="mb-1 text-xs font-bold uppercase tracking-wider"
-            style="color: var(--text-muted)"
-          >
-            Estrofe {{ section.number }}
-          </div>
-
           <p
             v-for="(line, lineIdx) in section.lines"
             :key="lineIdx"
@@ -153,7 +120,7 @@ async function goToNext() {
             >
               {{
                 hymnsStore.previousHymn
-                  ? `#${hymnsStore.previousHymn.number} ${hymnsStore.previousHymn.title}`
+                  ? `${hymnsStore.previousHymn.number}. ${hymnsStore.previousHymn.title}`
                   : 'Início do hinário'
               }}
             </span>
@@ -177,7 +144,7 @@ async function goToNext() {
             >
               {{
                 hymnsStore.nextHymn
-                  ? `#${hymnsStore.nextHymn.number} ${hymnsStore.nextHymn.title}`
+                  ? `${hymnsStore.nextHymn.number}. ${hymnsStore.nextHymn.title}`
                   : 'Fim do hinário'
               }}
             </span>

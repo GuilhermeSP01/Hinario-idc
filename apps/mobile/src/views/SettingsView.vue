@@ -16,9 +16,19 @@ const themeOptions: { value: ThemeMode; label: string; icon: typeof Sun }[] = [
   { value: 'system', label: 'Sistema', icon: Monitor },
 ];
 
-const fontOptions: { value: FontFamilyMode; label: string; description: string }[] = [
-  { value: 'sans', label: 'Sem Serifa', description: 'Moderna e limpa' },
-  { value: 'serif', label: 'Serifada', description: 'Clássica de hinário impresso' },
+const fontOptions: { value: FontFamilyMode; label: string; description: string; fontPreviewClass: string }[] = [
+  {
+    value: 'sans',
+    label: 'Sem Serifa',
+    description: 'Inter — limpa e direta',
+    fontPreviewClass: 'font-sans',
+  },
+  {
+    value: 'serif',
+    label: 'Serifada',
+    description: 'Literata — leitura editorial confortável',
+    fontPreviewClass: 'font-serif',
+  },
 ];
 </script>
 
@@ -121,6 +131,10 @@ const fontOptions: { value: FontFamilyMode; label: string; description: string }
                     settingsStore.fontFamily === font.value
                       ? 'var(--accent-primary)'
                       : 'var(--text-primary)',
+                  fontFamily:
+                    font.value === 'serif'
+                      ? 'Literata, Georgia, serif'
+                      : 'Inter, system-ui, sans-serif',
                 }"
               >
                 {{ font.label }}
@@ -200,29 +214,35 @@ const fontOptions: { value: FontFamilyMode; label: string; description: string }
         </div>
       </section>
 
-      <!-- Comportamento de Tela -->
+      <!-- Comportamento de Tela (Switch moderno) -->
       <section
         class="rounded-2xl border p-4"
         style="background-color: var(--bg-surface); border-color: var(--border-subtle)"
       >
-        <label class="flex items-center justify-between gap-4 cursor-pointer">
-          <div>
-            <span class="block text-sm font-semibold" style="color: var(--text-primary)">
-              Manter tela acesa na leitura
-            </span>
-            <span class="block text-xs mt-0.5" style="color: var(--text-muted)">
-              Evita que o celular desligue a tela enquanto um hino estiver aberto
-            </span>
-          </div>
-          <input
-            type="checkbox"
-            :checked="settingsStore.keepAwake"
-            @change="
-              settingsStore.setKeepAwake(($event.target as HTMLInputElement).checked)
-            "
-            class="h-5 w-5 accent-blue-600 cursor-pointer"
-          />
-        </label>
+        <div class="flex items-center justify-between gap-4">
+          <span class="text-sm font-semibold" style="color: var(--text-primary)">
+            Manter tela acesa na leitura
+          </span>
+
+          <button
+            type="button"
+            role="switch"
+            :aria-checked="settingsStore.keepAwake"
+            @click="settingsStore.setKeepAwake(!settingsStore.keepAwake)"
+            class="relative inline-flex h-7 w-12 shrink-0 items-center rounded-full transition-colors duration-200 cursor-pointer"
+            :style="{
+              backgroundColor: settingsStore.keepAwake
+                ? 'var(--accent-primary)'
+                : 'var(--bg-elevated)',
+              border: settingsStore.keepAwake ? 'none' : '1px solid var(--border-subtle)',
+            }"
+          >
+            <span
+              class="inline-block h-5 w-5 transform rounded-full bg-white shadow-xs transition-transform duration-200"
+              :class="settingsStore.keepAwake ? 'translate-x-6' : 'translate-x-1'"
+            />
+          </button>
+        </div>
       </section>
     </div>
   </div>

@@ -40,7 +40,7 @@ function navigateTo(path: string) {
           color: route.path === tab.path ? 'var(--accent-primary)' : 'var(--text-muted)',
         }"
       >
-        <div class="relative flex items-center justify-center">
+        <div class="relative flex h-6 w-6 items-center justify-center">
           <component
             :is="tab.icon"
             :size="22"
@@ -48,14 +48,14 @@ function navigateTo(path: string) {
           />
           <span
             v-if="tab.name === 'hymn' && hymnsStore.currentHymn"
-            class=" -top-1.5 -right-5 px-1.5 py-0.2 text-[10px] font-bold rounded-full leading-tight"
+            class="pointer-events-none absolute -top-1.5 left-full ml-0.5 whitespace-nowrap rounded-full px-1.5 py-0.2 text-[10px] font-bold leading-tight"
             style="background-color: var(--accent-soft); color: var(--accent-primary)"
           >
             #{{ hymnsStore.currentHymn.number }}
           </span>
           <span
             v-if="tab.name === 'favorites' && favoritesStore.favoriteIds.length > 0"
-            class=" -top-1.5 -right-4 px-1.5 py-0.2 text-[10px] font-bold rounded-full leading-tight"
+            class="pointer-events-none absolute -top-1.5 left-full ml-0.5 whitespace-nowrap rounded-full px-1.5 py-0.2 text-[10px] font-bold leading-tight"
             style="background-color: var(--accent-soft); color: var(--accent-primary)"
           >
             {{ favoritesStore.favoriteIds.length }}

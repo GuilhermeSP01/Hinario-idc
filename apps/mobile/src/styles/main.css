@@ -189,3 +189,36 @@ input[type="search"]::-webkit-search-results-decoration {
   opacity: 0;
   transform: scale(0.6);
 }
+
+/* Transição direcional suave entre hinos (Anterior / Próximo) */
+.hymn-slide-next-enter-active,
+.hymn-slide-prev-enter-active {
+  transition: opacity 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.hymn-slide-next-leave-active,
+.hymn-slide-prev-leave-active {
+  transition: opacity 0.16s cubic-bezier(0.4, 0, 1, 1),
+    transform 0.16s cubic-bezier(0.4, 0, 1, 1);
+}
+
+.hymn-slide-next-enter-from {
+  opacity: 0;
+  transform: translateX(18px);
+}
+
+.hymn-slide-next-leave-to {
+  opacity: 0;
+  transform: translateX(-18px);
+}
+
+.hymn-slide-prev-enter-from {
+  opacity: 0;
+  transform: translateX(-18px);
+}
+
+.hymn-slide-prev-leave-to {
+  opacity: 0;
+  transform: translateX(18px);
+}

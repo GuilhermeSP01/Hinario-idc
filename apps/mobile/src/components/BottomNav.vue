@@ -46,13 +46,16 @@ function navigateTo(path: string) {
             :size="22"
             :stroke-width="route.path === tab.path ? 2.4 : 1.9"
           />
-          <span
-            v-if="tab.name === 'hymn' && hymnsStore.currentHymn"
-            class="pointer-events-none absolute -top-1.5 left-full ml-0.5 whitespace-nowrap rounded-full px-1.5 py-0.2 text-[10px] font-bold leading-tight"
-            style="background-color: var(--accent-soft); color: var(--accent-primary)"
-          >
-            #{{ hymnsStore.currentHymn.number }}
-          </span>
+          <Transition name="badge-pop" mode="out-in">
+            <span
+              v-if="tab.name === 'hymn' && hymnsStore.currentHymn"
+              :key="hymnsStore.currentHymn.number"
+              class="pointer-events-none absolute -top-1.5 left-full ml-0.5 whitespace-nowrap rounded-full px-1.5 py-0.2 text-[10px] font-bold leading-tight"
+              style="background-color: var(--accent-soft); color: var(--accent-primary)"
+            >
+              #{{ hymnsStore.currentHymn.number }}
+            </span>
+          </Transition>
           <Transition name="badge-pop" mode="out-in">
             <span
               v-if="tab.name === 'favorites' && favoritesStore.favoriteIds.length > 0"

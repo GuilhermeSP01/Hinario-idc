@@ -17,6 +17,10 @@ async function openHymn(hymnId: string) {
 function clearSearch() {
   hymnsStore.searchQuery = '';
 }
+
+function onSearchInput(event: Event) {
+  hymnsStore.searchQuery = (event.target as HTMLInputElement).value;
+}
 </script>
 
 <template>
@@ -42,9 +46,14 @@ function clearSearch() {
       >
         <Search :size="18" class="shrink-0" style="color: var(--text-muted)" />
         <input
-          v-model="hymnsStore.searchQuery"
+          :value="hymnsStore.searchQuery"
+          @input="onSearchInput"
           type="search"
           inputmode="search"
+          autocomplete="off"
+          autocorrect="off"
+          autocapitalize="off"
+          spellcheck="false"
           placeholder="Buscar por número, título ou trecho..."
           class="w-full bg-transparent text-sm outline-none placeholder:opacity-65"
           style="color: var(--text-primary)"

@@ -35,7 +35,18 @@ export const useSettingsStore = defineStore('settings', () => {
     const root = document.documentElement;
 
     root.setAttribute('data-theme', effectiveTheme);
+    root.style.colorScheme = effectiveTheme === 'dark' ? 'only dark' : 'only light';
     root.style.setProperty('--hymn-font-scale', String(fontScale.value / 100));
+
+    const themeColorMeta = document.querySelector('meta[name="theme-color"]');
+    if (themeColorMeta) {
+      const bgMap: Record<'light' | 'dark' | 'sepia', string> = {
+        light: '#f8fafc',
+        dark: '#0b0f19',
+        sepia: '#f4ecd8',
+      };
+      themeColorMeta.setAttribute('content', bgMap[effectiveTheme]);
+    }
   }
 
   async function initSettings(): Promise<void> {

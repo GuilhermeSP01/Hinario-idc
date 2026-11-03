@@ -31,7 +31,12 @@ async function openHymn(hymnId: string) {
       </span>
     </header>
 
-    <div v-if="favoriteHymns.length > 0" class="flex flex-col gap-2.5">
+    <TransitionGroup
+      v-if="favoriteHymns.length > 0"
+      name="fav-list"
+      tag="div"
+      class="relative flex flex-col gap-2.5"
+    >
       <HymnListItem
         v-for="hymn in favoriteHymns"
         :key="hymn.id"
@@ -41,11 +46,11 @@ async function openHymn(hymnId: string) {
         @select="openHymn"
         @toggle-favorite="favoritesStore.toggleFavorite"
       />
-    </div>
+    </TransitionGroup>
 
     <div
       v-else
-      class="mt-12 flex flex-col items-center justify-center rounded-2xl border p-8 text-center"
+      class="mt-12 flex flex-col items-center justify-center rounded-2xl border p-8 text-center transition-all duration-300"
       style="background-color: var(--bg-surface); border-color: var(--border-subtle)"
     >
       <div

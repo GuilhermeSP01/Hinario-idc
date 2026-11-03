@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { onActivated, onDeactivated, onMounted, onUnmounted, watch } from 'vue';
-import { ChevronLeft, ChevronRight, Heart } from 'lucide-vue-next';
+import { ChevronLeft, ChevronRight } from 'lucide-vue-next';
 import { useHymnsStore } from '@/stores/hymnsStore';
 import { useFavoritesStore } from '@/stores/favoritesStore';
 import { useSettingsStore } from '@/stores/settingsStore';
 import { updateKeepAwakeState } from '@/services/keepAwake';
+import FavoriteButton from '@/components/FavoriteButton.vue';
 
 const hymnsStore = useHymnsStore();
 const favoritesStore = useFavoritesStore();
@@ -55,28 +56,12 @@ async function goToNext() {
           {{ ' ' + hymnsStore.currentHymn.title }}
         </h1>
 
-        <button
-          type="button"
-          @click="favoritesStore.toggleFavorite(hymnsStore.currentHymn.id)"
-          class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border transition-colors cursor-pointer"
-          :style="{
-            backgroundColor: 'var(--bg-surface)',
-            borderColor: 'var(--border-subtle)',
-            color: favoritesStore.isFavorite(hymnsStore.currentHymn.id)
-              ? '#ef4444'
-              : 'var(--text-muted)',
-          }"
-          :aria-label="
-            favoritesStore.isFavorite(hymnsStore.currentHymn.id)
-              ? 'Remover dos favoritos'
-              : 'Adicionar aos favoritos'
-          "
-        >
-          <Heart
-            :size="20"
-            :fill="favoritesStore.isFavorite(hymnsStore.currentHymn.id) ? '#ef4444' : 'none'"
-          />
-        </button>
+        <FavoriteButton
+          :is-favorite="favoritesStore.isFavorite(hymnsStore.currentHymn.id)"
+          :size="20"
+          variant="bordered"
+          @toggle="favoritesStore.toggleFavorite(hymnsStore.currentHymn.id)"
+        />
       </header>
 
       <!-- Corpo do Hino (Estrofes e Coro em negrito com contraste reforçado) -->

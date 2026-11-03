@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { Heart } from 'lucide-vue-next';
 import type { Hymn } from '@hinario/core';
+import FavoriteButton from '@/components/FavoriteButton.vue';
 
 defineProps<{
   hymn: Hymn;
@@ -62,16 +62,11 @@ const emit = defineEmits<{
       </div>
     </div>
 
-    <button
-      type="button"
-      @click.stop="emit('toggleFavorite', hymn.id)"
-      class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full transition-colors cursor-pointer"
-      :aria-label="isFavorite ? 'Remover dos favoritos' : 'Adicionar aos favoritos'"
-      :style="{
-        color: isFavorite ? '#ef4444' : 'var(--text-muted)',
-      }"
-    >
-      <Heart :size="19" :fill="isFavorite ? '#ef4444' : 'none'" />
-    </button>
+    <FavoriteButton
+      :is-favorite="isFavorite"
+      :size="19"
+      variant="ghost"
+      @toggle="emit('toggleFavorite', hymn.id)"
+    />
   </div>
 </template>

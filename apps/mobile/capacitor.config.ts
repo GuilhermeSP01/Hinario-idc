@@ -4,7 +4,6 @@ const config: CapacitorConfig = {
   appId: 'br.org.idc.hinario',
   appName: 'Hinário IDC',
   webDir: 'dist',
-  bundledWebRuntime: false,
   server: {
     androidScheme: 'https',
   },

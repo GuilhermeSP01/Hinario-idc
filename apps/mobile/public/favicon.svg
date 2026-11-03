@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e40af" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fde68a" />
+      <stop offset="100%" stop-color="#f59e0b" />
+    </linearGradient>
+  </defs>
+
+  <!-- Fundo com cantos arredondados -->
+  <rect width="512" height="512" rx="116" fill="url(#bgGrad)" />
+
+  <!-- Brilho sutil superior -->
+  <circle cx="256" cy="140" r="180" fill="#3b82f6" opacity="0.14" />
+
+  <!-- Capa traseira do hinário -->
+  <path
+    d="M96 196 C96 182 108 172 122 174 L256 196 L390 174 C404 172 416 182 416 196 L416 374 C416 388 404 398 390 400 L256 422 L122 400 C108 398 96 388 96 374 Z"
+    fill="#93c5fd"
+    opacity="0.28"
+  />
+
+  <!-- Página esquerda do hinário -->
+  <path
+    d="M114 176 C158 172 212 182 248 202 L248 394 C212 374 158 364 114 368 Z"
+    fill="#ffffff"
+  />
+
+  <!-- Página direita do hinário -->
+  <path
+    d="M398 176 C354 172 300 182 264 202 L264 394 C300 374 354 364 398 368 Z"
+    fill="#eff6ff"
+  />
+
+  <!-- Linhas de pauta/letra na página esquerda -->
+  <path
+    d="M142 224 C172 222 204 228 224 238"
+    stroke="#93c5fd"
+    stroke-width="10"
+    stroke-linecap="round"
+    fill="none"
+  />
+  <path
+    d="M142 262 C172 260 204 266 224 276"
+    stroke="#93c5fd"
+    stroke-width="10"
+    stroke-linecap="round"
+    fill="none"
+  />
+  <path
+    d="M142 300 C172 298 204 304 224 314"
+    stroke="#93c5fd"
+    stroke-width="10"
+    stroke-linecap="round"
+    fill="none"
+  />
+
+  <!-- Linhas de pauta/letra na página direita -->
+  <path
+    d="M370 224 C340 222 308 228 288 238"
+    stroke="#93c5fd"
+    stroke-width="10"
+    stroke-linecap="round"
+    fill="none"
+  />
+  <path
+    d="M370 262 C340 260 308 266 288 276"
+    stroke="#93c5fd"
+    stroke-width="10"
+    stroke-linecap="round"
+    fill="none"
+  />
+  <path
+    d="M370 300 C340 298 308 304 288 314"
+    stroke="#93c5fd"
+    stroke-width="10"
+    stroke-linecap="round"
+    fill="none"
+  />
+
+  <!-- Marcador de página dourado no centro -->
+  <path
+    d="M248 202 L264 202 L264 416 L256 406 L248 416 Z"
+    fill="url(#goldGrad)"
+  />
+
+  <!-- Nota musical dourada emergindo do hinário (caminho contínuo sem emenda) -->
+  <path
+    d="M250 76 C250 72 253 69 257 69 C282 71 304 86 310 110 C311 114 307 117 303 115 C289 105 275 100 262 100 L262 146 C262 160 248 172 232 172 C216 172 204 162 204 148 C204 134 218 122 234 122 C240 122 246 124 250 127 Z"
+    fill="url(#goldGrad)"
+  />
+</svg>

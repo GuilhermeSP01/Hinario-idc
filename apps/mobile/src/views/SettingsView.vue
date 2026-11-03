@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { BookOpen, Monitor, Moon, RotateCcw, Sun } from 'lucide-vue-next';
+import { BookOpen, Moon, RotateCcw, Smartphone, Sun } from 'lucide-vue-next';
 import {
   FONT_SCALE_MAX,
   FONT_SCALE_MIN,
@@ -13,7 +13,7 @@ const themeOptions: { value: ThemeMode; label: string; icon: typeof Sun }[] = [
   { value: 'light', label: 'Claro', icon: Sun },
   { value: 'dark', label: 'Escuro', icon: Moon },
   { value: 'sepia', label: 'Sépia', icon: BookOpen },
-  { value: 'system', label: 'Sistema', icon: Monitor },
+  { value: 'system', label: 'Sistema', icon: Smartphone },
 ];
 </script>
 

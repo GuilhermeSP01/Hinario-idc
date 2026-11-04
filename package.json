@@ -14,7 +14,10 @@
     "cap:ios": "corepack pnpm --filter @hinario/mobile cap:ios",
     "deploy": "corepack pnpm build && firebase deploy --only firestore,hosting",
     "deploy:hosting": "corepack pnpm build && firebase deploy --only hosting",
-    "deploy:rules": "firebase deploy --only firestore"
+    "deploy:rules": "firebase deploy --only firestore",
+    "hymns:extract": "python tools/extract_hymns.py",
+    "hymns:upload": "python tools/upload_firestore.py",
+    "hymns:sync": "python tools/extract_hymns.py && python tools/upload_firestore.py --bump"
   },
   "devDependencies": {
     "typescript": "^5.7.3"

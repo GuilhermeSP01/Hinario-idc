@@ -10,7 +10,7 @@ const hymnsStore = useHymnsStore();
 const favoritesStore = useFavoritesStore();
 
 async function openHymn(hymnId: string) {
-  await hymnsStore.selectHymn(hymnId);
+  await hymnsStore.selectHymn(hymnId, 'all');
   await router.push('/hymn');
 }
 

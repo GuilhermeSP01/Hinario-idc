@@ -67,9 +67,18 @@ function openSharePreview() {
 }
 
 watch(
-  () => hymnsStore.currentHymn?.number,
-  (newNum, oldNum) => {
-    if (typeof newNum === 'number' && typeof oldNum === 'number' && newNum !== oldNum) {
+  () => [hymnsStore.currentHymnIndex, hymnsStore.currentHymn?.number] as const,
+  ([newIdx, newNum], [oldIdx, oldNum]) => {
+    if (
+      typeof newIdx === 'number' &&
+      typeof oldIdx === 'number' &&
+      newIdx >= 0 &&
+      oldIdx >= 0 &&
+      newIdx !== oldIdx
+    ) {
+      transitionName.value = newIdx > oldIdx ? 'hymn-slide-next' : 'hymn-slide-prev';
+      exitSelectionMode();
+    } else if (typeof newNum === 'number' && typeof oldNum === 'number' && newNum !== oldNum) {
       transitionName.value = newNum > oldNum ? 'hymn-slide-next' : 'hymn-slide-prev';
       exitSelectionMode();
     }

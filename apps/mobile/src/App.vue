@@ -4,16 +4,19 @@ import { RouterView } from 'vue-router';
 import BottomNav from '@/components/BottomNav.vue';
 import { useSettingsStore } from '@/stores/settingsStore';
 import { useFavoritesStore } from '@/stores/favoritesStore';
+import { useWorshipStore } from '@/stores/worshipStore';
 import { useHymnsStore } from '@/stores/hymnsStore';
 
 const settingsStore = useSettingsStore();
 const favoritesStore = useFavoritesStore();
+const worshipStore = useWorshipStore();
 const hymnsStore = useHymnsStore();
 
 onMounted(async () => {
   await Promise.all([
     settingsStore.initSettings(),
     favoritesStore.initFavorites(),
+    worshipStore.initWorship(),
     hymnsStore.initHymns(),
   ]);
 });

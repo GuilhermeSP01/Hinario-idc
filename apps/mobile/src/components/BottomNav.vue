@@ -12,7 +12,7 @@ const favoritesStore = useFavoritesStore();
 const tabs = [
   { name: 'home', path: '/', label: 'Início', icon: ListMusic },
   { name: 'hymn', path: '/hymn', label: 'Hino', icon: BookOpen },
-  { name: 'favorites', path: '/favorites', label: 'Favoritos', icon: Heart },
+  { name: 'favorites', path: '/favorites', label: 'Salvos', icon: Heart },
   { name: 'settings', path: '/settings', label: 'Ajustes', icon: Settings },
 ] as const;
 

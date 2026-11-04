@@ -15,17 +15,22 @@ import {
   setStoredLastHymnId,
   setStoredLocalVersion,
 } from '@/services/preferences';
+import { useWorshipStore } from '@/stores/worshipStore';
+
+export type HymnNavigationContext = 'all' | 'worship';
 
 const SEARCH_CACHE_ID = 'main';
 
 export const useHymnsStore = defineStore('hymns', () => {
   const hymns = ref<Hymn[]>([]);
   const currentHymnId = ref<string | null>(null);
+  const navigationContext = ref<HymnNavigationContext>('all');
   const searchQuery = ref<string>('');
   const localVersion = ref<number>(0);
   const isReady = ref<boolean>(false);
 
   const searchEngine = new HymnSearchEngine();
+  const worshipStore = useWorshipStore();
 
   const hymnsById = computed(() => {
     const map = new Map<string, Hymn>();
@@ -43,6 +48,28 @@ export const useHymnsStore = defineStore('hymns', () => {
       .sort((a, b) => a.number - b.number || a.title.localeCompare(b.title, 'pt-BR'))
   );
 
+  const worshipHymns = computed<Hymn[]>(() => {
+    const list: Hymn[] = [];
+    for (const id of worshipStore.worshipIds) {
+      const found = hymnsById.value.get(id);
+      if (found) {
+        list.push(found);
+      }
+    }
+    return list;
+  });
+
+  const activeNavigationList = computed<Hymn[]>(() => {
+    if (
+      navigationContext.value === 'worship' &&
+      currentHymn.value &&
+      worshipStore.hasHymn(currentHymn.value.id)
+    ) {
+      return worshipHymns.value;
+    }
+    return sortedHymns.value;
+  });
+
   const currentHymn = computed<Hymn | null>(() => {
     if (currentHymnId.value && hymnsById.value.has(currentHymnId.value)) {
       return hymnsById.value.get(currentHymnId.value) ?? null;
@@ -52,24 +79,28 @@ export const useHymnsStore = defineStore('hymns', () => {
 
   const currentHymnIndex = computed(() => {
     if (!currentHymn.value) return -1;
-    return sortedHymns.value.findIndex((h) => h.id === currentHymn.value?.id);
+    return activeNavigationList.value.findIndex((h) => h.id === currentHymn.value?.id);
   });
 
   const previousHymn = computed<Hymn | null>(() => {
     const idx = currentHymnIndex.value;
-    return idx > 0 ? (sortedHymns.value[idx - 1] ?? null) : null;
+    return idx > 0 ? (activeNavigationList.value[idx - 1] ?? null) : null;
   });
 
   const nextHymn = computed<Hymn | null>(() => {
     const idx = currentHymnIndex.value;
-    return idx >= 0 && idx < sortedHymns.value.length - 1
-      ? (sortedHymns.value[idx + 1] ?? null)
+    return idx >= 0 && idx < activeNavigationList.value.length - 1
+      ? (activeNavigationList.value[idx + 1] ?? null)
       : null;
   });
 
   const searchResults = computed<HymnSearchResult[]>(() => {
     return searchEngine.search(searchQuery.value, hymnsById.value);
   });
+
+  function searchCustom(query: string): HymnSearchResult[] {
+    return searchEngine.search(query, hymnsById.value);
+  }
 
   /**
    * Carrega ou reconstrói o índice de busca, utilizando o cache no IndexedDB
@@ -203,8 +234,11 @@ export const useHymnsStore = defineStore('hymns', () => {
     }
   }
 
-  async function selectHymn(hymnId: string): Promise<void> {
+  async function selectHymn(hymnId: string, context?: HymnNavigationContext): Promise<void> {
     if (!hymnsById.value.has(hymnId)) return;
+    if (context) {
+      navigationContext.value = context;
+    }
     currentHymnId.value = hymnId;
     await setStoredLastHymnId(hymnId);
   }
@@ -212,9 +246,12 @@ export const useHymnsStore = defineStore('hymns', () => {
   return {
     hymns,
     sortedHymns,
+    worshipHymns,
     hymnsById,
     currentHymnId,
     currentHymn,
+    currentHymnIndex,
+    navigationContext,
     previousHymn,
     nextHymn,
     searchQuery,
@@ -223,6 +260,7 @@ export const useHymnsStore = defineStore('hymns', () => {
     isReady,
     initHymns,
     selectHymn,
+    searchCustom,
     syncWithFirestoreInBackground,
   };
 });

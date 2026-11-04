@@ -12,6 +12,7 @@ export interface UserSettings {
 const KEYS = {
   LOCAL_VERSION: 'hinario_idc_local_version',
   FAVORITE_IDS: 'hinario_idc_favorite_ids',
+   WORSHIP_IDS: 'hinario_idc_worship_ids',
   LAST_HYMN_ID: 'hinario_idc_last_hymn_id',
   USER_SETTINGS: 'hinario_idc_user_settings',
 } as const;
@@ -46,6 +47,21 @@ export async function getStoredFavoriteIds(): Promise<string[]> {
 
 export async function setStoredFavoriteIds(ids: string[]): Promise<void> {
   await Preferences.set({ key: KEYS.FAVORITE_IDS, value: JSON.stringify(ids) });
+}
+
+export async function getStoredWorshipIds(): Promise<string[]> {
+  const { value } = await Preferences.get({ key: KEYS.WORSHIP_IDS });
+  if (!value) return [];
+  try {
+    const parsed = JSON.parse(value);
+    return Array.isArray(parsed) ? parsed.map(String) : [];
+  } catch {
+    return [];
+  }
+}
+
+export async function setStoredWorshipIds(ids: string[]): Promise<void> {
+  await Preferences.set({ key: KEYS.WORSHIP_IDS, value: JSON.stringify(ids) });
 }
 
 export async function getStoredLastHymnId(): Promise<string | null> {

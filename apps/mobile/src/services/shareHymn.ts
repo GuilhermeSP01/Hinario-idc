@@ -27,24 +27,24 @@ interface CardPalette {
 
 const PALETTES: Record<ShareCardTheme, CardPalette> = {
   light: {
-    outerBg: '#f1f5f9',
+    outerBg: '#f2ece1',
     cardBg: '#ffffff',
-    cardBorder: '#e2e8f0',
-    titleColor: '#0f172a',
-    accentColor: '#2563eb',
-    verseColor: '#1e293b',
-    chorusColor: '#020617',
-    mutedColor: '#64748b',
+    cardBorder: '#e4ddd0',
+    titleColor: '#1f1b16',
+    accentColor: '#8c5218',
+    verseColor: '#2e2820',
+    chorusColor: '#120f0b',
+    mutedColor: '#7d7264',
   },
   dark: {
-    outerBg: '#070a12',
-    cardBg: '#111827',
-    cardBorder: '#1f2937',
-    titleColor: '#f1f5f9',
-    accentColor: '#60a5fa',
-    verseColor: '#b8c4d6',
+    outerBg: '#0c0c0c',
+    cardBg: '#1a1a1a',
+    cardBorder: '#2c2c2c',
+    titleColor: '#ededed',
+    accentColor: '#c89d66',
+    verseColor: '#cccccc',
     chorusColor: '#ffffff',
-    mutedColor: '#94a3b8',
+    mutedColor: '#8a8a8a',
   },
   sepia: {
     outerBg: '#e8dec6',
@@ -245,10 +245,7 @@ export async function renderHymnCardBlob(options: ShareHymnOptions): Promise<Blo
   const titleLineHeight = 58;
 
   const verseFont = '400 40px "Crimson Pro", Georgia, serif';
-  const chorusFont =
-    options.cardTheme === 'dark'
-      ? '760 40px "Crimson Pro", Georgia, serif'
-      : '700 40px "Crimson Pro", Georgia, serif';
+  const chorusFont = '700 40px "Crimson Pro", Georgia, serif';
   const lyricLineHeight = 62;
   const sectionSpacing = 44;
   const gapIndicatorHeight = 56;

@@ -17,7 +17,7 @@ const KEYS = {
 } as const;
 
 export const DEFAULT_USER_SETTINGS: UserSettings = {
-  theme: 'system',
+  theme: 'sepia',
   fontScale: 100,
   keepAwake: true,
 };

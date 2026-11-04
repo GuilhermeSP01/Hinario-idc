@@ -41,8 +41,8 @@ export const useSettingsStore = defineStore('settings', () => {
     const themeColorMeta = document.querySelector('meta[name="theme-color"]');
     if (themeColorMeta) {
       const bgMap: Record<'light' | 'dark' | 'sepia', string> = {
-        light: '#f8fafc',
-        dark: '#0b0f19',
+        light: '#faf7f2',
+        dark: '#121212',
         sepia: '#f4ecd8',
       };
       themeColorMeta.setAttribute('content', bgMap[effectiveTheme]);

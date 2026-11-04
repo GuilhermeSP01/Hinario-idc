@@ -39,17 +39,17 @@ const emit = defineEmits<{
 const activeTab = ref<'image' | 'text'>('image');
 const includeTitle = ref<boolean>(true);
 const includeFooter = ref<boolean>(true);
-const cardTheme = ref<ShareCardTheme>('light');
+const cardTheme = ref<ShareCardTheme>('sepia');
 const isBusy = ref<boolean>(false);
 const copiedFeedback = ref<boolean>(false);
 
 function detectCurrentAppTheme(): ShareCardTheme {
-  if (typeof document === 'undefined') return 'light';
+  if (typeof document === 'undefined') return 'sepia';
   const attr = document.documentElement.getAttribute('data-theme');
   if (attr === 'dark' || attr === 'sepia' || attr === 'light') {
     return attr;
   }
-  return 'light';
+  return 'sepia';
 }
 
 onMounted(() => {
@@ -83,14 +83,14 @@ const formattedText = computed(() =>
 const cardPreviewStyles = computed(() => {
   if (cardTheme.value === 'dark') {
     return {
-      outerBg: '#070a12',
-      cardBg: '#111827',
-      cardBorder: '#1f2937',
-      titleColor: '#f1f5f9',
-      accentColor: '#60a5fa',
-      verseColor: '#b8c4d6',
+      outerBg: '#0c0c0c',
+      cardBg: '#1a1a1a',
+      cardBorder: '#2c2c2c',
+      titleColor: '#ededed',
+      accentColor: '#c89d66',
+      verseColor: '#cccccc',
       chorusColor: '#ffffff',
-      mutedColor: '#94a3b8',
+      mutedColor: '#8a8a8a',
     };
   }
   if (cardTheme.value === 'sepia') {
@@ -106,14 +106,14 @@ const cardPreviewStyles = computed(() => {
     };
   }
   return {
-    outerBg: '#f1f5f9',
+    outerBg: '#f2ece1',
     cardBg: '#ffffff',
-    cardBorder: '#e2e8f0',
-    titleColor: '#0f172a',
-    accentColor: '#2563eb',
-    verseColor: '#1e293b',
-    chorusColor: '#020617',
-    mutedColor: '#64748b',
+    cardBorder: '#e4ddd0',
+    titleColor: '#1f1b16',
+    accentColor: '#8c5218',
+    verseColor: '#2e2820',
+    chorusColor: '#120f0b',
+    mutedColor: '#7d7264',
   };
 });
 
@@ -334,12 +334,7 @@ async function handleCopyText() {
                           item.section.type === 'chorus'
                             ? cardPreviewStyles.chorusColor
                             : cardPreviewStyles.verseColor,
-                        fontWeight:
-                          item.section.type === 'chorus'
-                            ? cardTheme === 'dark'
-                              ? 760
-                              : 700
-                            : 400,
+                        fontWeight: item.section.type === 'chorus' ? 700 : 400,
                       }"
                     >
                       <p

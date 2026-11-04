@@ -12,7 +12,8 @@ export interface UserSettings {
 const KEYS = {
   LOCAL_VERSION: 'hinario_idc_local_version',
   FAVORITE_IDS: 'hinario_idc_favorite_ids',
-   WORSHIP_IDS: 'hinario_idc_worship_ids',
+  WORSHIP_IDS: 'hinario_idc_worship_ids',
+  WORSHIP_EDITED_BY_USER: 'hinario_idc_worship_edited_by_user',
   LAST_HYMN_ID: 'hinario_idc_last_hymn_id',
   USER_SETTINGS: 'hinario_idc_user_settings',
 } as const;
@@ -62,6 +63,18 @@ export async function getStoredWorshipIds(): Promise<string[]> {
 
 export async function setStoredWorshipIds(ids: string[]): Promise<void> {
   await Preferences.set({ key: KEYS.WORSHIP_IDS, value: JSON.stringify(ids) });
+}
+
+export async function getStoredWorshipEditedByUser(): Promise<boolean> {
+  const { value } = await Preferences.get({ key: KEYS.WORSHIP_EDITED_BY_USER });
+  return value === 'true';
+}
+
+export async function setStoredWorshipEditedByUser(edited: boolean): Promise<void> {
+  await Preferences.set({
+    key: KEYS.WORSHIP_EDITED_BY_USER,
+    value: edited ? 'true' : 'false',
+  });
 }
 
 export async function getStoredLastHymnId(): Promise<string | null> {

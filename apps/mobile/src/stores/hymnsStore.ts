@@ -102,6 +102,23 @@ export const useHymnsStore = defineStore('hymns', () => {
     return searchEngine.search(query, hymnsById.value);
   }
 
+  function resolveHymnIdsByNumbers(numbers: number[]): string[] {
+    const byNumber = new Map<number, string>();
+    for (const h of hymns.value) {
+      if (!h.deleted) {
+        byNumber.set(h.number, h.id);
+      }
+    }
+    const resolved: string[] = [];
+    for (const num of numbers) {
+      const id = byNumber.get(num);
+      if (id && !resolved.includes(id)) {
+        resolved.push(id);
+      }
+    }
+    return resolved;
+  }
+
   /**
    * Carrega ou reconstrói o índice de busca, utilizando o cache no IndexedDB
    * caso a versão e quantidade de hinos não tenham mudado.
@@ -261,6 +278,7 @@ export const useHymnsStore = defineStore('hymns', () => {
     initHymns,
     selectHymn,
     searchCustom,
+    resolveHymnIdsByNumbers,
     syncWithFirestoreInBackground,
   };
 });

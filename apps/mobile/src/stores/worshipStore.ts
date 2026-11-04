@@ -1,14 +1,27 @@
 import { defineStore } from 'pinia';
 import { computed, ref } from 'vue';
-import { getStoredWorshipIds, setStoredWorshipIds } from '@/services/preferences';
+import {
+  getStoredWorshipEditedByUser,
+  getStoredWorshipIds,
+  setStoredWorshipEditedByUser,
+  setStoredWorshipIds,
+} from '@/services/preferences';
 
 export const useWorshipStore = defineStore('worship', () => {
   const worshipIds = ref<string[]>([]);
+  const isEditedByUser = ref<boolean>(false);
+  const isWorshipViewOpen = ref<boolean>(false);
+  const pendingImportedIds = ref<string[] | null>(null);
 
   const worshipSet = computed(() => new Set(worshipIds.value));
 
   async function initWorship(): Promise<void> {
-    worshipIds.value = await getStoredWorshipIds();
+    const [storedIds, edited] = await Promise.all([
+      getStoredWorshipIds(),
+      getStoredWorshipEditedByUser(),
+    ]);
+    worshipIds.value = storedIds;
+    isEditedByUser.value = storedIds.length > 0 ? edited : false;
   }
 
   function hasHymn(hymnId: string): boolean {
@@ -20,16 +33,23 @@ export const useWorshipStore = defineStore('worship', () => {
     return idx >= 0 ? idx + 1 : null;
   }
 
+  async function persistUserChange(nextIds: string[]): Promise<void> {
+    worshipIds.value = nextIds;
+    isEditedByUser.value = nextIds.length > 0;
+    await Promise.all([
+      setStoredWorshipIds(nextIds),
+      setStoredWorshipEditedByUser(isEditedByUser.value),
+    ]);
+  }
+
   async function addHymn(hymnId: string): Promise<void> {
     if (worshipSet.value.has(hymnId)) return;
-    worshipIds.value = [...worshipIds.value, hymnId];
-    await setStoredWorshipIds(worshipIds.value);
+    await persistUserChange([...worshipIds.value, hymnId]);
   }
 
   async function removeHymn(hymnId: string): Promise<void> {
     if (!worshipSet.value.has(hymnId)) return;
-    worshipIds.value = worshipIds.value.filter((id) => id !== hymnId);
-    await setStoredWorshipIds(worshipIds.value);
+    await persistUserChange(worshipIds.value.filter((id) => id !== hymnId));
   }
 
   async function toggleHymn(hymnId: string): Promise<void> {
@@ -54,18 +74,70 @@ export const useWorshipStore = defineStore('worship', () => {
     const [moved] = updated.splice(fromIndex, 1);
     if (moved !== undefined) {
       updated.splice(toIndex, 0, moved);
-      worshipIds.value = updated;
-      await setStoredWorshipIds(worshipIds.value);
+      await persistUserChange(updated);
     }
   }
 
   async function clearWorship(): Promise<void> {
     worshipIds.value = [];
-    await setStoredWorshipIds([]);
+    isEditedByUser.value = false;
+    await Promise.all([
+      setStoredWorshipIds([]),
+      setStoredWorshipEditedByUser(false),
+    ]);
+  }
+
+  /**
+   * Aplica imediatamente uma lista de hinos importada via link/seed,
+   * marcando `isEditedByUser = false` para indicar que a lista atual veio de importação.
+   */
+  async function applyImportedWorship(ids: string[]): Promise<void> {
+    worshipIds.value = ids;
+    isEditedByUser.value = false;
+    pendingImportedIds.value = null;
+    isWorshipViewOpen.value = true;
+    await Promise.all([
+      setStoredWorshipIds(ids),
+      setStoredWorshipEditedByUser(false),
+    ]);
+  }
+
+  /**
+   * Recebe os IDs decodificados de uma seed compartilhada:
+   * - Se a lista atual estiver vazia, for idêntica ou tiver sido apenas importada antes
+   *   (`!isEditedByUser`), aplica imediatamente sem pedir confirmação.
+   * - Se houver hinos na lista E o usuário os editou manualmente (`isEditedByUser`),
+   *   solicita confirmação antes de substituir.
+   */
+  async function handleIncomingSharedWorship(ids: string[]): Promise<'applied' | 'confirm_needed'> {
+    const isSameList =
+      ids.length === worshipIds.value.length &&
+      ids.every((id, idx) => id === worshipIds.value[idx]);
+
+    if (worshipIds.value.length === 0 || !isEditedByUser.value || isSameList) {
+      await applyImportedWorship(ids);
+      return 'applied';
+    }
+
+    pendingImportedIds.value = ids;
+    isWorshipViewOpen.value = true;
+    return 'confirm_needed';
+  }
+
+  async function confirmPendingImport(): Promise<void> {
+    if (!pendingImportedIds.value) return;
+    await applyImportedWorship(pendingImportedIds.value);
+  }
+
+  function cancelPendingImport(): void {
+    pendingImportedIds.value = null;
   }
 
   return {
     worshipIds,
+    isEditedByUser,
+    isWorshipViewOpen,
+    pendingImportedIds,
     initWorship,
     hasHymn,
     getOrderNumber,
@@ -74,5 +146,9 @@ export const useWorshipStore = defineStore('worship', () => {
     toggleHymn,
     moveHymn,
     clearWorship,
+    applyImportedWorship,
+    handleIncomingSharedWorship,
+    confirmPendingImport,
+    cancelPendingImport,
   };
 });

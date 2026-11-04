@@ -1,10 +1,21 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { GripVertical, ListOrdered, Plus, Search, Trash2, X } from 'lucide-vue-next';
+import {
+  Check,
+  GripVertical,
+  ListOrdered,
+  Plus,
+  Search,
+  Share2,
+  Trash2,
+  X,
+} from 'lucide-vue-next';
+import type { Hymn } from '@hinario/core';
 import { useHymnsStore } from '@/stores/hymnsStore';
 import { useFavoritesStore } from '@/stores/favoritesStore';
 import { useWorshipStore } from '@/stores/worshipStore';
+import { shareOrCopyWorshipService } from '@/services/worshipShare';
 import HymnListItem from '@/components/HymnListItem.vue';
 import AddWorshipHymnModal from '@/components/AddWorshipHymnModal.vue';
 
@@ -13,10 +24,27 @@ const hymnsStore = useHymnsStore();
 const favoritesStore = useFavoritesStore();
 const worshipStore = useWorshipStore();
 
-const isWorshipView = ref(false);
 const isAddModalOpen = ref(false);
+const copiedShareFeedback = ref(false);
+
+const isWorshipView = computed({
+  get: () => worshipStore.isWorshipViewOpen,
+  set: (val: boolean) => {
+    worshipStore.isWorshipViewOpen = val;
+  },
+});
 
 const worshipHymns = computed(() => hymnsStore.worshipHymns);
+
+const pendingImportHymns = computed<Hymn[]>(() => {
+  if (!worshipStore.pendingImportedIds) return [];
+  const list: Hymn[] = [];
+  for (const id of worshipStore.pendingImportedIds) {
+    const found = hymnsStore.hymnsById.get(id);
+    if (found) list.push(found);
+  }
+  return list;
+});
 
 function toggleWorshipView() {
   isWorshipView.value = !isWorshipView.value;
@@ -31,6 +59,18 @@ async function openWorshipHymn(hymnId: string) {
   if (draggingIndex.value !== null) return;
   await hymnsStore.selectHymn(hymnId, 'worship');
   await router.push('/hymn');
+}
+
+async function handleShareWorship() {
+  if (worshipHymns.value.length === 0) return;
+  const numbers = worshipHymns.value.map((h) => h.number);
+  const result = await shareOrCopyWorshipService(numbers);
+  if (result === 'copied') {
+    copiedShareFeedback.value = true;
+    setTimeout(() => {
+      copiedShareFeedback.value = false;
+    }, 2200);
+  }
 }
 
 function clearSearch() {
@@ -166,11 +206,11 @@ function onHandlePointerEnd(event: PointerEvent) {
 
     <!-- MODO 1: TELA DE ORGANIZAR CULTO -->
     <template v-if="isWorshipView">
-      <div class="mt-1 mb-3.5 flex items-center justify-between gap-2.5">
+      <div class="mt-1 mb-3.5 flex items-center justify-between gap-2">
         <button
           type="button"
           @click="isAddModalOpen = true"
-          class="flex flex-1 items-center justify-center gap-1.5 rounded-xl border py-2.5 px-3.5 text-xs font-bold transition-all active:scale-[0.99] cursor-pointer"
+          class="flex flex-1 items-center justify-center gap-1.5 rounded-xl border py-2.5 px-3 text-xs font-bold transition-all active:scale-[0.99] cursor-pointer"
           style="
             background-color: var(--accent-soft);
             border-color: var(--accent-primary);
@@ -181,21 +221,38 @@ function onHandlePointerEnd(event: PointerEvent) {
           <span>Adicionar hino</span>
         </button>
 
-        <button
-          v-if="worshipHymns.length > 0"
-          type="button"
-          @click="worshipStore.clearWorship()"
-          class="flex items-center justify-center gap-1.5 rounded-xl border py-2.5 px-3.5 text-xs font-semibold transition-colors active:scale-[0.98] cursor-pointer"
-          style="
-            background-color: var(--bg-surface);
-            border-color: var(--border-subtle);
-            color: var(--text-secondary);
-          "
-          title="Limpar lista do culto"
-        >
-          <Trash2 :size="15" />
-          <span>Limpar</span>
-        </button>
+        <template v-if="worshipHymns.length > 0">
+          <button
+            type="button"
+            @click="handleShareWorship"
+            class="flex items-center justify-center gap-1.5 rounded-xl border py-2.5 px-3 text-xs font-semibold transition-colors active:scale-[0.98] cursor-pointer"
+            :style="{
+              backgroundColor: copiedShareFeedback ? 'var(--accent-soft)' : 'var(--bg-surface)',
+              borderColor: copiedShareFeedback ? 'var(--accent-primary)' : 'var(--border-subtle)',
+              color: copiedShareFeedback ? 'var(--accent-primary)' : 'var(--text-primary)',
+            }"
+            title="Compartilhar culto"
+          >
+            <Check v-if="copiedShareFeedback" :size="15" />
+            <Share2 v-else :size="15" />
+            <span>{{ copiedShareFeedback ? 'Copiado!' : 'Compartilhar' }}</span>
+          </button>
+
+          <button
+            type="button"
+            @click="worshipStore.clearWorship()"
+            class="flex items-center justify-center gap-1.5 rounded-xl border py-2.5 px-3 text-xs font-semibold transition-colors active:scale-[0.98] cursor-pointer"
+            style="
+              background-color: var(--bg-surface);
+              border-color: var(--border-subtle);
+              color: var(--text-secondary);
+            "
+            title="Limpar lista do culto"
+          >
+            <Trash2 :size="15" />
+            <span>Limpar</span>
+          </button>
+        </template>
       </div>
 
       <!-- Lista ordenada de hinos do culto -->
@@ -355,5 +412,82 @@ function onHandlePointerEnd(event: PointerEvent) {
       :is-open="isAddModalOpen"
       @close="isAddModalOpen = false"
     />
+
+    <!-- Modal de confirmação ao abrir um link de culto quando já há um culto editado pelo usuário -->
+    <Teleport to="body">
+      <Transition name="share-modal">
+        <div
+          v-if="pendingImportHymns.length > 0"
+          class="fixed inset-0 z-50 flex items-end justify-center sm:items-center"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Confirmar importação de culto compartilhado"
+        >
+          <div
+            class="fixed inset-0 bg-black/60 backdrop-blur-xs"
+            @click="worshipStore.cancelPendingImport()"
+          />
+
+          <div
+            class="relative z-10 flex max-h-[82dvh] w-full max-w-md flex-col overflow-hidden rounded-t-3xl border-t p-5 sm:rounded-3xl sm:border shadow-2xl safe-bottom"
+            style="background-color: var(--bg-surface); border-color: var(--border-subtle)"
+          >
+            <h2 class="text-base font-bold" style="color: var(--text-primary)">
+              Substituir culto atual?
+            </h2>
+            <p class="mt-1 text-xs leading-relaxed" style="color: var(--text-secondary)">
+              Você possui um culto organizado por você. Deseja substituí-lo pelo culto compartilhado abaixo?
+            </p>
+
+            <div
+              class="my-3.5 max-h-56 overflow-y-auto rounded-2xl border p-3 space-y-2"
+              style="background-color: var(--bg-primary); border-color: var(--border-subtle)"
+            >
+              <div
+                v-for="(hymn, idx) in pendingImportHymns"
+                :key="hymn.id"
+                class="flex items-center gap-2 text-xs"
+              >
+                <span
+                  class="flex h-5 min-w-5 shrink-0 items-center justify-center rounded-full px-1 font-bold"
+                  style="background-color: var(--accent-soft); color: var(--accent-primary)"
+                >
+                  {{ idx + 1 }}º
+                </span>
+                <span class="font-bold" style="color: var(--accent-primary)">
+                  #{{ hymn.number }}
+                </span>
+                <span class="truncate font-medium" style="color: var(--text-primary)">
+                  {{ hymn.title }}
+                </span>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2.5">
+              <button
+                type="button"
+                @click="worshipStore.cancelPendingImport()"
+                class="flex-1 rounded-xl border py-2.5 text-xs font-semibold cursor-pointer"
+                style="
+                  background-color: var(--bg-primary);
+                  border-color: var(--border-subtle);
+                  color: var(--text-secondary);
+                "
+              >
+                Manter atual
+              </button>
+              <button
+                type="button"
+                @click="worshipStore.confirmPendingImport()"
+                class="flex-1 rounded-xl py-2.5 text-xs font-bold cursor-pointer"
+                style="background-color: var(--accent-primary); color: #ffffff"
+              >
+                Substituir
+              </button>
+            </div>
+          </div>
+        </div>
+      </Transition>
+    </Teleport>
   </div>
 </template>

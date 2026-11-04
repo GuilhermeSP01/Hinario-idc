@@ -38,7 +38,9 @@ export const useHymnsStore = defineStore('hymns', () => {
   });
 
   const sortedHymns = computed(() =>
-    [...hymns.value].filter((h) => !h.deleted).sort((a, b) => a.number - b.number)
+    [...hymns.value]
+      .filter((h) => !h.deleted)
+      .sort((a, b) => a.number - b.number || a.title.localeCompare(b.title, 'pt-BR'))
   );
 
   const currentHymn = computed<Hymn | null>(() => {
@@ -102,9 +104,12 @@ export const useHymnsStore = defineStore('hymns', () => {
     let version = await getStoredLocalVersion();
     let storedHymns = await localDb.hymns.toArray();
 
-    // Primeiro uso: popula o IndexedDB com o snapshot inicial embutido
-    if (storedHymns.length === 0) {
-      await localDb.hymns.bulkPut(INITIAL_HYMNS_SEED);
+    // Primeiro uso ou atualização do seed embutido no app: popula/atualiza o IndexedDB
+    if (storedHymns.length === 0 || version < INITIAL_HINARIO_VERSION) {
+      await localDb.transaction('rw', localDb.hymns, async () => {
+        await localDb.hymns.clear();
+        await localDb.hymns.bulkPut(INITIAL_HYMNS_SEED);
+      });
       storedHymns = [...INITIAL_HYMNS_SEED];
       version = INITIAL_HINARIO_VERSION;
       await setStoredLocalVersion(version);

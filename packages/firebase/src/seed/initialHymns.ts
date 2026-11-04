@@ -1,390 +1,11835 @@
 import type { Hymn } from '@hinario/core';
 
-export const INITIAL_HINARIO_VERSION = 1;
+export const INITIAL_HINARIO_VERSION = 3;
 
-/**
- * Snapshot inicial embutido no aplicativo para funcionamento 100% offline desde o primeiro acesso.
- * Quando o Firestore possuir uma versão superior a `INITIAL_HINARIO_VERSION`, o app fará o delta sync automaticamente.
- */
 export const INITIAL_HYMNS_SEED: Hymn[] = [
   {
-    id: '001',
-    number: 1,
-    title: 'Chuvas de Graça',
-    version: 1,
-    sections: [
+    "id": "001",
+    "number": 1,
+    "title": "Antífona",
+    "sections": [
       {
-        type: 'verse',
-        number: 1,
-        lines: [
-          'Deus prometeu com certeza',
-          'Chuvas de graça mandar;',
-          'Ele nos dá fortaleza,',
-          'E ricas bênçãos sem par.',
-        ],
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "A Ti, ó Deus, fiel e bom Senhor.",
+          "Eterno Pai, Supremo Benfeitor,",
+          "Nós, os teus servos, vimos dar louvor,",
+          "Aleluia! Aleluia!"
+        ]
       },
       {
-        type: 'chorus',
-        lines: [
-          'Chuvas de graça,',
-          'Chuvas pedimos, Senhor;',
-          'Manda-nos chuvas constantes,',
-          'Chuvas do Consolador.',
-        ],
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "A Ti, Deus Filho, Salvador Jesus,",
+          "Da graça a fonte, da verdade a luz,",
+          "Por teu amor, medido pela cruz,",
+          "Aleluia! Aleluia!"
+        ]
       },
       {
-        type: 'verse',
-        number: 2,
-        lines: [
-          'Cristo nos tem concedido',
-          'O santo Consolador,',
-          'De plena paz nos enchido,',
-          'Para o reinado do amor.',
-        ],
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "A Ti, ó Deus, real Consolador,",
+          "Divino fogo, santificador,",
+          "Que nos anima e nos acende o amor,",
+          "Aleluia! Aleluia!"
+        ]
       },
       {
-        type: 'verse',
-        number: 3,
-        lines: [
-          'Dá-nos, Senhor, amplamente,',
-          'Teu grande gozo e poder;',
-          'Fonte de amor permanente,',
-          'Põe dentro de nosso ser.',
-        ],
-      },
-      {
-        type: 'verse',
-        number: 4,
-        lines: [
-          'Faze os teus servos piedosos,',
-          'Dá-lhes virtude e valor,',
-          'Dando os teus dons preciosos,',
-          'Do santo Preceptor.',
-        ],
-      },
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "A Ti, Deus trino, Poderoso Deus,",
+          "Que estás presente sempre junto aos teus,",
+          "A ministrar as bênçãos lá dos céus,",
+          "Aleluia! Aleluia!"
+        ]
+      }
     ],
+    "version": 3
   },
   {
-    id: '002',
-    number: 2,
-    title: 'Saudai o Nome de Jesus',
-    version: 1,
-    sections: [
+    "id": "002",
+    "number": 2,
+    "title": "Justo És, Senhor",
+    "sections": [
       {
-        type: 'verse',
-        number: 1,
-        lines: [
-          'Saudai o nome de Jesus!',
-          'Arcanjos, vos prostrai;',
-          'Ao Filho do eterno Deus',
-          'Com glória coroai!',
-        ],
-      },
-      {
-        type: 'verse',
-        number: 2,
-        lines: [
-          'Ó escolhida geração',
-          'Do bom e eterno Pai,',
-          'Ao grande Autor da salvação',
-          'Com glória coroai!',
-        ],
-      },
-      {
-        type: 'verse',
-        number: 3,
-        lines: [
-          'Ó perdoados, cujo amor',
-          'Bem triunfante vai,',
-          'Ao Deus varão, Conquistador,',
-          'Com glória coroai!',
-        ],
-      },
-      {
-        type: 'verse',
-        number: 4,
-        lines: [
-          'Ó raças, tribos e nações,',
-          'Ao Rei divino honrai!',
-          'A quem quebrou vossos grilhões,',
-          'Com glória coroai!',
-        ],
-      },
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Justo és, Senhor, nos teus santos caminhos;",
+          "És digno em todas as tuas obras;",
+          "Eis perto estás dos que te invocam,",
+          "De todos que te invocam em verdade!",
+          "Aleluia! Aleluia!"
+        ]
+      }
     ],
+    "version": 3
   },
   {
-    id: '003',
-    number: 3,
-    title: 'Grandioso És Tu',
-    version: 1,
-    sections: [
+    "id": "003",
+    "number": 3,
+    "title": "Louvor ao Senhor",
+    "sections": [
       {
-        type: 'verse',
-        number: 1,
-        lines: [
-          'Senhor meu Deus, quando eu, maravilhado,',
-          'Fico a pensar nas obras de tuas mãos,',
-          'No céu azul de estrelas pontilhado,',
-          'O teu poder mostrando a criação;',
-        ],
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Ó gratos ao Senhor,",
+          "Ao vosso Rei louvai;",
+          "Com alegria e com fervor, (bis)",
+          "Seu culto celebrai! (bis)"
+        ]
       },
       {
-        type: 'chorus',
-        lines: [
-          'Então minh’alma canta a Ti, Senhor:',
-          'Grandioso és Tu! Grandioso és Tu!',
-          'Então minh’alma canta a Ti, Senhor:',
-          'Grandioso és Tu! Grandioso és Tu!',
-        ],
-      },
-      {
-        type: 'verse',
-        number: 2,
-        lines: [
-          'Quando a vagar nas matas e florestas,',
-          'O passaredo alegre ouço a cantar,',
-          'Olhando os montes, vales e campinas,',
-          'Em tudo vejo o teu poder sem par.',
-        ],
-      },
-      {
-        type: 'verse',
-        number: 3,
-        lines: [
-          'Quando eu medito em teu amor tão grande,',
-          'Teu Filho dando ao mundo pra salvar,',
-          'Na cruz vertendo o seu precioso sangue,',
-          'Minh’alma pode assim purificar.',
-        ],
-      },
-      {
-        type: 'verse',
-        number: 4,
-        lines: [
-          'E quando, enfim, Jesus vier em glória',
-          'E ao lar celeste então me transportar,',
-          'Te adorarei, prostrado e para sempre:',
-          'Grandioso és Tu, meu Deus, hei de cantar!',
-        ],
-      },
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "A Ele pertencem",
+          "Bênção e sabedoria,",
+          "Sim, glória e soberania,",
+          "Agora e pra sempre, sem fim."
+        ]
+      }
     ],
+    "version": 3
   },
   {
-    id: '004',
-    number: 4,
-    title: 'Castelo Forte',
-    version: 1,
-    sections: [
+    "id": "004",
+    "number": 4,
+    "title": "Ao Deus Santo",
+    "sections": [
       {
-        type: 'verse',
-        number: 1,
-        lines: [
-          'Castelo forte é nosso Deus,',
-          'Espada e bom escudo;',
-          'Com seu poder defende os seus',
-          'Em todo transe agudo.',
-          'Com fúria pertinaz',
-          'Persegue Satanás,',
-          'Com ânimo cruel;',
-          'Muito forte é o Deus fiel,',
-          'Igual não há na terra.',
-        ],
-      },
-      {
-        type: 'verse',
-        number: 2,
-        lines: [
-          'A nossa força nada faz:',
-          'Estamos, sim, perdidos;',
-          'Mas nosso Deus socorro traz',
-          'E somos protegidos.',
-          'Defende-nos Jesus,',
-          'O que venceu na cruz,',
-          'Senhor dos altos céus;',
-          'E, sendo o próprio Deus,',
-          'Triunfa na batalha.',
-        ],
-      },
-      {
-        type: 'verse',
-        number: 3,
-        lines: [
-          'Sim, que a Palavra ficará,',
-          'Sabemos com certeza,',
-          'E nada nos assustará',
-          'Com Cristo por defesa.',
-          'Se temos de perder',
-          'Família, bens, prazer,',
-          'Se tudo se acabar',
-          'E a morte enfim chegar,',
-          'Com Ele reinaremos!',
-        ],
-      },
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Santo, Santo, Santo,",
+          "És Tu, Senhor!",
+          "Louvem-Te nos altos céus,",
+          "E na terra os filhos teus,",
+          "Ó Deus de amor."
+        ]
+      }
     ],
+    "version": 3
   },
   {
-    id: '005',
-    number: 5,
-    title: 'Mais Perto Quero Estar',
-    version: 1,
-    sections: [
+    "id": "005",
+    "number": 5,
+    "title": "Presença Divina",
+    "sections": [
       {
-        type: 'verse',
-        number: 1,
-        lines: [
-          'Mais perto quero estar,',
-          'Meu Deus, de Ti!',
-          'Inda que seja a dor',
-          'Que me una a Ti.',
-          'Sempre hei de suplicar:',
-          'Mais perto quero estar,',
-          'Meu Deus, de Ti!',
-        ],
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Onipotente Rei, aqui presente sê",
+          "No teu poder;",
+          "Em teu excelso amor inspira-nos louvor;",
+          "Queremos-te, Senhor, engrandecer."
+        ]
       },
       {
-        type: 'verse',
-        number: 2,
-        lines: [
-          'Andando triste aqui,',
-          'Na solidão,',
-          'Paz e descanso a mim',
-          'Teus braços dão.',
-          'Nas trevas vou sonhar:',
-          'Mais perto quero estar,',
-          'Meu Deus, de Ti!',
-        ],
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Ó poderoso Deus, nos ouve lá dos céus",
+          "A petição.",
+          "Vem-nos abençoar, e vem fazer brotar",
+          "O que se semear no coração."
+        ]
       },
       {
-        type: 'verse',
-        number: 3,
-        lines: [
-          'Minh’alma cantará',
-          'A Ti, Senhor!',
-          'E em Betel alçará',
-          'Padrão de amor.',
-          'Eu sempre hei de rogar:',
-          'Mais perto quero estar,',
-          'Meu Deus, de Ti!',
-        ],
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Vem Tu, Consolador, sê testificador",
+          "Da redenção.",
+          "No templo vem entrar, a obra completar.",
+          "Das manchas vem limpar o coração."
+        ]
       },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Ó grande, trino Deus, sim, Te adoramos nós.",
+          "E só a Ti!",
+          "Santificar-nos-ás, ao céu nos levarás,",
+          "A glória nos darás contigo aí"
+        ]
+      }
     ],
+    "version": 3
   },
   {
-    id: '006',
-    number: 6,
-    title: 'Santo! Santo! Santo!',
-    version: 1,
-    sections: [
+    "id": "006",
+    "number": 6,
+    "title": "Glória ao Senhor",
+    "sections": [
       {
-        type: 'verse',
-        number: 1,
-        lines: [
-          'Santo! Santo! Santo! Deus Onipotente!',
-          'Cedo de manhã cantaremos Teu louvor.',
-          'Santo! Santo! Santo! Deus Jeová Triúno!',
-          'És um só Deus, excelso Criador.',
-        ],
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "A nosso Pai do céu tributa, lábio meu,",
+          "Glória e louvor!",
+          "A quem seu Filho deu, o qual por nós morreu,",
+          "A quem me prostro eu; glória ao Senhor!"
+        ]
       },
       {
-        type: 'verse',
-        number: 2,
-        lines: [
-          'Santo! Santo! Santo! Todos os remidos,',
-          'Juntos com os anjos, proclamam Teu louvor;',
-          'Antes de formar-se o firmamento e a terra,',
-          'Eras, e sempre és, e hás de ser, Senhor.',
-        ],
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Louvemos ao Senhor, o Santo Redentor,",
+          "O Rei Jesus!",
+          "Sua morte me remiu, a mim, tão pecador,",
+          "E assim o céu me abriu; glória a Jesus!"
+        ]
       },
       {
-        type: 'verse',
-        number: 3,
-        lines: [
-          'Santo! Santo! Santo! Nós, os pecadores,',
-          'Não podemos ver Tua glória sem temor;',
-          'Tu somente és Santo; não há nenhum outro,',
-          'Puro e perfeito, excelso Benfeitor.',
-        ],
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Espírito de Deus, mandado por Jesus,",
+          "Louvor a ti!",
+          "De Cristo o grande amor revela, Instruidor!",
+          "Sê meu renovador! Louvor a ti!"
+        ]
       },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Louvemos com ardor, com gozo e com fervor",
+          "O trino Deus!",
+          "Eternamente ali, em canto abrasador,",
+          "Trindade santa, a ti louvor nos céus!"
+        ]
+      }
     ],
+    "version": 3
   },
   {
-    id: '007',
-    number: 7,
-    title: 'Rocha Eterna',
-    version: 1,
-    sections: [
+    "id": "007",
+    "number": 7,
+    "title": "Maravilhas Divinas",
+    "sections": [
       {
-        type: 'verse',
-        number: 1,
-        lines: [
-          'Rocha eterna, foi na cruz',
-          'Que morreste Tu, Jesus.',
-          'Vem de Ti um sangue tal',
-          'Que me limpa todo o mal;',
-          'Traz as bênçãos do perdão:',
-          'Gozo, paz e salvação.',
-        ],
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Ao Deus de amor e de imensa bondade,",
+          "Com voz de júbilo vinde e aclamai;",
+          "Com coração transbordante de graças,",
+          "Seu grande amor, todos, vinde e louvai."
+        ]
       },
       {
-        type: 'verse',
-        number: 2,
-        lines: [
-          'Não trabalho pra alcançar',
-          'Tua graça singular;',
-          'Não descansa o meu labor,',
-          'Não apaga a minha dor;',
-          'Só Tu podes, ó Jesus,',
-          'Dar-me vida, paz e luz.',
-        ],
+        "type": "chorus",
+        "lines": [
+          "No céu, na terra, que maravilhas",
+          "Vai operando o poder do Senhor!",
+          "Mas seu amor aos homens perdidos",
+          "Das maravilhas és sempre a maior!"
+        ]
       },
       {
-        type: 'verse',
-        number: 3,
-        lines: [
-          'Nada trago a Ti, Senhor!',
-          'Confio só no Teu amor!',
-          'Todo indigno e vil que sou,',
-          'Para a Tua fonte vou;',
-          'Lava-me, ó Salvador,',
-          'Senão morro, pecador!',
-        ],
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Já nossos pais nos contaram a glória",
+          "De Deus, falando com muito prazer,",
+          "Que nas tristezas, nos grandes perigos,",
+          "Ele os salvou por seu grande poder."
+        ]
       },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Hoje, também nós bem alto cantamos",
+          "Que as orações Ele nos atendeu;",
+          "Seu forte braço, que é tão compassivo,",
+          "Em nosso auxílio, Ele sempre estendeu."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Como até hoje e daqui para sempre,",
+          "Ele será nosso eterno poder,",
+          "Nosso castelo bem forte e seguro,",
+          "E a nossa fonte de excelso prazer."
+        ]
+      }
     ],
+    "version": 3
   },
   {
-    id: '008',
-    number: 8,
-    title: 'Quão Bondoso Amigo é Cristo',
-    version: 1,
-    sections: [
+    "id": "008",
+    "number": 8,
+    "title": "Adoração",
+    "sections": [
       {
-        type: 'verse',
-        number: 1,
-        lines: [
-          'Quão bondoso Amigo é Cristo!',
-          'Carregou com a nossa dor,',
-          'E nos manda que levemos',
-          'Os cuidados ao Senhor.',
-          'Falta ao coração dorido',
-          'Gozo, paz, consolação?',
-          'Isso é porque não levamos',
-          'Tudo a Deus em oração.',
-        ],
-      },
-      {
-        type: 'verse',
-        number: 2,
-        lines: [
-          'Tu estás fraco e carregado',
-          'De cuidados e temor?',
-          'A Jesus, refúgio eterno,',
-          'Vai com fé teu mal expor.',
-          'Teus amigos te desprezam?',
-          'Conta-Lhe isso em oração,',
-          'E com Seu amor tão terno',
-          'Paz terás no coração.',
-        ],
-      },
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "A Deus, supremo Benfeitor,",
+          "Vós anjos e homens dai louvor;",
+          "A Deus o Filho, a Deus o Pai,",
+          "A Deus Espírito, glória dai."
+        ]
+      }
     ],
+    "version": 3
   },
+  {
+    "id": "009",
+    "number": 9,
+    "title": "Santo",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Santo! Santo! Santo! Deus Onipotente!",
+          "Cedo de manhã cantaremos teu louvor.",
+          "Santo! Santo! Santo! Deus Jeová triúno,",
+          "És um só Deus, excelso Criador."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Santo! Santo! Santo! Todos os remidos,",
+          "Juntos com os anjos, proclamam teu louvor.",
+          "Antes de formar-se o firmamento e a terra.",
+          "Eras, e sempre és e hás de ser, Senhor."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Santo! Santo! Santo! Nós, os pecadores,",
+          "Não podemos ver tua glória sem tremor.",
+          "Tu somente és Santo; não há nenhum outro,",
+          "Puro e perfeito, excelso Benfeitor."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Santo! Santo! Santo! Deus Onipotente!",
+          "Tuas obras louvam teu nome com fervor.",
+          "Santo! Santo! Santo! Justo e compassivo,",
+          "És um só Deus, supremo Criador."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "010",
+    "number": 10,
+    "title": "Auxílio Divino",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Santo Deus, vem inflamar",
+          "Nossos débeis corações;",
+          "Vem as trevas dissipar,",
+          "Livra-nos de imperfeições."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Sim, ó Deus, vem dirigir",
+          "Este culto a celebrar;",
+          "Vem, oh, vem-nos revestir",
+          "De fervor pra Te louvar!"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "011",
+    "number": 11,
+    "title": "Ao Deus Trino",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Ó Deus, bom Pai e Benfeitor,",
+          "A Ti rendemos, com ardor,",
+          "Louvor leal sem fim, Senhor,",
+          "De todos nós Sustentador."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "E Tu, Deus Filho, ó bom Jesus,",
+          "Por nós sofreste numa cruz;",
+          "De Ti nos vem a clara luz,",
+          "Que nossos pés aos céus conduz."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Tu, Deus, Espírito veraz,",
+          "Oh! Nossas almas satisfaz",
+          "Com gozo, com divina paz,",
+          "E as nossas aflições desfaz."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Ó infinito e excelso Deus,",
+          "Ampara-nos, embora réus,",
+          "Com bênçãos, lá dos altos céus,",
+          "A todos nós, os filhos teus."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "012",
+    "number": 12,
+    "title": "Louvamos",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Louvamos, louvamos, Senhor e adoramos",
+          "A ti, ó Deus-Homem, no céu assentado;",
+          "Que em tempo devido, na terra humilhado,",
+          "Por nossos pecados morreste na cruz. (bis)"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Louvamos, louvamos, Senhor, e adoramos",
+          "A ti, que a justiça de Deus sustentaste,",
+          "A pena sofrendo por nós merecida,",
+          "A vida depondo pra assim nos remir. (bis)"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Louvamos, louvamos, Senhor, e adoramos",
+          "A glória divina por ti revelada,",
+          "Que para nós brilha na luz esplendente,",
+          "Fazendo-nos ver a real perfeição. (bis)"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Em ti concilia-se a santa justiça,",
+          "Que não pode a culpa deixar sem castigo.",
+          "Com a compaixão que por graça recebe",
+          "E exime de culpas o réu pecador. (bis)"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "013",
+    "number": 13,
+    "title": "Adoração a Deus",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Bendigam a Deus, glorioso Senhor,",
+          "E com gratidão lhe rendam louvor:",
+          "Amigo dos homens, fiel defensor,",
+          "Que os guarda seguros no seu amplo amor."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "014",
+    "number": 14,
+    "title": "O Deus de Abraão",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Ao Deus de Abraão louvai,",
+          "Do vasto céu Senhor,",
+          "Eterno e poderoso Pai,",
+          "E Deus de amor,",
+          "Augusto Deus Jeová,",
+          "Que terra e céu criou,",
+          "Minha alma o Nome abençoará",
+          "Do grande Eu-Sou."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Ao Deus de Abraão louvai;",
+          "Eis, por mandado seu,",
+          "Minha alma deixa a terra e vai",
+          "Gozar no céu.",
+          "O mundo desprezei,",
+          "Seu lucro e seu louvor,",
+          "E Deus por meu quinhão tomei",
+          "E protetor."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Meu guia Deus será;",
+          "Seu infinito amor",
+          "Feliz em tudo me fará",
+          "Por onde eu for.",
+          "Tomou-me pela mão,",
+          "Em trevas deu-me luz,",
+          "E dá-me eterna salvação",
+          "Por meu Jesus."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Meu Deus por si jurou,",
+          "E nEle confiei,",
+          "E para o céu que preparou",
+          "Eu subirei.",
+          "Seu rosto irei eu ver,",
+          "Fiado em seu amor,",
+          "E eu hei de sempre engrandecer",
+          "Meu Redentor."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "015",
+    "number": 15,
+    "title": "Exaltação",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "A Deus demos glória, com grande fervor;",
+          "Seu Filho bendito por nós todos deu;",
+          "A graça concede ao mais vil pecador,",
+          "Abrindo-lhe a porta de entrada no céu."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Exultai! Exultai! Vinde todos louvar",
+          "A Jesus, Salvador, a Jesus, Redentor;",
+          "A Deus demos glória, porquanto do céu",
+          "Seu Filho bendito por nós todos deu."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Oh! Graça real, foi assim que Jesus,",
+          "Morrendo, seu sangue por nós derramou!",
+          "Herança nos céus, com os santos em luz,",
+          "Comprou-nos Jesus, pois o preço pagou."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "A crer nos convida tal rasgo de amor,",
+          "Nos merecimentos do Filho de Deus;",
+          "E quem, pois, confia no seu Salvador,",
+          "Vai vê-Lo sentado na glória dos céus."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "016",
+    "number": 16,
+    "title": "Vinde Adorar",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Oh! Vinde adorar o excelso e bom Deus,",
+          "Eterno Senhor da terra e dos céus,",
+          "Que reina, supremo, envolto na luz,",
+          "E que se revela em Cristo Jesus!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Seu grande poder deveis contemplar",
+          "No brilho do céu, na terra e no mar;",
+          "As gotas de orvalho, sim, toda flor,",
+          "Proclamam constantes seu grande Autor."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "017",
+    "number": 17,
+    "title": "O Amor de Deus",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Decorridas eras são,",
+          "Desde que os judeus",
+          "Cristo fez proclamação",
+          "Do grande amor de Deus."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Que profundo amor se via",
+          "Quando aqui andou!",
+          "Terna, santa simpatia",
+          "Ele nos mostrou!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Veio aos cegos vista dar,",
+          "Luz nas trevas ser;",
+          "Pecadores quis salvar,",
+          "Perdidos recolher."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Nunca os pobres desprezou,",
+          "Sempre os recebeu;",
+          "Paga sempre recusou;",
+          "De graça tudo deu."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Tempos já passados são,",
+          "Cristo o mesmo é;",
+          "Vida, vista, salvação,",
+          "Obtêm-se pela fé."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "018",
+    "number": 18,
+    "title": "Amor sem Igual",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Oh! Não tens ouvido do amor sem igual,",
+          "Do amor que teu Deus tem por ti?!",
+          "Do amor que o levou a seu Filho entregar,",
+          "Pra os salvos levar para si?!"
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Oh, crê! Oh, crê!",
+          "A graça de Deus te chama dos céus.",
+          "Oh, crê nesse amor sem igual!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Não foram os grandes que Cristo chamou,",
+          "Nem justos veio Ele salvar;",
+          "Mas pobres e fracos, culpados e maus",
+          "Mandou pelos servos chamar."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "O homem, porém, não podia chegar",
+          "À santa presença de Deus;",
+          "Porque seus pecados, qual grande montão,",
+          "Vendavam-lhe a entrada nos céus."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Mas pelo seu sangue Jesus expiou",
+          "A culpa dos crentes na cruz;",
+          "Tirando o pecado, caminho mostrou,",
+          "O qual para o céu nos conduz."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 5,
+        "lines": [
+          "E tu, pecador, não desejas, então,",
+          "O amor do teu Deus conhecer?",
+          "Por fé no Senhor, como teu Salvador,",
+          "Irás alcançar tal prazer."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "019",
+    "number": 19,
+    "title": "Boa-Nova",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Alegre nova nos chegou:",
+          "O grande Deus assim amou",
+          "A todo o mundo pecador,",
+          "Que deu seu Filho benfeitor",
+          "Em sua redenção."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Aquele, pois, que em Cristo crer,",
+          "A vida eterna passa a ter;",
+          "Jamais a morte vai provar;",
+          "No céu, porém, irá gozar",
+          "A plena salvação."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Mister é Cristo conhecer,",
+          "E dele em tudo depender,",
+          "Guardar a sua santa lei,",
+          "E coroá-lo nosso Rei",
+          "De todo o coração."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Ó mundo todo, a Cristo vem,",
+          "Ao que concede todo o bem,",
+          "Que poderá tornar feliz",
+          "A cada povo e seu país,",
+          "Com sua provação!"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "020",
+    "number": 20,
+    "title": "Amor Perene",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Amavas-me, Senhor, não tendo a luz ainda",
+          "Surgindo lá nos céus, ao mando Criador;",
+          "Nem mesmo o sol, na aurora esplendorosa e linda,",
+          "À terra dava força fecundante, infinda.",
+          "Meu Deus, que amou!",
+          "Meu Deus, que antigo amor!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Amavas-me, Senhor, no tempo em que imolado",
+          "Foi numa cruz sangrenta o meigo Salvador,",
+          "Levando sobre Si, sim, todo o meu pecado,",
+          "O Santo de Israel, o teu Cordeiro amado.",
+          "Meu Deus, que amor!",
+          "Meu Deus, que imenso amor!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Amavas-me, Senhor! No fundo de meu peito",
+          "Brilhou a doce luz do meu Consolador,",
+          "E com promessas mil de teu amor perfeito,",
+          "Nasceu em mim a fé em que hoje me deleito.",
+          "Meu Deus, que amor!",
+          "Meu Deus, és todo amor!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "A mim sempre hás de amar! Pois que jamais o inferno",
+          "E o mundo poderão ao teu querer se opor,",
+          "Ao teu decreto, ó Rei, ao teu decreto eterno,",
+          "Ao teu amor, ó Pai, ao teu amor superno!",
+          "Meu Deus, que amor!",
+          "És sempre, sempre amor!"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "021",
+    "number": 21,
+    "title": "Louvor ao Pai e ao Filho",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Do mundo Deus se condoeu",
+          "De tal maneira que lhe deu",
+          "Por Salvador o Filho seu.",
+          "Louvor ao Pai e ao Filho dai!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Jesus sofreu, sim, como réu,",
+          "A fim de nos levar ao céu,",
+          "Foi quem rasgou da morte o véu.",
+          "Louvor ao Pai e ao Filho dai!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "E Cristo, por morrer na cruz,",
+          "Outorga vida, gozo e luz;",
+          "Sim, tudo temos em Jesus.",
+          "Louvor ao Pai e ao Filho dai!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Morreu Jesus e nos remiu,",
+          "Foi sepultado e ressurgiu,",
+          "E para Deus depois subiu.",
+          "Louvor ao Pai e ao Filho dai!"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "022",
+    "number": 22,
+    "title": "Amor Sublime",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Qual ave que, buscando os céus,",
+          "O mundo deixa e seus troféus,",
+          "Minha alma vem a Ti, Senhor,",
+          "Pra conhecer teu terno amor."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Divino amor, sublime amor,",
+          "Dos grandes temas o maior!",
+          "Minha alma quer fruir, gozar",
+          "De Cristo o tão sublime e amor."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Amor sublime, amor real,",
+          "Amor eterno e sem igual,",
+          "Sobre uma cruz por mim morrer",
+          "E me salvar por seu poder!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Teu Nome, ó Deus, publicarei,",
+          "A tua graça, a tua lei,",
+          "O teu poder e o teu amor!",
+          "Minha alma adora-te, Senhor!"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "023",
+    "number": 23,
+    "title": "Deus, Fonte da Vida",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Ó Deus do céu, da terra e mar,",
+          "Humildes vimos-Te adorar;",
+          "O Teu amor, sim, celebrar,",
+          "Que tudo dás."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "A luz benigna, luz solar,",
+          "E a brisa branda e salutar,",
+          "Que vem a tudo renovar,",
+          "Sim, tudo dás."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "A verde relva, a linda flor,",
+          "De ricos frutos o penhor,",
+          "Proclamam Teu constante amor.",
+          "Sim, tudo dás."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Tu, por um mundo pecador",
+          "Teu Filho deste, o Salvador;",
+          "Com Ele tudo dás, Senhor.",
+          "Sim, tudo dás."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 5,
+        "lines": [
+          "Dás vida aos mortos e perdão,",
+          "Dás aos perdidos salvação,",
+          "De paz enchendo o coração.",
+          "Sim, tudo dás."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 6,
+        "lines": [
+          "Pureza dás e dás poder,",
+          "A graça que nos é mister,",
+          "Por Ti viver, por Ti morrer.",
+          "Sim, tudo dás,"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 7,
+        "lines": [
+          "Ensina-nos, Senhor, a amar;",
+          "Ensina-nos, Senhor, a dar,",
+          "E a Ti a vida consagrar,",
+          "Pois tudo dás."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "024",
+    "number": 24,
+    "title": "Deus É Amor",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Deus é amor. A sua graça",
+          "Conquistou meu coração;",
+          "Concedeu-me vida eterna,",
+          "Paz e luz e salvação."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Deus é amor, sim, Deus é amor.",
+          "Deus é amor, sim, Deus é amor."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Deus é amor. Eis tudo acaba",
+          "Neste mundo de amargor;",
+          "Só perdura inalterável",
+          "Seu infindo e eterno amor."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Deus é amor. Pois cuida sempre",
+          "Do seu filho bom, fiel.",
+          "Ele inspira, guia e livra,",
+          "Como ao povo de Israel."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Deus é amor. Vem, auxilia",
+          "A este pobre pecador;",
+          "Perdoado, agora almeja",
+          "Proclamar o teu amor!"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "025",
+    "number": 25,
+    "title": "Amor",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Que grande amor, excelso amor,",
+          "Que Cristo nos mostrou!",
+          "Pra se tornar o Salvador",
+          "A vida não negou."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Louvemos tão grande amor,",
+          "Sim, tão grande amor",
+          "Que Cristo assim nos manifesta;",
+          "Que maravilha de amor,",
+          "Que nos trouxe para Deus!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Ninguém, pois, deve duvidar",
+          "Do seu tão grande amor,",
+          "Mas todos devem aceitar",
+          "O amor do Salvador."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "O que esse amor de nós fará",
+          "É-nos vedado ver;",
+          "Mas Cristo em breve voltará,",
+          "E nos fará saber."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "026",
+    "number": 26,
+    "title": "Rei Excelso",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Cantai, que o Salvador chegou!",
+          "Acolha a terra o Rei!",
+          "Leais nações, a ele só",
+          "Contentes vos rendei; (bis)",
+          "Oh, sim, contentes vos rendei!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Ao mundo o gozo proclamai",
+          "Do reino de Jesus!",
+          "Ó terra e mar e céus, cantai",
+          "A resplendente luz! (bis)",
+          "A grande e resplendente luz!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Pecados, dores, morte já",
+          "Vencidos dele são;",
+          "A paz Jesus concederá",
+          "Em régia profusão; (bis)",
+          "Oh, sim, em régia profusão"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Verdade e amor são sua lei;",
+          "Os povos acharão",
+          "Que é justo e bom o excelso Rei,",
+          "E lhe obedecerão, (bis)",
+          "Sim, todos lhe obedecerão."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "027",
+    "number": 27,
+    "title": "Natal",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Eis dos anjos a harmonia,",
+          "Cantam glória ao novo Rei;",
+          "Paz aos homens e alegria,",
+          "Paz com Deus e suave lei.",
+          "Ouçam povos exultantes,",
+          "Ergam salmos triunfantes,",
+          "Aclamando o seu Senhor;",
+          "Nasce Cristo, o Redentor."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Toda a terra e altos céus",
+          "Cantem glória ao Homem-Deus!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Cante o povo resgatado:",
+          "\"Glória ao Príncipe da paz.\"",
+          "Deus, em Cristo revelado,",
+          "Vida e luz ao mundo traz.",
+          "Nasce pra que renasçamos;",
+          "Vive para que vivamos;",
+          "Rei, Profeta e Salvador!",
+          "Louvem todos ao Senhor!"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "028",
+    "number": 28,
+    "title": "Nasceu o Redentor",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Alerta, ó terra, entoa o canto que ressoa:",
+          "O mundo pecador tem pecador sorte e boa.",
+          "A nova se vos dá, e quão alegre soa:",
+          "Nasceu o Redentor!"
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Nasceu o Redentor!",
+          "Nasceu o Redentor!",
+          "O eterno Pai do céu",
+          "seu Filho ao mundo deu.",
+          "Alerta, ó terra, entoa",
+          "a nova alegre e boa:",
+          "Nasceu o Redentor!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "A noite já passou, a aurora já raiou;",
+          "O negro e denso véu de todo se rasgou.",
+          "Dos montes através o brado ressoou:",
+          "Nasceu o Redentor!",
+          "Nasceu o Rei da paz, num berço humilde jaz;",
+          "Nas asas desse amor conforto a todos traz.",
+          "Dizei em alta voz que Cristo satisfaz:",
+          "Nasceu o Redentor!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Ó gozo divinal, amor celestial,",
+          "Quem pode Te sondar ou ter um outro igual?",
+          "Posso eu, da morte réu, gozar ventura tal?",
+          "Nasceu o Redentor!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Ó povos, exultai! Nações, oh, jubilai!",
+          "Eis finda toda a dor, jamais se dá um ai;",
+          "A virgem deu à luz; a Deus glorificai!",
+          "Nasceu o Redentor!"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "029",
+    "number": 29,
+    "title": "Nasce Jesus",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "O povo, sim, coberto",
+          "De densas trevas, perto",
+          "Do abismo e não desperto,",
+          "Vê, surpreso, um grande e divinal clarão!"
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "É Jesus que nasce, Autor da salvação!",
+          "Cristo amado a todos traz a redenção!",
+          "O coro angelical, num hino triunfal,",
+          "Proclama o Cristo, com adoração!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Cumprindo as profecias",
+          "Nos nasce o Rei Messias;",
+          "Em horas tão sombrias",
+          "Cada povo em trevas vê o seu clarão!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Jesus, o Rei da glória,",
+          "Humilde em sua história,",
+          "A todos dá vitória;",
+          "Vinde ver o Cristo em sua humilhação!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Ó nova alegre e boa!",
+          "No céu azul ressoa",
+          "Que Cristo nos perdoa.",
+          "Aceitai-o, ó povos; dai-Lhe o coração!"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "031",
+    "number": 31,
+    "title": "Lugar para Cristo",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Tu deixaste, Jesus, o teu reino de luz,",
+          "E baixaste a este mundo tão vil;",
+          "Um presépio, em Belém, Tu, Jesus, Sumo Bem,",
+          "Escolheste por berço infantil."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Vem, Jesus, habitar comigo,",
+          "Em minha alma há lugar; oh, vem já. (bis)"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Alegraram-se os céus, com os santos de Deus,",
+          "Sim, por teres nascido, Jesus,",
+          "Vindo os filhos de Adão conceder salvação",
+          "Pela morte, em resgate, na cruz."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Tu vieste, Senhor, revelar-nos amor,",
+          "E te aprouve do mal nos salvar;",
+          "Mas provaste do fel, do motejo cruel,",
+          "Morte, enfim, te fizeram provar."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Outra vez tu virás, e por mim chamarás,",
+          "Rodeado dos anjos de Deus;",
+          "Oh! Que gozo pra mim, se disseres assim:",
+          "\"Um lugar te darei eu nos céus.\""
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "032",
+    "number": 32,
+    "title": "Cristo em Belém",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Alta noite estão pastores",
+          "De Belém no derredor;",
+          "E os cercou de resplendores",
+          "Luz celeste do Senhor."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "\"Novas tenho... dar-vos venho\",",
+          "Disse um anjo com dulçor;",
+          "\"Eis que é nado o Bem-Amado,",
+          "Jesus Cristo, o Salvador.\""
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Glória a Deus e paz bendita,",
+          "Eis o canto angelical",
+          "Para toda a gente aflita!",
+          "Tão glorioso e triunfal!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Ver Jesus na manjedoura,",
+          "Onde veio repousar,",
+          "Querem eles sem demora,",
+          "Para a nova confirmar."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "O Senhor de quanto existe",
+          "Quis pastores procurar,",
+          "Para deste berço triste",
+          "Suas novas proclamar."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "033",
+    "number": 33,
+    "title": "Nasceu Jesus",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Nasce Jesus, fonte de luz!",
+          "Descem os anjos cantando;",
+          "Nasce Jesus, é nossa luz;",
+          "Trevas vem, pois, dissipando.",
+          "Nasce Jesus, fonte de luz!",
+          "Rompe as cadeias do forte,",
+          "Raia o dia da salvação, triunfante vem!",
+          "Salve Jesus! Oh, firma teu justo império!",
+          "Grato louvor os homens e os anjos dêem!"
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Nasce Jesus, fonte de luz!",
+          "Oh! Glória a Deus nas alturas!",
+          "Paz na terra aos homens,",
+          "A quem quer ele bem!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Deus nos amou e nos mandou",
+          "Cristo, seu Filho querido.",
+          "Deus nos amou, Deus encarnou!",
+          "Vede o menino nascido!",
+          "Deus nos amou! Deus nos amou!",
+          "Digam-no todos os povos;",
+          "Gozam paz e salvação todos os que crêem.",
+          "Reino bendito! Reino de amor divino!",
+          "Eis que as nações resgate por Cristo têm!"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "034",
+    "number": 34,
+    "title": "Plena Graça",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Plena graça para me salvar,",
+          "Sangue puro para me lavar",
+          "E poder pra sempre me guardar",
+          "Tem meu Senhor."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "035",
+    "number": 35,
+    "title": "Incomparável",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "O grande amor do meu Jesus,",
+          "Por mim morrendo sobre a cruz,",
+          "Da perdição pra me salvar,",
+          "Quem poderá contar?"
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Quem pode o seu amor contar?",
+          "Quem pode o seu amor contar?",
+          "O grande amor do Salvador",
+          "Quem poderá contar?"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "O cálix que Jesus bebeu,",
+          "A maldição que padeceu",
+          "Na cruz por mim, pra me salvar,",
+          "Quem poderá contar?"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "A zombaria tão cruel,",
+          "A cruz sangrenta, o amargo fel",
+          "Que ali sofreu pra me salvar,",
+          "Quem poderá contar?"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Incomparável Salvador,",
+          "Quão inefável teu amor!",
+          "Quão impossível de sondar!",
+          "Imensidão sem par!"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "036",
+    "number": 36,
+    "title": "O Amor de Jesus",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Ó maravilha do amor de Jesus,",
+          "Desse admirável amor sem igual!",
+          "Cristo penou e morreu numa cruz,",
+          "Para salvar-me da morte eternal."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Cristo, meu Mestre, veio por mim,",
+          "Veio por mim, veio por mim;",
+          "Cristo, meu Mestre, veio por mim,",
+          "Veio pra me salvar."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Oh, duvidar poderei eu jamais",
+          "Desse insondável amor de Jesus!",
+          "Ele me veio trazer sua paz,",
+          "Dando-me entrada no reino de luz."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Cristo, meu Mestre Divino, meu Deus,",
+          "Quis-me remir e me dar seu favor;",
+          "Ele me abriu o caminho dos céus,",
+          "E me adotou como filho de amor."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Vou-me entregar a Jesus, e, fiel,",
+          "Quero fazer conhecido esse amor",
+          "Que me salvou de uma morte cruel;",
+          "Quero viver para meu Salvador."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "037",
+    "number": 37,
+    "title": "Amor Glorioso",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Buscou-me com ternura",
+          "Jesus, o bom Pastor;",
+          "Achou-me na miséria,",
+          "Salvou-me com amor;",
+          "No céu cantaram de alegria",
+          "Os anjos, sim, em harmonia."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Oh, que amor glorioso!",
+          "Preço tão grandioso",
+          "Que Jesus por mim na cruz pagou;",
+          "Inaudita graça me mostrou!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Ferido e abandonado,",
+          "Jesus me socorreu;",
+          "E segredou-me: \"Achei-te;",
+          "De agora em diante és Meu.\"",
+          "Tão meiga voz jamais ouvi;",
+          "Prazer maior jamais senti."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Jesus mostrou-me as chagas",
+          "Que em meu lugar sofreu;",
+          "Coroa, mas de espinhos;",
+          "A cruz que padeceu.",
+          "Que poderia em mim achar,",
+          "Pra tais afrontas suportar?"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Minha alma embevecida,",
+          "Seu rosto a contemplar,",
+          "Recorda as muitas bênçãos",
+          "Do seu amor sem-par;",
+          "Louvor e glória e adoração",
+          "Tributa-lhe meu coração!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 5,
+        "lines": [
+          "Enquanto as horas passam,",
+          "Eu tenho gozo e paz,",
+          "E aguardo o meu bom Mestre,",
+          "Que tão feliz me faz;",
+          "Jesus a mim virá buscar,",
+          "E então pra sempre irei gozar."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "038",
+    "number": 38,
+    "title": "Divino Amor",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Quem pode o teu imenso amor contar,",
+          "O Salvador Jesus, e esquadrinhar",
+          "Seus alicerces no divino Ser,",
+          "Sua extensão ou sua altura ver?",
+          "Amor sem fim!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Quem pode amor tão vasto compreender?",
+          "Pois nem o céu o pôde, enfim, conter.",
+          "Foi neste mundo que se revelou:",
+          "Jesus sofrendo sobre a cruz mostrou",
+          "Divino amor."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Quem pode dar adoração capaz",
+          "A ti, que, sem limite, amor nos dás?",
+          "A par do qual o parcial louvor",
+          "Que temos dado ao nosso Salvador",
+          "Parece vão."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Mas sempre nos ensina o teu amor",
+          "Que, embora fracos, temos no Senhor",
+          "A fonte inesgotável de afeição,",
+          "Que sabe a voz do nosso coração",
+          "Apreciar."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "039",
+    "number": 39,
+    "title": "A Ovelha Perdida",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Noventa e nove ovelhas vão",
+          "Seguras ao curral;",
+          "Mas uma delas se afastou",
+          "Do aprisco pastoral,",
+          "A errar nos montes de terror,",
+          "Distante do fiel pastor. (bis)"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "\"Com a grei submissa, ó bom Pastor,",
+          "Não te contentarás?\"",
+          "\"A errante é minha\", replicou,",
+          "\"Pertence-me a fugaz.",
+          "Vou ao deserto procurar",
+          "A ovelha que ouço em dor gritar.\" (bis)",
+          "Nenhum remido imaginou",
+          "Quão negra escuridão,",
+          "Quão fundas águas que passou,",
+          "Trazendo-a à salvação;",
+          "E quando foi pra socorrer,",
+          "A errante estava a perecer. (bis)"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "\"Por toda a estrada donde vem,",
+          "Que sangue enxergo ali?\"",
+          "\"Busquei a ovelha com amor,",
+          "O sangue meu verti.\"",
+          "\"Ferida vejo a tua mão...",
+          "A angústia encheu-me o coração.\" (bis)"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Vêm da montanha aclamações!",
+          "É a voz do bom Pastor!",
+          "Ressoa em notas triunfais",
+          "O salmo vencedor!",
+          "E os anjos cantam lá nos céus:",
+          "\"A errante já voltou a Deus.\" (bis)"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "044",
+    "number": 44,
+    "title": "A Linda História",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Cantarei a linda história",
+          "De Jesus, o Salvador,",
+          "Que deixou seu lar na glória",
+          "Pra salvar o pecador."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Cantarei a linda história",
+          "De Jesus, meu Salvador;",
+          "Cantarei a sua glória",
+          "Com os santos, com fervor."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Eu perdi-me e ele achou-me,",
+          "Longe, longe do meu lar;",
+          "Abraçou-me então, tomou-me",
+          "Pra com ele eu ir morar."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Jesus Cristo deparou-me",
+          "Quando fraco, pra morrer;",
+          "As feridas ele untou-me",
+          "E livrou-me com poder."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Dias negros inda tenho,",
+          "Sofrimento e dissabor;",
+          "Mas a Ele eu tudo exponho,",
+          "E me livra com amor."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "046",
+    "number": 46,
+    "title": "Jesus Me Transformou",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Eu, perdido pecador,",
+          "Longe do meu Jesus,",
+          "Já me achava sem vigor,",
+          "A perecer sem luz;",
+          "Meu estado Cristo viu,",
+          "Dando-me sua mão,",
+          "E salvar-me conseguiu,",
+          "Da perdição."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Cristo me amou, e me livrou;",
+          "O seu imenso amor",
+          "Me transformou",
+          "Foi seu poder, o seu querer,",
+          "Sim Cristo, o Salvador,",
+          "Me transformou."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Minha vida, todo o ser,",
+          "Quero-Lhe consagrar;",
+          "A seu lado vou viver,",
+          "O seu amor sem cantar,",
+          "A mensagem transmitir",
+          "Aos que perdidos são.",
+          "Venham todos já fruir",
+          "A salvação."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "049",
+    "number": 49,
+    "title": "Tudo Fez Jesus",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Cristo tudo fez completo,",
+          "Nada por fazer deixou;",
+          "Vida do mais doce afeto,",
+          "Ele para nós comprou."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Seu, o feito; nosso, o gozo;",
+          "Nossa, a vida; sua, a cruz;",
+          "Seu, o cálice amargoso;",
+          "Nossa, a dita que produz."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "055",
+    "number": 55,
+    "title": "Hosana nas Alturas",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Bendito o Rei que vem em nome do Senhor,",
+          "A quem nós esperamos,",
+          "Ao qual nós adoramos!",
+          "Bendito o Rei que vem em nome do Senhor!",
+          "Hosana! Hosana! Hosana nas alturas! (bis)",
+          "Os seus gloriosos feitos celebrai com fervor!",
+          "Em todo o vale soa",
+          "Nova pra nós tão boa!",
+          "Bendito o Rei que vem em nome do Senhor!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Bendito o Rei que vem em nome do Senhor!",
+          "Oh, rendam-lhe louvores,",
+          "A Cristo em seus fulgores!",
+          "Bendito o Rei que vem em nome do Senhor!",
+          "Hosana! Hosana! Hosana nas alturas! (bis)",
+          "Oh, vinde todos a Jesus, o Rei, Salvador!",
+          "Todos com alegria,",
+          "Vozes em harmonia!",
+          "Bendito o Rei que vem em nome do Senhor!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Bendito o Rei que vem em nome do Senhor!",
+          "Sim, vem tão majestoso,",
+          "Jesus, o Rei bondoso!",
+          "Bendito o Rei que vem em nome do Senhor!",
+          "Hosana! Hosana! Hosana nas alturas! (bis)",
+          "O Salvador seu povo chama a Si com amor!",
+          "Venham os pequeninos!",
+          "Venham já os meninos!",
+          "Bendito o Rei que vem em nome do Senhor!"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "060",
+    "number": 60,
+    "title": "Coroai",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Saudai o Nome de Jesus!",
+          "Arcanjos, vos prostrai!",
+          "O Filho do glorioso Deus",
+          "Com glória coroai!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Ó escolhida geração",
+          "Do bom, eterno Pai:",
+          "O grande Autor da salvação,",
+          "Com glória coroai!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Ó perdoados por Jesus,",
+          "Alegres adorai!",
+          "O Deus de paz, o Deus de luz",
+          "Com glória coroai!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Ó raças, tribos e nações,",
+          "O Rei divino honrai;",
+          "A quem quebrou os vis grilhões",
+          "Com glória coroai!"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "062",
+    "number": 62,
+    "title": "Nome Precioso",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Leva tu contigo o Nome",
+          "De Jesus, o Salvador;",
+          "Este Nome dá consolo,",
+          "Seja no lugar que for."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Nome bom, doce à fé,",
+          "A esperança do porvir. (bis)"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Este Nome leva sempre,",
+          "Para bem te defender;",
+          "Ele é arma ao teu alcance,",
+          "Quando o mal te aparecer."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Oh, que Nome tão precioso!",
+          "Gozo traz ao coração;",
+          "Sendo por Jesus aceito,",
+          "Tu terás o seu perdão."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Nome santo e venerável",
+          "É Jesus, o amado teu;",
+          "Rei dos reis, Senhor Eterno,",
+          "Tu o aclamarás no céu."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "065",
+    "number": 65,
+    "title": "Jesus, o Bem-Amado",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Jesus, teu Nome satisfaz;",
+          "Por todo o orbe espalha a paz;",
+          "Perfeito gozo e vida traz,",
+          "Jesus, meu bem-amado!"
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Cristo, Nome de valor!",
+          "Cristo, forte Redentor!",
+          "Cristo, sumo e bom Pastor,",
+          "Sou teu eternamente!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Pois, à minha alma, ó Salvador,",
+          "A coração tão sofredor",
+          "Concedes forças e vigor,",
+          "Jesus, meu bem-amado!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Aflito pela tentação,",
+          "Me fortalece a tua mão;",
+          "Prostrado, invoco, em oração,",
+          "Jesus, meu bem-amado!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Jesus, teu Nome é sem igual,",
+          "Tão carinhoso, tão leal;",
+          "És bom Pastor, celestial,",
+          "Jesus, meu bem-amado!"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "067",
+    "number": 67,
+    "title": "Cristo Exaltado",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Eis entronizado, à destra do bom Deus,",
+          "Como Rei eterno, Cristo, lá nos céus;",
+          "Ele é Rei da glória, que a Satã venceu;",
+          "Feita tal vitória, Deus o recebeu."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Pela sua graça, pelo seu amor,",
+          "Seja dado a Cristo cordial louvor!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Veio resgatar-nos pela sua cruz;",
+          "Quer apresentar-nos em celeste luz.",
+          "Pela sua morte, pelo seu sofrer,",
+          "O inimigo nunca poderá vencer."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Mas o seu serviço continua ali;",
+          "Poderá valer-nos, entretrando, aqui;",
+          "Por nós advogando o Pai está;",
+          "Ele nos ajuda e sempre ajudará."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "069",
+    "number": 69,
+    "title": "Aleluia",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Aleluia! Aleluia!",
+          "Gratos hinos entoai!",
+          "Jubilosos e contentes",
+          "Hinos a Jesus cantai!",
+          "Pra livrar-nos do pecado",
+          "Triste morte padeceu,",
+          "E da morte triunfando,",
+          "Ele vida eterna deu."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Jesus Cristo, o Rei da glória,",
+          "O pecado aniquilou!",
+          "E alcançou a mesma bênção",
+          "Para os que Ele resgatou.",
+          "Eis milhares de milhares",
+          "A prestar-lhe adoração,",
+          "Descobrindo, na sua obra,",
+          "Vida, luz e salvação."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Aleluia! Aleluia!",
+          "A Jesus todo o louvor!",
+          "Aleluia eternamente,",
+          "Ao bendito Redentor!",
+          "Aleluia ao Espírito Santo,",
+          "Que nos dá consolo e paz;",
+          "Aleluia ao Pai eterno,",
+          "Deus da graça, Deus da paz!"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "073",
+    "number": 73,
+    "title": "Um Grande Amigo",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Achei um grande amigo,",
+          "Jesus, o Salvador,",
+          "Que com amor me guarda cada dia;",
+          "Fiel é seu cuidado,",
+          "Constante o seu amor",
+          "E sem limite a sua simpatia.",
+          "E ainda o mais notável",
+          "É que por mim morreu",
+          "E meus pecados todos expiou;",
+          "Assim me regozijo",
+          "Nas bênçãos que me deu;",
+          "Sim, sei que Jesus Cristo me salvou."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Jesus é meu amigo,",
+          "Meu guia, meu Senhor,",
+          "Meu protetor, sem outro haver igual.",
+          "Por mim sofreu a morte,",
+          "Por mim, um pecador,",
+          "E agora, vivo, guarda-me do mal."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Por este grande amigo",
+          "Desejo aqui viver,",
+          "Com ele ter constante comunhão,",
+          "Serví-lo fielmente,",
+          "E assim lhe dar prazer,",
+          "Ficando sempre a Ele em sujeição.",
+          "Nos seus caminhos santos",
+          "Espero aqui seguir",
+          "E seu amor a todos demonstrar,",
+          "Porque ele do pecado",
+          "Me veio redimir",
+          "E por amor morreu em meu lugar."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "A hora vem chegando,",
+          "A Bíblia no-lo diz,",
+          "Em que Jesus ao mundo voltará.",
+          "Oh, que momento alegre,",
+          "Que dia tão feliz,",
+          "O dia em que voltar aqui será!",
+          "Então com ele sempre,",
+          "Nos céus, eu ficarei,",
+          "Já livre do pecado, mágoa e dor;",
+          "O seu amado rosto",
+          "Na glória ali verei,",
+          "E gozarei das bênçãos do Senhor."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "081",
+    "number": 81,
+    "title": "Amor Incomparável",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Nenhum amigo há igual a Cristo!",
+          "Não nenhum! Não nenhum!",
+          "Outro não há que minha alma salve!",
+          "Não, nenhum! Não, nenhum!"
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Cristo sabe das nossas lutas;",
+          "Guiará até o fim chegar;",
+          "Nenhum amigo há igual a Cristo,",
+          "Não nenhum! Não, nenhum!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Nenhum momento ele me abandona!",
+          "Não, nenhum! Não, nenhum!",
+          "Não há desgosto que não suavize!",
+          "Não, nenhum! Não, nenhum!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Nenhum amigo há tão nobre e santo!",
+          "Não, nenhum! Não, nenhum!",
+          "Também não há tão humilde e manso!",
+          "Não, nenhum! Não, nenhum!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Crente nenhum é desamparado!",
+          "Não, nenhum! Não, nenhum!",
+          "Nenhum ansioso há que é rejeitado!",
+          "Não, nenhum! Não, nenhum!"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "083",
+    "number": 83,
+    "title": "A Cruz de Cristo",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Pendurado foste, ó Senhor Jesus,",
+          "Numa cruz, exposto ao desprezo, assim,",
+          "Cena que a pensar muita gente induz;",
+          "Sofreste tanto, creio, foi por mim!"
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Tu, Jesus, vieste me salvar.",
+          "Tu, Jesus, vieste me salvar.",
+          "Eu confio em ti,",
+          "Teu amor senti,",
+          "Sofreste tanto, creio, foi por mim!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Sangue tu verteste pra me salvar,",
+          "Deste tua vida, meu Redentor.",
+          "Certo estou, foi tudo em me resgatar;",
+          "Sofreste tanto, creio, meu Senhor!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Tua morte veio me libertar;",
+          "Grande foi o peso de tal paixão.",
+          "Teu amor, oh, quem poderá sondar?!",
+          "Sofreste, creio, em tua compaixão!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Toda a maldição do pecado meu",
+          "Tu levaste, pois, sobre Ti, Senhor.",
+          "Gozo paz, tornei-me um herdeiro teu,",
+          "Sofreste tudo, creio, pelo amor!"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "085",
+    "number": 85,
+    "title": "Cantai Louvores",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Oh, vinde, crentes, e entoai",
+          "Louvores a Jesus,",
+          "Que, para a nossa salvação,",
+          "Foi morto numa cruz;",
+          "Seu sangue derramou, de tudo me lavou,",
+          "Mais alvo do que a neve me tornou!"
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "O sangue de Jesus me lavou, me lavou;",
+          "O sangue de Jesus me lavou, me lavou;",
+          "Alegre cantarei louvores a meu Rei,",
+          "A meu Senhor Jesus que me salvou."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Conosco vinde vos unir",
+          "Na guerra contra o mal,",
+          "E, com o nosso Salvador,",
+          "Em marcha triunfal,",
+          "A todos proclamar a graça e seu poder;",
+          "Seu sangue derramou pra nos salvar!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "O capitão da salvação",
+          "É Cristo, o Salvador;",
+          "O Rei dos reis, o Redentor,",
+          "Jesus, o bom Senhor;",
+          "Pois tudo vencerá; vitória nos dará;",
+          "À glória, salvos, nos conduzirá."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "088",
+    "number": 88,
+    "title": "Que Fazes por Mim",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Das glórias eternais",
+          "Ao mundo vil desci;",
+          "A sorte eu assumi",
+          "Dos míseros mortais;",
+          "E tudo foi por ti,",
+          "Que fazes tu por mim?"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Meu sangue derramei,",
+          "E, no sofrer cruel,",
+          "Bebi vinagre e fel;",
+          "Na cruz eu expirei;",
+          "E tudo foi por ti,",
+          "Que sofres tu por mim?"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Pra dar-te a salvação",
+          "Sofri, penei, morri;",
+          "Teu substituto fui",
+          "Em dura escravidão;",
+          "E tudo foi por ti,",
+          "Que deste tu por Mim?"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Do Pai celestial",
+          "Completa redenção,",
+          "A eterna salvação,",
+          "A dita perenal",
+          "Te dou de graça a ti;",
+          "Não temas, vem a mim."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "089",
+    "number": 89,
+    "title": "O Poder do Sangue",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Queres com tua vaidade acabar?",
+          "Seu sangue tem poder, sim tem poder.",
+          "Almejas tu do maligno escapar?",
+          "Seu sangue tem este poder."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Há poder, sim, força sem igual,",
+          "Só no sangue de Jesus;",
+          "Há poder, sim, prova-o, pecador,",
+          "Oh, aceita o dom de Jesus!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Queres com tua vaidade acabar?",
+          "Seu sangue há poder, sim, tem poder.",
+          "Vícios, paixões, queres tu dominar?",
+          "Seu sangue tem este poder."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Teu coração queres purificar?",
+          "Seu sangue tem poder, sim, tem poder.",
+          "Todas as manchas te pode tirar;",
+          "Seu sangue tem este poder."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Queres entrar no serviço real?",
+          "Seu sangue tem poder, sim, tem poder.",
+          "Queres também ser um servo leal?",
+          "Terás no seu sangue o poder."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "092",
+    "number": 92,
+    "title": "Substituição",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Morri na cruz por ti,",
+          "pra te livrar;",
+          "Meu sangue, sim, verti,",
+          "E posso te salvar."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Morri, morri na cruz por ti;",
+          "Que fazes tu por Mim? (bis)"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Aqui vivi por ti,",
+          "Com muito dissabor;",
+          "Sim, tudo fiz aqui,",
+          "Pra ser teu Salvador."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Sofri na cruz por ti,",
+          "A fim de te salvar;",
+          "A vida consegui,",
+          "Que tu irás gozar."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Eu trouxe salvação,",
+          "Dos altos céus, favor;",
+          "É livre meu perdão;",
+          "Sincero, meu amor."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "093",
+    "number": 93,
+    "title": "Só no Sangue",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Quem me poderá salvar?",
+          "Cristo, que verteu seu sangue.",
+          "Onde as manchas vou limpar?",
+          "Só no seu precioso sangue."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Oh, que preciosa paz,",
+          "Que vem da sua cruz!",
+          "A qual me dá Jesus",
+          "Pelo seu precioso sangue!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Vejo a minha salvação",
+          "Só no seu precioso sangue.",
+          "Deus concede-me perdão",
+          "Só no seu precioso sangue."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Dele vem perfeita paz",
+          "Pelo seu precioso sangue;",
+          "Infalível e eficaz,",
+          "Esse tão precioso sangue."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Minha justificação",
+          "Tenho no precioso sangue;",
+          "Gozo traz ao coração",
+          "Esse tão precioso sangue."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 5,
+        "lines": [
+          "Entrarei no céu, enfim,",
+          "Pelo seu precioso sangue;",
+          "Louvarei, então, sem fim,",
+          "Esse tão precioso sangue."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "094",
+    "number": 94,
+    "title": "Jesus na Cruz",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Só tu, Jesus, levaste a cruz,",
+          "Humilde em teu amor;",
+          "No teu olhar brilhava a luz",
+          "De compaixão, Senhor!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Julgado foste como réu,",
+          "Pilatos foi juiz;",
+          "De enganador foi teu labéu,",
+          "Julgaram-te infeliz!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Sofreste zombarias mil,",
+          "Desdém e amargo fel;",
+          "feriu-te a rejeição hostil",
+          "De gente tão cruel!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Suspenso em um madeiro vil,",
+          "Mostraste o teu amor;",
+          "Perdão pra gente tão servil",
+          "Rogaste, Salvador!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 5,
+        "lines": [
+          "Rendeste o Espírito a Jeová,",
+          "Com grande brado teu,",
+          "Sim: \"Tudo consumado está.\"",
+          "Missão que o Pai te deu!"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "096",
+    "number": 96,
+    "title": "Deslumbrante",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Se nos cega o sol ardente,",
+          "Quando visto em seu fulgor,",
+          "Quem contemplará aquele",
+          "Que do sol é Criador?",
+          "Patriarcas, nem profetas",
+          "O chegaram a avistar,",
+          "Nem Adão chegou a vê-Lo,",
+          "Antes mesmo de pecar."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Luz, pra a qual o sol é trevas,",
+          "Quem Te pode contemplar?",
+          "Nossos olhos nus, humanos,",
+          "Não Te podem encarar.",
+          "Fogo em cima da arca santa,",
+          "Sarça ardente no Sinai,",
+          "São figuras só da glória",
+          "Do Senhor, do eterno Pai."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Para termos nós com Ele",
+          "Franca e doce comunhão,",
+          "Cristo, o Filho, fez-se carne,",
+          "Fez-se nossa redenção.",
+          "Para que na glória eterna",
+          "Nós miremo-Lo sem véu,",
+          "Cristo padeceu a morte,",
+          "Nova entrada abrindo ao céu."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "099",
+    "number": 99,
+    "title": "Ressurreição",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Eis morto o Salvador",
+          "Na sepultura!",
+          "Mas com poder, vigor,",
+          "Ressuscitou."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Da sepultura saiu!",
+          "Com triunfo e glória ressurgiu!",
+          "Ressurgiu, vencendo a morte e o seu poder;",
+          "Pode agora a todos vida conceder!",
+          "Ressurgiu! Ressurgiu!",
+          "Aleluia! Ressurgiu!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Tomaram precaução",
+          "Com seu sepulcro;",
+          "Mas tudo foi em vão",
+          "Para o reter."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "A morte conquistou",
+          "Com grande glória!",
+          "Oh, graças, alcançou",
+          "Vida eterna."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "101",
+    "number": 101,
+    "title": "Chamada Final",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Quando Cristo sua trombeta",
+          "Lá do céu mandar tocar,",
+          "Quando o dia mui glorioso lá romper,",
+          "E aos remidos desta Terra",
+          "Meu Jesus se incorporar,",
+          "E fizer-se, então, chamada, lá estarei."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Quando se fizer chamada, (4x)",
+          "Lá estarei."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Nesse tão glorioso dia,",
+          "Quando o crente ressurgir",
+          "E da glória de Jesus participar,",
+          "Quando os crentes ressurgidos",
+          "O saudarem no porvir,",
+          "E fizer-se, então, chamada, lá estarei."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Lidarei, então, pra Cristo",
+          "Té o dia terminar;",
+          "Falarei do seu amor por nós aqui;",
+          "Quando, pois, findar a vida",
+          "E o labor aqui cessar,",
+          "E fizer-se, então, chamada, lá estarei."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "102",
+    "number": 102,
+    "title": "Vencendo Vem Jesus",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Já refulge a glória eterna",
+          "De Jesus o Rei dos reis;",
+          "Breve os reinos deste mundo",
+          "Seguirão as suas leis!",
+          "Os sinais da sua vinda",
+          "Mais se mostram cada vez.",
+          "Vencendo vem Jesus!"
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Glória, glória! Aleluia! (3x)",
+          "Vencendo vem Jesus!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "O clarim que chama os crentes",
+          "A batalha já soou;",
+          "Cristo, à frente do seu povo,",
+          "Multidões já conquistou.",
+          "O inimigo, em retirada,",
+          "Seu furor patenteou.",
+          "Vencendo vem Jesus!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Eis que em glória refulgente",
+          "Sobre as nuvens descerá,",
+          "E as nações e os reis da Terra",
+          "Com poder governará.",
+          "Sim, em paz e santidade",
+          "Toda a Terra regerá",
+          "Vencendo vem Jesus!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "E por fim, entronizado,",
+          "As nações há de julgar;",
+          "Todos, grande e pequenos,",
+          "O Juiz hão de encarar;",
+          "E os remidos, triunfantes,",
+          "Em fulgor hão de cantar:",
+          "Vencido tem Jesus!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 5,
+        "lines": [
+          "Glória, glória! Aleluia! (3x)",
+          "Vencido tem Jesus!"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "104",
+    "number": 104,
+    "title": "Bendito Cordeiro",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Seja bendito o Cordeiro",
+          "Que na cruz por nós padeceu!",
+          "Seja bendito o Seu sangue",
+          "Que por nós, pecadores, verteu!",
+          "Eis nesse sangue lavados,",
+          "Com roupas que tão alvas são,",
+          "Os pecadores remidos,",
+          "Que perante seu Deus hoje estão!"
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Alvo mais que a neve!",
+          "Alvo mais que a neve!",
+          "Sim, nesse sangue lavado,",
+          "Mais alvo que a neve serei!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Quão espinhosa a coroa",
+          "Que Jesus por nós suportou!",
+          "Oh, quão profundas as chagas",
+          "Que nos provam o quanto Ele amou!",
+          "Eis, nessas chagas pureza",
+          "Para o mais torpe pecador,",
+          "Pois que mais alvos que a neve",
+          "O Teu sangue nos torna, Senhor!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Se nós a Ti confessarmos,",
+          "E seguirmos na Tua luz,",
+          "Tu não somente perdoas,",
+          "Purificas também, ó Jesus,",
+          "Sim, e de todo pecado!",
+          "Que maravilha desse amor!",
+          "Pois que mais alvos que a neve",
+          "O Teu sangue nos torna, Senhor!"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "105",
+    "number": 105,
+    "title": "Louvor",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Louvamos-Te, ó Deus,",
+          "Pelo dom de Jesus,",
+          "Que por nós pecadores",
+          "Foi morto na cruz."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Aleluia, toda glória",
+          "Te rendemos, sem fim;",
+          "Aleluia, tua graça",
+          "Imploramos. Amém!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Louvamos-Te, ó Deus,",
+          "E ao Teu Filho de amor,",
+          "Que foi morto, mas vive,",
+          "Supremo Senhor."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Louvamos-Te, ó Deus,",
+          "Pelo Espírito, luz",
+          "Que nos tira das trevas",
+          "E a Cristo conduz."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Oh, vem nos encher",
+          "De celeste fervor,",
+          "E fazer-nos fruir",
+          "Teu afável amor!"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "106",
+    "number": 106,
+    "title": "Pão da Vida",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Pão da vida, pão dos céus,",
+          "Pão de Deus é meu Jesus;",
+          "Pão que dá ao coração",
+          "Alegria, paz e luz."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Sangue que Jesus verteu",
+          "É divino, é eficaz;",
+          "Este sangue ao coração",
+          "Força, amor e vida traz."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Vem, Jesus, me abençoar;",
+          "Enche-me de Ti, Senhor,",
+          "Pois almejo Te servir",
+          "E Te honrar, meu Salvador."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "107",
+    "number": 107,
+    "title": "Hora Bendita",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Bendita a hora de oração,",
+          "Pois traz-nos paz ao coração,",
+          "E sobrepuja toda a dor,",
+          "Trazendo auxílio do Senhor.",
+          "Em tempos de perturbação,",
+          "Na dor maior, na tentação,",
+          "Procurarei com mais fervor",
+          "A comunhão com o Senhor. (bis)"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Bendita a hora de oração,",
+          "Produto só da devoção,",
+          "Que eleva ao céu o seu odor",
+          "Em doce cheiro a meu Senhor.",
+          "E, finda a hora de aflição,",
+          "Os dias maus, a tentação,",
+          "Então darei melhor louvor",
+          "A meu Jesus, a meu Senhor. (bis)"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Bendita a hora de oração,",
+          "Pois liga-nos em comunhão",
+          "E traz-nos fé e mais amor,",
+          "Enchendo o mundo de dulçor.",
+          "Desejo a vida aqui findar",
+          "Com fé, amor, constante orar;",
+          "Depois da morte, do pavor,",
+          "Então será, sim, só louvor. (bis)"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "108",
+    "number": 108,
+    "title": "Pastor Divino",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Ouve-nos, Pastor divino,",
+          "Nós, que neste bom lugar,",
+          "Teu rebanho consagrado,",
+          "Desejamos-Te adorar.",
+          "Cristo amado, Cristo amado,",
+          "Vem teu povo abençoar. (bis)"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Ao perdido no pecado",
+          "Seu perigo faze ver;",
+          "Chama os pobres enganados,",
+          "Faze-os Tua voz ouvir;",
+          "Aos enfermos, aos enfermos,",
+          "Mestre, digna-Te acudir. (bis)"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Traze o pobre desgarrado",
+          "Ao aprisco Teu, Senhor;",
+          "Toma o tenro cordeirinho",
+          "No regaço Teu, Pastor;",
+          "Dá-lhe os pastos, dá-lhe os pastos",
+          "De celeste doce amor. (bis)",
+          "Ó Jesus, escuta o rogo,",
+          "Nossa humilde petição;",
+          "Vem encher o Teu rebanho",
+          "De sincera devoção;",
+          "Cantaremos, cantaremos,",
+          "Tua afável proteção. (bis)"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "109",
+    "number": 109,
+    "title": "Firme nas Promessas",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Firme nas promessas do meu Salvador,",
+          "Cantarei louvores ao meu Criador.",
+          "Fico, pelos séculos do seu amor,",
+          "Firme nas promessas de Jesus."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Firme, firme,",
+          "Firme nas promessas de Jesus, meu Mestre.",
+          "Firme, firme,",
+          "Sim firme nas promessas de Jesus."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Firme nas promessas, sempre vejo assim",
+          "Purificação no sangue para mim;",
+          "Plena liberdade gozarei, sem fim,",
+          "Firme nas promessas de Jesus."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Firme nas promessas do Senhor Jesus,",
+          "Em amor ligado com a Sua cruz,",
+          "Cada dia mais alegro-me na luz,",
+          "Firme nas promessas de Jesus."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "110",
+    "number": 110,
+    "title": "O Grande Amigo",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Em Jesus amigo temos,",
+          "Mais chegado que um irmão;",
+          "Ele manda que levemos",
+          "Tudo a Deus em oração!",
+          "Oh, que paz perdemos sempre,",
+          "Oh, que dor no coração,",
+          "Só porque nós não levamos",
+          "Tudo a Deus em oração!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Temos lidas e pesares",
+          "E na vida tentação;",
+          "Não ficamos sem conforto,",
+          "Indo a Cristo em oração.",
+          "Haverá um outro amigo",
+          "De tão grande compaixão?",
+          "Os contritos Jesus Cristo",
+          "Sempre atende em oração."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "E se nós desfalecemos,",
+          "Cristo estende-nos a mão,",
+          "Pois é sempre a nossa força",
+          "E refúgio em oração.",
+          "Se este mundo nos depreza,",
+          "Cristo é nosso em oração;",
+          "Em Seus braços nos acolhe",
+          "E nos dá consolação."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "111",
+    "number": 111,
+    "title": "Vigiar e Orar",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Bem de manhã, embora o céu sereno",
+          "Pareça um dia calmo anunciar,",
+          "Vigia e ora; o coração pequeno",
+          "um temporal pode abrigar."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Bem de manhã, e sem cessar,",
+          "Vigiar, sim, e orar!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Ao meio-dia, e quando os sons da terra",
+          "Abafam mais de Deus a voz de amor,",
+          "Recorre à oração, evita a guerra",
+          "E goza paz com o Senhor."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Do dia ao fim, após os teus lidares,",
+          "Relembra as bênçãos do celeste amor,",
+          "E conta a Deus prazeres e pesares,",
+          "Deixando em suas mãos a dor."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "E sem cessar, vigia a cada instante,",
+          "Que o inimigo ataca sem parar;",
+          "Só com Jesus em comunhão constante",
+          "É que o fiel vai triunfar."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "112",
+    "number": 112,
+    "title": "Vem, Inflama",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Meu pecado resgatado",
+          "Foi na cruz por teu amor,",
+          "E da morte, triste sorte,",
+          "Me livraste, Tu, Senhor."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Vem, inflama a viva chama",
+          "Em meu peito, bem sem fim!",
+          "Eu Te adoro, sempre imploro:",
+          "Ó Jesus, habita em mim!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Se hesitante, vacilante,",
+          "Ouço a voz do tentador,",
+          "Tu me guias, me auxilias",
+          "E me tornas vencedor."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Redimida, só tem vida",
+          "A minha alma em Teu amor;",
+          "Com apreço reconheço",
+          "Quanto devo a Ti, Senhor!"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "113",
+    "number": 113,
+    "title": "Chuvas de Bênçãos",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Chuvas de bênçãos teremos,",
+          "É a promessa de Deus.",
+          "Tempos benditos veremos,",
+          "Chuvas de bênçãos dos céus."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Chuvas de bênçãos,",
+          "Chuvas de bênçãos dos céus;",
+          "Gotas somente nós temos;",
+          "Chuvas rogamos a Deus."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Chuvas de bênçãos teremos,",
+          "Vida de paz e perdão.",
+          "Os pecadores indignos,",
+          "Graça dos céus obterão."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Chuvas de bênçãos teremos,",
+          "Manda-nos já, ó Senhor!",
+          "Dá-nos agora o bom fruto",
+          "Desta palavra de amor."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Chuvas de bênçãos teremos,",
+          "Chuvas mandadas dos céus,",
+          "Bênçãos a todos os crentes,",
+          "Bênçãos do nosso bom Deus."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "115",
+    "number": 115,
+    "title": "Tempo de Ser Santo",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Tempo de ser santo tu deves tomar,",
+          "Viver com teu Mestre, seu livro estudar,",
+          "Andar com seu povo, e aos fracos valer,",
+          "As bênçãos celestes de Deus sempre obter."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Tempo de ser puro tu deves achar,",
+          "A sós, sempre orando, com Cristo ficar,",
+          "Teus olhos bem fitos em Deus sempre ter,",
+          "Na tua conduta provar seu poder"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Tempo de ser forte tu deves buscar,",
+          "O Mestre seguindo por onde guiar;",
+          "No gozo ou tristeza sempre obedecer,",
+          "Da fonte divina jamais te esquecer."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Tempo de ser útil tu deves guardar,",
+          "Mui calmo nas lutas, em Deus confiar;",
+          "Socorre os aflitos, repleto de amor,",
+          "Os passos seguindo do teu Salvador."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "117",
+    "number": 117,
+    "title": "Jesus Tem Poder",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Jesus tem o poder",
+          "De as culpas perdoar",
+          "A quem, arrependido, a Deus,",
+          "Com fé, se confessar.",
+          "Jesus tem o poder",
+          "Oh, graças ao Senhor!",
+          "De dar completa absolvição",
+          "Ao pobre pecador."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Sim, Cristo tem poder!",
+          "Onipotente é!",
+          "Por esse seu poder",
+          "Merece a nossa fé!",
+          "Sim, Cristo tem poder!",
+          "Só nele confiai!",
+          "Perante o seu poder,",
+          "Humildes adorai!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Jesus tem o poder",
+          "Real de converter",
+          "O mais rebelde pecador,",
+          "Tornando-o novo ser.",
+          "Jesus tem o poder",
+          "De sempre nos guardar,",
+          "E assim poder arrebatar!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Jesus tem o poder",
+          "De dar-nos proteção!",
+          "A atribulados corações",
+          "Dará consolação!",
+          "Jesus tem o poder",
+          "De, quando o fim chegar,",
+          "Cercar-nos de alegria e paz",
+          "E à glória nos levar!"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "118",
+    "number": 118,
+    "title": "Mensagem Real",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Sou forasteiro aqui, em terra estranha estou;",
+          "Do reino lá do céu embaixador eu sou.",
+          "Meu Rei e Salvador vos manda em seu amor",
+          "As boas-novas de perdão."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Eis a mensagem que me deu",
+          "Aquele que por nós morreu;",
+          "\"Reconciliai-vos já\", é ordem que ele dá;",
+          "\"Reconciliai-vos já com Deus\"!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "É ordem do meu Rei que todo pecador",
+          "Arrependido já confesse ao Salvador",
+          "Todo pecado seu, pois ele prometeu",
+          "Dar o perdão por seu amor."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "No meu eterno lar não há perturbação;",
+          "Eterno gozo e paz os salvos fruirão!",
+          "E quem obedecer a Cristo vai viver",
+          "No reino eterno do meu Rei."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "119",
+    "number": 119,
+    "title": "Segue-Me",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Escuta a voz do bom Jesus:",
+          "\"Segue-me, vem, segue-me.",
+          "Guiar-te-ei à eterna luz;",
+          "Segue-me, vem, segue-me.",
+          "Por ti eu toda lei cumpri;",
+          "Por ti o amargo fel bebi;",
+          "Por ti a morte já sofri;",
+          "Segue-me, vem, segue-me.\""
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "\"Liberto dos pecados teus,",
+          "Segue-me, vem, segue-me.",
+          "Guiar-te-ei aos altos céus;",
+          "Segue-me, vem, segue-me.",
+          "Oh, quantas vezes te chamei,",
+          "E tu quebraste a minha lei;",
+          "Mas fiador teu eu fiquei;",
+          "Segue-me, vem, segue-me.\""
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "\"Em mim tu podes descansar;",
+          "Segue-me, vem, segue-me.",
+          "Vem teus cuidados me entregar;",
+          "Segue-me, vem, segue-me.",
+          "Eu sou teu Deus, teu Salvador;",
+          "Eu te amo muito, ó pecador;",
+          "Oh, deixa todo o teu temor;",
+          "Segue-me, vem, segue-me.\""
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "\"Sim, meu Jesus, Te seguirei;",
+          "Seguirei, sim, seguirei;",
+          "Por ti eu tudo deixarei;",
+          "Deixarei, sim, deixarei;",
+          "Mui débil sou, e sem valor;",
+          "Sem ti não posso andar, Senhor;",
+          "Mas enche-me do teu vigor!",
+          "Seguirei, sim, seguirei."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "121",
+    "number": 121,
+    "title": "Atribulado Coração",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Atribulado coração,",
+          "Em Cristo alívio encontrarás;",
+          "Consolo, paz e seu perdão,",
+          "Sim, dEle Tu receberás."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Oh, vem sem demora ao Salvador!",
+          "Por que vacilar e ter temor?",
+          "Oh, vem! Vem já!",
+          "Descanso te dará!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Dilacerado pela dor",
+          "Das tuas culpas, do pecar,",
+          "Vem sem demora ao Salvador,",
+          "E vida nova hás de gozar."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Se, para vir ao Salvador,",
+          "Tu tens fraquezas e vencer,",
+          "Oh, vem, pois ele, em seu amor",
+          "E em graça, te dará poder!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "A Cristo sem demora vem,",
+          "Pois ele almeja te valer;",
+          "E sempre quer buscar teu bem;",
+          "Confia nele em teu viver!"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "122",
+    "number": 122,
+    "title": "A Luz do Céu",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Tu anseias hoje mesmo a salvação?",
+          "Tens desejo de banir a escuridão?",
+          "Abre, então, de par em par teu coração!",
+          "Deixa a luz do céu entrar!"
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Deixa a luz do céu entrar! (bis)",
+          "Abre bem a porta do teu coração!",
+          "Deixa a luz do céu entrar!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Cristo, a luz do céu, em ti quer habitar,",
+          "Para as trevas do pecado dissipar,",
+          "Teu caminho e coração iluminar!",
+          "Deixa a luz do céu entrar!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Que alegria andar ao brilho dessa luz!",
+          "Vida eterna e paz no coração produz!",
+          "Oh, aceita agora o Salvador Jesus!",
+          "Deixa a luz do céu entrar!"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "125",
+    "number": 125,
+    "title": "Tal Qual Estou",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Tal qual estou, eis-me, Senhor,",
+          "Pois o Teu sangue remidor",
+          "Verteste pelo pecador;",
+          "Ó Salvador, me achego a Ti!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Tal qual estou, sem esperar",
+          "Que possa a vida melhorar;",
+          "Em Ti só quero confiar;",
+          "Ó Salvador, me achego a Ti!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Tal qual estou, e sem poder,",
+          "As faltas podes preencher",
+          "E tudo quanto me é mister;",
+          "Ó Salvador, me achego a Ti!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Tal qual estou, me aceitarás,",
+          "E Tu minha alma limparás,",
+          "Com Teu amor me cobrirás;",
+          "Ó Salvador, me achego a Ti!"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "126",
+    "number": 126,
+    "title": "Mais Perto",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Mais perto quero estar, meu Deus, de Ti,",
+          "Inda que seja a dor que me una a Ti!",
+          "Sempre hei de suplicar:",
+          "Mais perto quero estar, (bis)",
+          "Meu Deus, de Ti!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Andando triste aqui, na solidão,",
+          "Paz e descanso a mim Teus braços dão.",
+          "Sempre hei de suplicar:",
+          "Mais perto quero estar, (bis)",
+          "Meu Deus, de Ti!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Minha alma cantará a Ti, Senhor,",
+          "Cheia de gratidão por Teu amor.",
+          "Sempre hei de suplicar:",
+          "Mais perto quero estar, (bis)",
+          "Meus Deus, de Ti!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "E quando a morte, enfim, me vier chamar,",
+          "Com serafins nos céus irei morar.",
+          "Então me alegrarei,",
+          "Perto de Ti, meu Rei, (bis)",
+          "Meus Deus, de Ti!"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "127",
+    "number": 127,
+    "title": "Ao Pé da Cruz",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Quero estar ao pé da cruz,",
+          "De onde rica fonte",
+          "Corre franca, salutar,",
+          "Do Calvário monte."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Sim, na cruz, sim, na cruz,",
+          "Sempre me glorio,",
+          "E no fim vou descansar,",
+          "Salvo, além do rio."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "A tremer ao pé da cruz,",
+          "Graça eterna achou-me;",
+          "Matutina Estrela ali",
+          "Raios Seus mandou-me."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Sempre a cruz, Jesus, meu Deus,",
+          "Queiras recordar-me;",
+          "Dela à sombra, Salvador,",
+          "Queiras abrigar-me."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Junto a cruz, ardendo em fé.",
+          "Sem temor vigio,",
+          "Pois à terra santa irei,",
+          "Salvo, além do rio."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "128",
+    "number": 128,
+    "title": "Tudo Entregarei",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Tudo, ó Cristo, a Ti entrego,",
+          "Tudo, sim, por Ti darei!",
+          "Resoluto, mas submisso,",
+          "Sempre, sempre, seguirei!"
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Tudo entregarei!",
+          "Tudo entregarei!",
+          "Sim, por Ti, Jesus bendito,",
+          "Tudo deixarei!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Tudo, ó Cristo, a Ti entrego,",
+          "Corpo e alma, eis aqui!",
+          "Este mundo mau renego,",
+          "Ó Jesus, aceita a mim!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Tudo, ó Cristo, a Ti entrego,",
+          "Quero ser somente Teu!",
+          "Tão submisso à Tua vontade",
+          "Como os anjos lá no céu!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Tudo, ó Cristo, a Ti entrego;",
+          "Oh, eu sinto Teu amor",
+          "Transformar a minha vida",
+          "E meu coração, Senhor!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 5,
+        "lines": [
+          "Tudo, ó Cristo, a Ti entrego;",
+          "Oh, que gozo, meu Senhor!",
+          "Paz perfeita, paz completa!",
+          "Glória, glória ao Salvador!"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "129",
+    "number": 129,
+    "title": "Onde Quer que Seja",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Onde quer que seja, com Jesus irei;",
+          "Ele é meu bendito Salvador e Rei.",
+          "Seja para a guerra, para batalhar,",
+          "Seja pra campina para semear."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Onde quer, onde quer que Deus me mandar.",
+          "Perto do meu Salvador eu quero andar."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Onde quer que seja, seguirei Jesus,",
+          "Diz o coração que vive em sua luz;",
+          "Perto dele sempre bem seguro vou,",
+          "Onde quer que seja, pois, contente estou."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Seja, pois, para onde quer que me levar,",
+          "Acharei com ele ali meu doce lar.",
+          "Onde quer que seja, sempre cantarei:",
+          "'Tu, Senhor, comigo estás, não temerei.'"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "130",
+    "number": 130,
+    "title": "Crer e Observar",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Em Jesus confiar, sua lei observar,",
+          "Oh, que gozo, que bênção, que paz!",
+          "Satisfeitos guardar tudo quando ordenar",
+          "Alegria perene nos traz."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Crer e observar",
+          "Tudo quanto ordenar;",
+          "O fiel obedece",
+          "Ao que Cristo mandar!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "O inimigo falaz e a calúnia mordaz",
+          "Cristo pode desprestigiar;",
+          "Nem tristeza, nem dor, nem intriga maior",
+          "Poderão ao fiel abalar.",
+          "Que delícia de amor, comunhão com o Senhor",
+          "Tem o crente zeloso e leal;",
+          "O Seu rosto mirar, Seus segredos privar,",
+          "Seu consolo constante e real."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Resolutos, Senhor, e com fé, zelo e ardor,",
+          "Os Teus passos queremos seguir;",
+          "Teus preceitos guardar, o Teu nome exaltar,",
+          "Sempre a Tua vontade cumprir."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "132",
+    "number": 132,
+    "title": "Um Vaso de Bênção",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Quero ser um vaso de bênção,",
+          "Sim, um vaso escolhido de Deus,",
+          "Para as novas levar aos perdidos,",
+          "Boas-novas que vêm lá dos céus."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Faze-me vaso de bênção, Senhor,",
+          "Vaso que leve a mensagem de amor!",
+          "Eis-me submisso pra Teu serviço,",
+          "Tudo consagro-Te agora, Senhor."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Quero ser um vaso de bênção",
+          "Para todos os dias fazer",
+          "Aos culpados que vivem nas trevas",
+          "O perdão de Jesus conhecer."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Quero ser um vaso de bênção,",
+          "Sim, um vaso de bênção sem-par,",
+          "Avisando que crentes em Cristo",
+          "Jubilosos no céu hão de entrar."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Para ser um vaso de bênção,",
+          "É mister uma vida real,",
+          "Uma vida de fé e pureza,",
+          "Revestida do amor divinal."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "133",
+    "number": 133,
+    "title": "O Caminho da Cruz",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Foi Jesus que abriu o caminho pra o céu;",
+          "Não há outro meio de ir.",
+          "Nunca irei entrar no celeste lar",
+          "Se o caminho da cruz errar."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Para o céu por Jesus irei,",
+          "Para o céu por Jesus irei;",
+          "Grande é o meu prazer",
+          "De certeza ter:",
+          "Para o céu pela cruz irei."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Certamente eu vou no caminho da cruz",
+          "Com resolução andar.",
+          "É desejo meu de gozar no céu",
+          "Essa herança que Cristo deu"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Os caminhos ímpios do mundo deixei;",
+          "Jamais neles vou seguir;",
+          "Sigo, pois, Jesus, com a minha cruz,",
+          "No caminho que ao céu conduz."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "134",
+    "number": 134,
+    "title": "Para Onde For, Irei",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Se eu tiver Jesus ao lado,",
+          "E por Ele auxiliado,",
+          "Se por Ele for mandado,",
+          "A qualquer lugar, irei."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Seguirei a meu bom Mestre, (3x)",
+          "Onde quer que for, irei."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Seja meu caminho duro,",
+          "Espinhoso ou inseguro,",
+          "Em Seus braços bem seguro,",
+          "Aonde me mandar, irei."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Males poderão cercar-me,",
+          "Ou perigos assustar-me,",
+          "Mas se Cristo segurar-me,",
+          "Aonde me mandar, irei."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Quando terminar a vida,",
+          "Finda minha triste lida,",
+          "Tenho a glória prometida,",
+          "Eu pra meu Senhor irei."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "135",
+    "number": 135,
+    "title": "Proteção Divina",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Ao crente é dada proteção",
+          "De Deus, seu Benfeitor;",
+          "Conforto dá ao coração",
+          "Do triste pecador.",
+          "Também amparo sempre dá",
+          "A quem com fé pedir;",
+          "Seu braço forte estenderá",
+          "A quem o mal ferir."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Oh, que grandioso amor",
+          "Tem o bom Redentor!",
+          "Concede-nos sem cessar",
+          "Tão ricos dons gozar."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Jesus, sim, recompensará",
+          "A todo vencedor;",
+          "Mas ante os anjos negará",
+          "O indigno traidor.",
+          "Avante, então, ó campeões,",
+          "Na luta, pois, entrai;",
+          "Mantendo firmes convicções,",
+          "Por Cristo trabalhai!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Ele nos guadará,",
+          "Sempre nos guiará,",
+          "E vida celestial",
+          "Teremos afinal."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "136",
+    "number": 136,
+    "title": "Estou Seguro",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Que consolação tem meu coração,",
+          "Descansando no poder de Deus;",
+          "Ele tem prazer em me proteger;",
+          "Descansando no poder de Deus."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Descansando",
+          "Nos eternos braços do meu Deus,",
+          "Vou seguro,",
+          "Descansando no poder de Deus."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Sempre avante vou, bem contente estou,",
+          "Descansando no poder de Deus;",
+          "Tudo hei de vencer pelo seu poder,",
+          "Descansando no poder de Deus."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Não recearei, nada temerei,",
+          "Descansando no poder de Deus;",
+          "Gozo paz e amor junto a meu Senhor,",
+          "Descansando no poder de Deus."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Lutas sem cessar hei de atravessar,",
+          "Descansando no poder de Deus;",
+          "Não me deixará, mas me susterá,",
+          "Descansando no poder de Deus."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "137",
+    "number": 137,
+    "title": "Castelo Forte",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Castelo forte é nosso Deus,",
+          "Espada e bom escudo;",
+          "Com Seu poder defende os Seus",
+          "Em todo transe agudo.",
+          "Com fúria pertinaz",
+          "Persegue Satanás,",
+          "Com artimanhas tais,",
+          "E astúcias tão cruéis,",
+          "Que iguais não há na terra."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "A nossa força nada faz;",
+          "Estamos, sim, perdidos;",
+          "Mas nosso Deus socorro traz",
+          "E somos protegidos,",
+          "Defende-nos Jesus,",
+          "O que venceu na cruz,",
+          "Senhor dos altos céus;",
+          "E, sendo o próprio Deus,",
+          "Triunfa na batalha."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Se nos quisessem devorar",
+          "Demônios não contados,",
+          "Não nos podiam assustar,",
+          "Nem somos derrotados.",
+          "O grande acusador",
+          "Dos servos do Senhor",
+          "Já condenado está;",
+          "Vencido, cairá",
+          "Por uma só palavra."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Sim, que a palavra ficará,",
+          "Sabemos com certeza,",
+          "E nada nos assustará",
+          "Com Cristo por defesa.",
+          "Se temos de perder",
+          "Os filhos, bens, mulher,",
+          "Embora a vida vá,",
+          "Pos nós Jesus está,",
+          "E dar-nos-á seu reino."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "138",
+    "number": 138,
+    "title": "Sossegai",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Ó Mestre, o mar se revolta,",
+          "As ondas nos dão pavor;",
+          "O céu se reveste de trevas,",
+          "Não temos um salvador!",
+          "Não se Te dá que morramos?",
+          "Podes assim dormir,",
+          "Se a cada momento nos vemos,",
+          "Sim, prestes a submergir?"
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "As ondas atendem ao meu mandar:",
+          "Sossegai! Seja o encapelado mar,",
+          "A ira dos homens, o gênio do mal,",
+          "Tais águas não podem a nau tragar,",
+          "Que leva o Senhor, Rei do céu e mar,",
+          "Pois todos ouvem o meu mandar:",
+          "Sossegai! Sossegai!",
+          "Convosco estou para vos salvar;",
+          "Sim, sossegai!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Mestre, na minha tristeza",
+          "Estou quase a sucumbir;",
+          "A dor que pertuba minha alma,",
+          "Eu peço-Te, vem banir!",
+          "De ondas do mal que me encobrem,",
+          "Quem me fará sair?",
+          "Pereço sem Ti, ó meu Mestre!",
+          "Vem logo, vem me acudir!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Mestre, chegou a bonança,",
+          "Em paz eis o céu e o mar!",
+          "O meu coração goza calma,",
+          "Que não poderá findar.",
+          "Fica comigo, ó meu Mestre,",
+          "Dono da terra e céu,",
+          "E assim chegarei bem seguro",
+          "Ao porto, destino meu."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "139",
+    "number": 139,
+    "title": "Conta as Bênçãos",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Se da vida as vagas procelosas são.",
+          "Se com desalento julgas tudo vão,",
+          "Conta as muitas bênçãos, dize-as de uma vez,",
+          "Hás de ver, surpreso, quanto Deus já fez."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Conta as bênçãos, conta quantas são,",
+          "Recebidas da divina mão;",
+          "Uma a uma, dize-as de uma vez,",
+          "Hás de ver, surpreso, quanto Deus já fez."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Tens, acaso, mágoas, triste é teu lidar?",
+          "É a cruz pesada que tens de levar?",
+          "Conta as muitas bênçãos, não duvidarás,",
+          "E em canção alegre os dias passarás."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Quando vires outros com seu ouro e bens,",
+          "Lembra que tesouro prometidos tens;",
+          "Nunca os bens da terra poderão comprar",
+          "A mansão celeste em que tu vais morar."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Seja teu conflito fraco ou forte cá,",
+          "Não te desanimes, Deus por cima está;",
+          "Seu divino auxílio, minorando o mal,",
+          "Te dará consolo e paz celestial."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "140",
+    "number": 140,
+    "title": "Deus Cuidará de Ti",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Aflito e triste coração,",
+          "Deus cuidará de ti;",
+          "Por ti opera a sua mão,",
+          "Que cuidará de ti."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Deus cuidará de ti,",
+          "Em cada dia proverá;",
+          "Sim, cuidará de ti,",
+          "Deus cuidará de ti."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Na dor cruel, na provação,",
+          "Deus cuidará de ti;",
+          "Socorro dá e salvação,",
+          "Pois cuidará de ti."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "A tua fé Deus quer provar,",
+          "Mas cuidará de ti;",
+          "O teu amor quer aumentar,",
+          "E cuidará de ti."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Nos seus tesouros tudo tens,",
+          "Deus cuidará de ti;",
+          "Terrestres e celestes bens,",
+          "E cuidará de ti."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 5,
+        "lines": [
+          "O que é mister te pode dar",
+          "Quem cuidará de ti;",
+          "Nos braços seus te sustentar,",
+          "Pois cuidará de ti."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "141",
+    "number": 141,
+    "title": "Jesus Como Guia",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Meu Jesus me guia sempre",
+          "Que mais posso desejar?",
+          "Duvidar do meu Amado?",
+          "Do meu Deus desconfiar?",
+          "Paz perfeita, gozo infindo",
+          "Tenho, e Sua proteção;",
+          "Pois eu sei que por mim vela",
+          "Seu bondoso coração. (bis)"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Meu Jesus me guia sempre,",
+          "Ensinando-me a viver,",
+          "Concedendo graça e força",
+          "Para me desenvolver.",
+          "Perecer jamais eu posso,",
+          "Pois quem pode resistir",
+          "Ao Deus forte, Pai eterno,",
+          "Que minh’alma quis remir? (bis)"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Meu Jesus me guia sempre,",
+          "Pelo Seu tão terno amor!",
+          "Vida santa, glória eterna",
+          "Me garante o Salvador.",
+          "Oh, mui breve vem o dia,",
+          "O da grande redenção,",
+          "Quando salva, transformada,",
+          "Há de ser a criação! (bis)"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "143",
+    "number": 143,
+    "title": "Firmeza",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Em nada ponho a minha fé,",
+          "Senão na graça de Jesus;",
+          "No sacrifício remidor,",
+          "No sangue do bom Redentor."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "A minha fé e o meu amor",
+          "Estão firmados no Senhor,",
+          "Estão firmados no Senhor."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Se Lhe não posso a face ver,",
+          "Na Sua graça vou viver;",
+          "Em cada transe, sem falhar,",
+          "Sempre hei de nEle confiar."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Seu juramento é mui leal,",
+          "Abriga-me no temporal;",
+          "Ao vir cercar-me a tentação,",
+          "É Cristo a minha salvação."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Assim que o seu clarim soar,",
+          "Irei com ele me encontrar;",
+          "E gozarei da redenção",
+          "Com todos que no céu estão."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "144",
+    "number": 144,
+    "title": "Firme na Rocha",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Que alicerce tendes pra construir",
+          "Uma casa firme pra resistir",
+          "Grande tempestade que há de chegar",
+          "E a instável casa há de derrubar?"
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Nossa morada na Rocha está;",
+          "Firme e segura ela ficará;",
+          "Quando o temporal contra ela der",
+          "Há de resistir todo o seu poder."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Como faz a areia na fundação,",
+          "Fazem nossas obras na salvação,",
+          "Pois alguém que só em si mesmo crêNo Senhor Jesus inda",
+          "No Senhor Jesus inda não tem fé."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Os cristãos, porém, que deveras crêem,",
+          "Pelas obras mostram a fé que têm;",
+          "Sua fé firmada no Salvador,",
+          "Na maior procela, ei-los sem temor!"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "145",
+    "number": 145,
+    "title": "Rocha Eterna",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Rocha eterna, foi na cruz",
+          "Que morreste tu, Jesus;",
+          "Vem de Ti um sangue tal",
+          "Que me limpa todo mal;",
+          "Traz as bênçãos do perdão:",
+          "Gozo, paz e salvação."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Nem trabalho, nem penar",
+          "Pode o pecador salvar;",
+          "Só Tu podes, bom Jesus,",
+          "Dar-me vida, paz e luz.",
+          "Peço-Te perdão, Senhor,",
+          "Pois confio em Teu amor."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Eis que vem a morte atrás",
+          "Desta vida tão fugaz;",
+          "Quando eu ao meu lar subir,",
+          "E Teu rosto em glória vir,",
+          "Rocha eterna que prazer",
+          "Eu terei de em Ti viver!"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "146",
+    "number": 146,
+    "title": "Segurança",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Vivo feliz, pois sou de Jesus,",
+          "E já desfruto o gozo da luz!",
+          "Sou por Jesus herdeiro de Deus,",
+          "Ele me leva à glória dos céus."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Canta, minh’alma!",
+          "Canta ao Senhor!",
+          "Rende-Lhe sempre ardente louvor! (bis)"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Ao Seu amor eu me submeti,",
+          "E extasiado então me senti.",
+          "Anjos, descendo, trazem dos céus",
+          "Ecos da excelsa graça de Deus."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Sempre vivendo em Seu grande amor,",
+          "Me regozijo em meu Salvador;",
+          "Esperançoso, vivo na luz,",
+          "Pela bondade do meu Jesus!"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "149",
+    "number": 149,
+    "title": "Amor",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Qual o adorno desta vida? É o amor.",
+          "Alegria é concedida pelo amor.",
+          "É benigno, é paciente,",
+          "Não se torna maldizente (bis)",
+          "Este meigo amor."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Com suspeitas não se alcança doce amor.",
+          "Onde houver desconfiança, ai do amor.",
+          "Pois mostremos tolerância;",
+          "Muitas vezes a arrogância (bis)",
+          "Murcha e mata o amor."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Inda quando for custoso, nutre amor,",
+          "Ao irado e mui furioso mostra amor.",
+          "Não te dês por insultado,",
+          "Mas responde com agrado, (bis)",
+          "Vence pelo amor."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Não te irrites, mas tolera, com amor.",
+          "Tudo sofre, tudo espera pelo amor",
+          "Desavenças e rancores",
+          "Não convém a pecadores (bis)",
+          "Salvos pelo amor."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 5,
+        "lines": [
+          "Pois, irmão, ao teu vizinho mostra amor.",
+          "O valor não é mesquinho deste amor,",
+          "O supremo Deus nos ama,",
+          "Cristo para os céus nos chama, (bis)",
+          "Onde reina o amor."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "150",
+    "number": 150,
+    "title": "Amor Fraternal",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Jesus, Pastor amado,",
+          "Contempla-nos aqui;",
+          "Concede que sejamos",
+          "Um corpo só em Ti.",
+          "Contendas e malícias",
+          "Que longe de nós vão!",
+          "Nenhum desgosto impeça",
+          "A nossa comunhão."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Pois sendo resgatados",
+          "Por um só Salvador,",
+          "Devemos ser unidos",
+          "Por um mais forte amor;",
+          "Olhar com simpatia",
+          "Os erros de um irmão,",
+          "E todos ajudá-lo",
+          "Com branda compaixão."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Jesus, suave e meigo,",
+          "Ensina-nos a amar,",
+          "E como Tu sejamos",
+          "Também no perdoar!",
+          "Ah, quanto carecemos",
+          "De auxílio do Senhor!",
+          "Unidos supliquemos",
+          "A Deus por esse amor!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Se Tua igreja toda",
+          "Andar em santa união,",
+          "Então será bendito",
+          "O nome de Cristão;",
+          "Assim o que pediste",
+          "Em nós se cumprirá,",
+          "E todo o mundo inteiro",
+          "A Ti conhecerá."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "151",
+    "number": 151,
+    "title": "Vamos à Igreja",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Tenho gozo e alegria celeste",
+          "Quando vou adorar ao Senhor",
+          "Com os crentes em Cristo, na igreja,",
+          "Quando juntos rendemos louvor."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Oh, vem, sim, vem à igreja comigo,",
+          "Sim, vamos servir ao Senhor,",
+          "Pois maior alegria não temos",
+          "Do que ter comunhão em amor."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Vamos, crentes em Cristo, à igreja,",
+          "Conversar com o nosso bom Deus;",
+          "Escutar os seus ricos conselhos,",
+          "Recolher ricas bênçãos dos céus."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Com prazer eu aguardo a chegada",
+          "Desse dia do meu Salvador;",
+          "Nele, pois, a minha alma, contente,",
+          "Se derrama em ações de louvor."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Ó meu Mestre divino e amado,",
+          "Eu contigo desejo viver;",
+          "Tua lei, Tua causa e Teu povo",
+          "Quero sempre abraçar, defender."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "152",
+    "number": 152,
+    "title": "A Voz de Jesus",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Que doce voz tem meu Senhor,",
+          "Voz de amor, tão terna e graciosa,",
+          "Que enche o coração, dá consolação",
+          "Que só o crente goza."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Qual maior prazer que lhe ouvir dizer:",
+          "\"Vem, meu filho, vem escutar",
+          "O que eu fiz por ti, tudo o que sofri",
+          "Na cruz pra te resgatar?\""
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Chamou-me não só uma vez",
+          "Tantas té que eu, triste, humilhado,",
+          "Pude a voz ouvir, pude então sair",
+          "Das garras do pecado."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Jesus não me deixa sofrer,",
+          "Sua voz me ensina o caminho",
+          "De vencer o mal, com firmeza tal",
+          "Que nunca estou sozinho."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "153",
+    "number": 153,
+    "title": "Louvor",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Vamos nós louvar a Deus,",
+          "Vamos, vamos;",
+          "Ao Senhor de toda luz,",
+          "Santo, santo!",
+          "Cantem, louvem lá nos céus",
+          "Nosso Deus e Rei Jesus!",
+          "Exaltado seja Deus,",
+          "Santo, santo!"
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Exaltado seja o nosso Deus e Pai!",
+          "Exaltado, para sempre, oh, exaltai!",
+          "Cantem, louvem lá nos céus",
+          "Nosso Deus e Rei Jesus!",
+          "Exaltado seja Deus,",
+          "Santo, santo!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Deus, o nosso eterno Pai,",
+          "Santo, santo!",
+          "Deu-nos bênçãos por Jesus,",
+          "Vede, vede!",
+          "Ao Senhor glorificai,",
+          "Vós, os salvos pela cruz,",
+          "Sim, conosco glória dai,",
+          "Vinde, vinde!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Exaltemos nosso Deus,",
+          "Santo, santo!",
+          "Exaltemos com fervor,",
+          "Hoje, hoje!",
+          "Tributemos todos nós",
+          "Hinos santos de louvor,",
+          "Sim, louvor em alta voz,",
+          "Hoje, hoje!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Ao Senhor de todo amor,",
+          "Deus de glória,",
+          "Deus de luz e Deus de paz,",
+          "Cantem glória!",
+          "Hoje nós também louvor",
+          "Vimos dar-te, que te apraz,",
+          "Pois nos deste, Salvador,",
+          "Muitas bênçãos!"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "154",
+    "number": 154,
+    "title": "Cegueira e Vista",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Oh, tão cego eu andei, e perdido vaguei,",
+          "Longe, longe do meu Salvador;",
+          "Mas da glória desceu e Seu sangue verteu",
+          "Pra salvar um tão pobre pecador."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Foi na cruz, foi na cruz onde um dia eu vi.",
+          "Meu pecado castigado em Jesus;",
+          "Foi ali, pela fé, que meus olhos abri,",
+          "E eu agora me alegro em sua luz."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Eu ouvia falar dessa graça sem-par,",
+          "Que do céu trouxe nosso Jesus;",
+          "Mas eu surdo me fiz, converter-me não quis",
+          "Ao Senhor que por mim morreu na cruz."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Mas um dia senti meus pecados e vi",
+          "Sobre mim o castigo da lei;",
+          "Mas depressa fugi, em Jesus me escondi,",
+          "E refúgio seguro nEle achei."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Oh, que grande prazer inundou o meu ser,",
+          "Conhecendo esse tão grande amor,",
+          "Que levou meu Jesus a sofrer lá na cruz",
+          "Pra salvar um tão pobre pecador!"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "155",
+    "number": 155,
+    "title": "Sou Feliz",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Se paz a mais doce me deres gozar,",
+          "Se dor a mais forte sofrer,",
+          "Oh, seja o que for, tu me fazes saber",
+          "Que feliz com Jesus sempre sou!"
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Sou feliz com Jesus!",
+          "Sou feliz com Jesus, meu Senhor!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Embora me assalte o cruel Satanás,",
+          "E ataque com vis tentações,",
+          "Oh, certo eu estou, apesar de aflições,",
+          "Que feliz eu serei com Jesus!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Meu triste pecado por meu Salvador,",
+          "Foi pago de um modo cabal;",
+          "Valeu-me o Senhor, oh, mercê sem igual!",
+          "Sou feliz! Graças dou a Jesus!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "A vinda eu anseio do meu Salvador;",
+          "Em breve virá me levar",
+          "Ao céu, onde vou para sempre morar",
+          "Com remidos na luz do Senhor!"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "156",
+    "number": 156,
+    "title": "Eu Sou de Jesus",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Mui triste eu andava, sem gozo e sem paz,",
+          "Mas eu hoje tenho alegria eficaz,",
+          "E constantemente bendigo a meu Deus,",
+          "E é claro o motivo, pois sou de Jesus!"
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Eu sou de Jesus, aleluia!",
+          "De Cristo Jesus, meu Senhor!",
+          "Não quero falhar, mas quero falar,",
+          "Andar e viver com Jesus!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Seguro vivia nas garras do mal,",
+          "O mundo atirou-me no abismo fatal;",
+          "Agora, qual ave voando nos céus,",
+          "Eu vivo contente pois sou de Jesus!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Ó alma turbada por que lamentar?",
+          "No mestre tu achas tesouros sem-par:",
+          "Infinda alegria, poder, salvação!",
+          "Oh, vem, vem a Cristo, sem hesitação!"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "157",
+    "number": 157,
+    "title": "Alegre",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Perdido andei na escuridão,",
+          "Mas Cristo me encontrou,",
+          "E com a luz do Seu amor",
+          "As trevas dissipou."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Eu alegre vou na Sua luz,",
+          "Pois Jesus agora me conduz.",
+          "Desde que me achou",
+          "Da morte me livrou;",
+          "Ando sempre alegre,",
+          "Cristo me salvou!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "No caso de se escurecer",
+          "De nuvens todo o céu,",
+          "Jesus, bendito Salvador,",
+          "É luz que rasga o véu!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Andando estou na luz de Deus,",
+          "Que doce comunhão!",
+          "Prossigo sempre com vigor,",
+          "Deixando o mundo vão."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Lá, face a face, então verei",
+          "Jesus, o Salvador,",
+          "O qual a sua vida deu",
+          "Por mim, vil pecador."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "158",
+    "number": 158,
+    "title": "Felicidade no Serviço",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "No serviço do meu Rei eu sou feliz,",
+          "Satisfeito, abençoado;",
+          "Proclamando do meu Rei a salvação,",
+          "No serviço do meu Rei."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "No serviço do meu Rei",
+          "Minha vida empregarei;",
+          "Gozo, paz, felicidade,",
+          "Tem quem serve a meu bom Rei."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "No serviço do meu Rei eu sou feliz,",
+          "Obediente e corajoso;",
+          "Na tristeza ou na alegria sei sorrir,",
+          "No serviço do meu Rei."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "No serviço do meu Rei eu sou feliz,",
+          "Jubiloso e consagrado;",
+          "Ao seu lado desafio a todo mal,",
+          "No serviço do meu Rei."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "No serviço do meu Rei eu sou feliz,",
+          "Venturoso e decidido;",
+          "Quanto tenho no serviço gastarei,",
+          "No serviço do meu Rei."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "159",
+    "number": 159,
+    "title": "Dia Festivo",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Que alegria neste dia",
+          "Nós estamos a gozar!",
+          "Neste ensejo bom desejo",
+          "Temos: só a Deus louvar."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Oh, cantemos, pois, com alegria",
+          "Neste grande e mui festivo dia!",
+          "Vê, vê o que nos fez o Rei dos reis!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Que alegria neste dia",
+          "Enche-nos o coração!",
+          "Inimigos e perigos",
+          "Já venceu o Capitão."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Que alegria neste dia",
+          "Têm os crentes em Jesus;",
+          "Reunidos os remidos,",
+          "Fazem tudo em Sua luz!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Deus glorioso, Deus bondoso,",
+          "Abençoa-nos aqui;",
+          "Que esta igreja sempre seja",
+          "Consagrada só a Ti!"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "161",
+    "number": 161,
+    "title": "Trabalho Cristão",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Vamos nós trabalhar, somos servos de Deus;",
+          "Com o Mestre seguir no caminho dos céus;",
+          "Com o seu bom conselho o vigor renovar,",
+          "E fazer prontamente o que Cristo mandar!"
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "No labor, com fervor, a seguir a Jesus,",
+          "Com esperança e fé e com oração,",
+          "Até que volte o Redentor."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Vamos nós trabalhar, os famintos fartar,",
+          "Para a fonte os sedentos depressa levar;",
+          "Só na cruz do Senhor nossa glória será,",
+          "Pois Jesus salvação pela graça nos dá!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Vamos nós trabalhar para Cristo, o Senhor;",
+          "Contra o reino das trevas será vencedor;",
+          "Ele, então, para sempre exaltado será,",
+          "Pois real salvação pela graça nos dá!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Vamos nós trabalhar, ajudados por Deus,",
+          "Que coroa real nos dará lá nos céus;",
+          "Na mansão dos fiéis o descanso será,",
+          "Pois Jesus salvação pela graça nos dá!"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "163",
+    "number": 163,
+    "title": "Dai-nos Luz",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Uma voz ressoa de geral clamor:",
+          "Dai-nos luz! Dai-nos luz!",
+          "Os milhões em trevas, cheios de pavor,",
+          "Pedem luz, pedem luz!"
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Dai-nos luz, a mui gloriosa luz",
+          "De perdão, de paz e amor!",
+          "Dai-nos luz, a tão preciosa luz",
+          "De Jesus, o Salvador!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Ansiamos vida, paz, consolação;",
+          "Dai-nos luz! Dai-nos luz!",
+          "Se é por Cristo só que Deus nos dá perdão,",
+          "Dai-nos luz! Dai-nos luz!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Sim, por toda parte deve reluzir",
+          "Essa luz de Jesus,",
+          "Que ilumina a estrada que hemos de seguir.",
+          "Dai-nos luz! Dai-nos luz!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Eia, pois, ó crente, todo o mundo enchei",
+          "Dessa luz de Jesus!",
+          "Aos milhões perdidos sem tardar valei",
+          "Com a luz de Jesus!"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "164",
+    "number": 164,
+    "title": "Eis os Milhões",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Eis os milhões, que em terras tão medonhas,",
+          "Jazem perdidos, sem o salvador!",
+          "Quem lhes irá as novas proclamando,",
+          "Que Jesus Cristo salva o pecador?"
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "\"Todo o poder o Pai me deu,",
+          "Na terra, bem assim no céu!",
+          "Ide, pois anunciar o evangelho,",
+          "E sempre Eu estou convosco!\""
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Portas abertas, eis por todo o mundo!",
+          "Servos, erguei-vos, eia avante andai!",
+          "Crentes em Cristo, uni as vossas forças,",
+          "Da escravidão os povos libertai!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "\"Oh! Vinde a mim\", a voz divina clama,",
+          "\"Vinde!\", clamai em nome de Jesus!",
+          "Que pra salvar-nos do castigo eterno,",
+          "Seu sangue derramou por nós na cruz."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Ó Deus, apressa o dia tão glorioso,",
+          "Em que os remidos todos se unirão",
+          "Num coro excelso, santo jubiloso;",
+          "Pra todo o sempre glória a Ti darão!"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "165",
+    "number": 165,
+    "title": "Igreja, Alerta",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "É tempo, é tempo, o mestre está chamando já!",
+          "Marchar! Marchar! Confiando em seu amor!",
+          "Partir! Partir! A salvação a proclamar,",
+          "Com a palavra santa do bom Salvador!"
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Sim, marchar avante!",
+          "Todos seguindo a divinal bandeira!",
+          "Sim, marchar avante!",
+          "Unidos, firmes sempre no avançar!",
+          "Glória, glória, eis que canta a multidão!",
+          "Consagrai-lhe todo o vosso coração",
+          "Pra Jesus obedecer!",
+          "E ao cumprir o seu querer",
+          "Entoai louvores altos! Avançai!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "\"Queremos luz\" - é o grito das nações pagãs,",
+          "Que vem atravessando o imenso mar.",
+          "Ir já, sim, já, levando as novas com amor,",
+          "Sem esquecer também aqui de semear."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Desperta, igreja! O teu poder vem exercer;",
+          "A todos faze Cristo conhecer;",
+          "A tua mão estende com paciente amor,",
+          "Da morte eterna esforça-te para os deter."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Igreja, alerta! O dia prometido vem,",
+          "Quando aclamado o Salvador será;",
+          "Por toda parte o bem amado Redentor",
+          "Eterna glória, honra com louvor terá."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "167",
+    "number": 167,
+    "title": "Corajosos",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Um pendão real vos entregou o Rei,",
+          "A vós, soldados seus;",
+          "Corajosos, pois, de tudo o defendei,",
+          "Marchando para os céus."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Com valor, sem temor,",
+          "Por Cristo prontos a sofrer,",
+          "Bem alto erguei o seu pendão,",
+          "Firmes sempre até morrer!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Eis formados já malignos batalhões,",
+          "Do grande usurpador!",
+          "Revelai-vos hoje bravos campeões;",
+          "Avante sem temor!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Oh, sejamos todos a Jesus leais,",
+          "E a seu real pendão!",
+          "Os que na batalha sempre são fiéis",
+          "Com Ele reinarão."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "168",
+    "number": 168,
+    "title": "Brilho Celeste",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Peregrinando vou pelos montes",
+          "E pelos vales, sempre na luz!",
+          "Cristo promete nunca deixar-me;",
+          "'Eis-me convosco', disse Jesus."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Brilho celeste! Brilho celeste!",
+          "Enche a minha alma a glória de Deus!",
+          "Com aleluias, sigo cantando,",
+          "Canto louvores, indo pra os céus!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Sombras à roda, nuvens em cima",
+          "O Salvador não hão de ocultar;",
+          "Ele é a luz que nunca se apaga,",
+          "Junto a seu lado sempre hei de andar."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Vão me guiando raios benditos,",
+          "Que me conduzem para a mansão;",
+          "Mais e mais perto, o Mestre seguindo,",
+          "Canto os louvores da salvação."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "170",
+    "number": 170,
+    "title": "Lá no Céu",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Há um lar mui feliz lá no céu,",
+          "Onde não há tristeza nem dor,",
+          "Onde os salvos irão habitar,",
+          "Na presença do seu Salvador.",
+          "Lá no céu, lá no céu,",
+          "Há um lar mui feliz lá no céu. (bis)"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Tenho amigos fiéis lá no céu,",
+          "Que desfrutam o gozo na luz;",
+          "Já venceram os males daqui",
+          "E lá cantam louvor a Jesus.",
+          "Lá no céu, lá no céu;",
+          "Tenho amigos fiéis lá no céu! (bis)"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Eu também vou viver lá no céu,",
+          "E hei de ver quem me deu salvação.",
+          "Não demora o momento de eu ir",
+          "E morar lá naquela mansão.",
+          "Lá no céu, lá no céu;",
+          "Eu também vou viver lá no céu! (bis)"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Nesse lar tão feliz, lá no céu,",
+          "Nunca o mal poderá penetrar;",
+          "Só há gloria, pureza e prazer",
+          "Onde os salvos por Cristo hão de entrar.",
+          "Lá no céu. lá no céu;",
+          "Nesse lar tão feliz lá no céu! (bis)"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "171",
+    "number": 171,
+    "title": "Junto ao Trono",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Junto ao trono de Deus preparado",
+          "Tens, cristão, um lugar dado a ti;",
+          "Há prazeres, há gozo exaltado,",
+          "Há delícias profusas ali;",
+          "Sim, ali, sim, ali,",
+          "De seus anjos fiéis rodeado",
+          "E cercado de glória e de luz,",
+          "Junto a Deus já te espera Jesus."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Não nos podem da terra os encantos",
+          "Dar idéia do gozo dali;",
+          "Se no mundo os prazeres são tantos,",
+          "São prazeres que cessam aqui;",
+          "Mas ali, mas ali,",
+          "As venturas eternas concorrem,",
+          "Na existência perpétua da luz,",
+          "Pra tornar-te feliz com Jesus."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Conservemos em nossa lembrança",
+          "As riquezas do lindo país,",
+          "E guardemos conosco a esperança",
+          "De uma vida melhor, mais feliz;",
+          "Pois dali, pois dali,",
+          "Uma voz verdadeira não cansa",
+          "De chamar-nos ao reino da luz;",
+          "É a voz divinal de Jesus."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Se quisermos gozar da ventura",
+          "Que no belo país haverá,",
+          "E somente pedir de alma pura,",
+          "Que Jesus sua graça nos dá;",
+          "Pois ali, pois ali,",
+          "Todo cheio de amor, de ternura,",
+          "Desse amor demonstrado na cruz,",
+          "Nos escuta e recebe Jesus."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "172",
+    "number": 172,
+    "title": "Terra Feliz",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Eu avisto uma terra feliz,",
+          "Onde irei para sempre morar;",
+          "Há mansões nesse lindo país,",
+          "Que Jesus foi pra nós preparar.",
+          "Vou morar, vou morar",
+          "Nessa terra, celeste porvir! (bis)"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Cantarei nesse lindo país",
+          "Belis hinos ao meu Salvador,",
+          "Pois ali viverei bem feliz,",
+          "Sem angústias, tristezas, nem dor.",
+          "Vou cantar, vou cantar",
+          "Nessa terra, celeste porvir! (bis)"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Deixarei este mundo afinal",
+          "Para ir a Jesus adorar;",
+          "Nessa linda cidade real,",
+          "Mil venturas sem fim vou gozar.",
+          "Vou gozar, vou gozar",
+          "Nessa terra, celeste porvir! (bis)"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "173",
+    "number": 173,
+    "title": "Verei Meu Redentor",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Finda a lida terreal.",
+          "Quando já do rio além,",
+          "Nessa vida tão gloriosa me encontrar,",
+          "Sei que lá meu redentor",
+          "Finalmente eu hei de ver.",
+          "E com hinos de louvor hei de o saudar."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Hei de ver meu Redentor;",
+          "Redimido, junto dele eu hei de estar;",
+          "Hei de ver meu Salvador;",
+          "Os sinais dos cravos hei de contemplar."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Oh, que enlevo divinal;",
+          "O seu rosto a contemplar,",
+          "Desde a aurora desse dia perenal;",
+          "Como então meu coração",
+          "Haverá de o exaltar,",
+          "Pela graça e compaixão celestial!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Nessa pátria de esplendor,",
+          "Hei de amigos encontrar,",
+          "Meus irmãos em Cristo lá hei de rever;",
+          "Mas primeiro que os irmãos,",
+          "Quando ali no céu chegar,",
+          "Meu Jesus é quem eu mais anseio ver."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Pelas portas de Sião,",
+          "Com as vestes a brilhar,",
+          "Onde a noite e o pranto nunca chegarão,",
+          "Lá no lindo céu de luz",
+          "Há de Cristo me guiar,",
+          "E mui perto, sim, eu hei de vê-lo então."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "174",
+    "number": 174,
+    "title": "Brilhando",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Vejo no céu resplendente",
+          "Do sol a clara luz;",
+          "Quero viver tão somente",
+          "Brilhando por Jesus."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Brihando, brilhando,",
+          "Quero brilhar como a luz!",
+          "Brihando, brilhando,",
+          "Sempre brilhar por Jesus!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Eu quero em tudo exaltá-lo,",
+          "Na escola e no estudar;",
+          "Nunca também olvidá-lo",
+          "Em casa e no brincar."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Com um viver diligente,",
+          "Assim me quer Jesus;",
+          "Sempre com rosto contente,",
+          "Brilhando como a luz."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Do feio e triste pecado,",
+          "Senhor, vem-me guardar;",
+          "Sempre por Ti amparado",
+          "Desejo, ó Deus, andar."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 5,
+        "lines": [
+          "Se esta é a Tua vontade,",
+          "Brilhando viverei,",
+          "E pela Tua bondade",
+          "Ao lindo céu irei."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "176",
+    "number": 176,
+    "title": "Juventude",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Levantai-vos, moços crentes,",
+          "Para anunciar Jesus",
+          "Como Salvador do mundo,",
+          "Verdadeiro guia e luz."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Despertai-vos! Levantai-vos!",
+          "Não há tempo que perder.",
+          "Se quereis servir a Cristo,",
+          "Tendes muito que fazer.",
+          "Meditai no seu amor,",
+          "Meditai no que ele fez:",
+          "Pela morte no Calvário,",
+          "Resgatou-nos de uma vez! (bis)"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Sim, ele é 'a luz do mundo'!",
+          "Ele poderá dizer:",
+          "'Só eu dou a vida eterna",
+          "A qualquer que queira crer.'"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Pois se nós estamos certos",
+          "De que Cristo é Salvador,",
+          "Vamos publicá-lo a todos",
+          "Com coragem e fervor."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "E se nós, sinceramente,",
+          "Já servimos nosso Deus,",
+          "Exultamos na certeza",
+          "De encontrá-lo lá nos céus."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "177",
+    "number": 177,
+    "title": "Separação",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Deus vos guarde pelo seu poder,",
+          "Protegidos e velados,",
+          "Desfrutando os seus cuidados,",
+          "Deus vos guarde pelo seu poder!"
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Pelo seu poder e no seu amor,",
+          "Té nos encontrarmos com Jesus!",
+          "Pelo seu poder e no seu amor,",
+          "Oh, que Deus vos guarde em sua luz! (bis)"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Deus vos guarde bem no seu amor,",
+          "Consolados e contentes,",
+          "Achegados sempre aos crentes,",
+          "Deus vos guarde bem no seu amor!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Deus vos guarde do poder do mal,",
+          "Da ruína, do pecado,",
+          "Do temor de todo lado,",
+          "Deus vos guarde do poder do mal!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Deus vos guarde para seu louvor,",
+          "Para seu divino gozo,",
+          "Seu serviço tão glorioso,",
+          "Deus vos guarde para seu louvor!"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "178",
+    "number": 178,
+    "title": "Olhando para Cristo",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Ruge forte, contundente,",
+          "A guerra do pecado,",
+          "Mas os seus clangores vis",
+          "Não podem me afligir.",
+          "Sei em quem confio, pois na",
+          "Rocha estou firmado,",
+          "E celestes bênçãos",
+          "Irei fruir."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Olhando para Cristo,",
+          "Grande autor da salvação,",
+          "Prossigo, pois avisto",
+          "Soberano galardão.",
+          "De Deus ministro, me revisto",
+          "Do poder do meu Senhor",
+          "Para servi-lo",
+          "Com todo ardor."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Vejo ao longe campos vastos,",
+          "Prontos pra colheita:",
+          "Multidões, sem luz, sem Deus,",
+          "Aguardam salvação!",
+          "Vem, ó Deus, desperta o amor da",
+          "Geração eleita,",
+          "Para os Teus obreiros",
+          "Concede unção."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Desprezando deste mundo as",
+          "Sendas ardilosas,",
+          "Volto o meu olhar pra cruz",
+          "De quem me resgatou;",
+          "DEle tenho na alma, então, as",
+          "Bênçãos mui gloriosas,",
+          "E, feliz, com Cristo,",
+          "Cantando vou!"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "179",
+    "number": 179,
+    "title": "Vem, Visita Tua Igreja",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Vem! Visita a Tua igreja,",
+          "Ó bendito Salvador!",
+          "Sem Tua graça ela murcha",
+          "Ficará e sem vigor.",
+          "Vivifica, vivifica",
+          "Nossas almas, ó Senhor! (bis)"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "180",
+    "number": 180,
+    "title": "Quão Grande És Tu",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Senhor meu Deus, quando eu maravilhado,",
+          "Fico a pensar nas obras de Tuas mãos,",
+          "No céu azul de estrelas pontilhado,",
+          "O Teu poder mostrando a criação."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Então minh'alma canta a Ti, Senhor:",
+          "Quão grande és Tu, quão grande és Tu! (bis)"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Quando a vagar nas matas e florestas,",
+          "O passaredo alegre ouço a cantar;",
+          "Olhando os montes, vales e campinas,",
+          "Em tudo vejo o Teu poder sem par."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Quando eu medito em Teu amor tão grande,",
+          "Teu Filho dando ao mundo pra salvar,",
+          "Na cruz vertendo Seu precioso sangue,",
+          "Minh'alma pôde assim purificar."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "E quando, enfim, Jesus vier em glória,",
+          "E ao lar celeste então me transportar,",
+          "Adorarei prostrado e para sempre,",
+          "Quão grande és Tu, meu Deus, hei de cantar."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "181",
+    "number": 181,
+    "title": "Adoro um Cristo Vivo",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Adoro um Cristo vivo, na terra Ele está;",
+          "Eu sei que Ele vive e Ele salvará.",
+          "Eu vejo a Sua graça, eu ouço a Sua voz,",
+          "É Ele quem me livra da morte atroz."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Jesus, meu Rei, sim, vive em meu coração.",
+          "Consola me, conforta me na minha tentação.",
+          "Jesus, meu Rei, eterno Salvador,",
+          "Quereis saber quem Ele é: Jesus, meu Salvador."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Jesus, Senhor e Mestre, por mim morreu na cruz;",
+          "Ressuscitou dos mortos e dá nos paz e luz,",
+          "Eternamente vive, pra sempre viverá,",
+          "Eu sei que Ele vive e viverá."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Alegro me em Cristo, por isto cantarei",
+          "Eternas aleluias ao glorioso Rei;",
+          "A única esperança que sempre manterei,",
+          "É minha confiança: Jesus, meu Rei. (bis)"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "182",
+    "number": 182,
+    "title": "Plena Paz e Santo Gozo",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Plena paz e santo gozo tenho em Ti, oh, meu Jesus,",
+          "Pois, eu cri em Tua morte sobre a cruz.",
+          "No Senhor só confiando neste mundo viverei,",
+          "Entoando aleluias ao meu Rei."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Oh! Glória a meu Jesus, pois é digno de louvor;",
+          "É meu Rei, meu bom Pastor e meu Senhor.",
+          "Com os anjos que O louvam eu também O louvarei,",
+          "Entoando aleluias ao meu Rei."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "O amor de Jesus Cristo é mui grande para mim,",
+          "Pois, Sua graça me encheu de amor sem fim.",
+          "Meu Jesus foi para a glória, mas um dia O verei,",
+          "Entoando aleluias ao meu Rei."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Este mundo não deseja tão bondoso Salvador,",
+          "Não sabendo agradecer Seu grande amor.",
+          "Eu, porém, estou gozando do favor de Sua lei,",
+          "Entoando aleluias ao meu Rei."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "183",
+    "number": 183,
+    "title": "Meu Senhor Desceu dos Céus",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Meu Senhor desceu dos céus, e deu a salvação,",
+          "Glória, glória, cantam lá nos céus.",
+          "O Senhor valeu, que satisfação!",
+          "Aleluia, glória a Deus!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Aleluia, aleluia, aleluia, glória a Deus! (Bis)"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Meu Senhor desceu...(H) Aleluia...(M)"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Meu Senhor desceu dos céus."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "184",
+    "number": 184,
+    "title": "Salmo 98:1",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Cantai ao Senhor, um cântico novo, (3x)",
+          "Cantai ao Senhor. (bis)"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Porque Ele faz, Ele faz maravilhas, (3x)",
+          "Cantai ao Senhor. (bis)"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "É Ele quem dá o Espírito Santo, (3x)",
+          "Cantai ao Senhor. (bis)"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Louvai ao Senhor, amém, aleluia, (3x)",
+          "Louvai ao Senhor. (bis)"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "185",
+    "number": 185,
+    "title": "Salmo 19.7-10",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "A lei do Senhor é perfeita e restaura a alma;",
+          "O testemunho do Senhor é fiel e dá sabedoria aos simples."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "São mais desejáveis do que o ouro depurado,",
+          "São mais doces do que o mel e o destilar dos favos."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Os preceitos do Senhor são retos e alegram o coração;",
+          "O mandamento do Senhor é puro e ilumina os olhos."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "O temor do Senhor é límpido e permanece para sempre;",
+          "Os juízos do Senhor são verdadeiros e todos igualmente justos."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "186",
+    "number": 186,
+    "title": "Celebrai com Júbilo",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Celebrai com júbilo ao Senhor todos os povos",
+          "Servi ao Senhor com alegria,",
+          "Apresentai vos diante dEle com cântico.",
+          "Sabei que o Senhor é Deus,",
+          "Foi Ele quem nos fez e dEle somos;",
+          "Somos o Seu povo, rebanho do Seu pasto. (bis)"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Entrai nas portas com gratidão,",
+          "E nos Seus átrios com hinos de louvor;",
+          "Rendei Lhe graças e bendizei lhe o nome.",
+          "Porque o Senhor é bom,",
+          "Sua misericórdia dura para sempre,",
+          "E eternamente Sua fidelidade."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "187",
+    "number": 187,
+    "title": "Salmo 24",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Senhor, quem entrará",
+          "No santuário pra Te adorar? (bis)"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Quem tem as mãos limpas, e o coração puro,",
+          "Quem não tem vaidades e sabe amar (bis)."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Senhor, eu quero entrar",
+          "No santuário pra Te adorar! (bis)"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Oh! dá me mãos limpas e um coração puro,",
+          "Retira as vaidades, ensina me amar (bis)."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "188",
+    "number": 188,
+    "title": "Apocalipse 5.5,13 e Filipenses 2.10,11",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Glória pra sempre ao Cordeiro de Deus,",
+          "a Jesus o Senhor, ao Leão de Judá,",
+          "a Raiz de Davi, que venceu, e o livro abrirá."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Os céus, a terra e o mar, e tudo o que neles há,",
+          "O adorarão e confessarão: Jesus Cristo é o Senhor!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Ele é o Senhor, Ele é o Senhor;",
+          "Ressurrecto dentre os mortos, Ele é o Senhor.",
+          "Todo joelho se dobrará, toda língua confessará,",
+          "Que Jesus Cristo é o Senhor."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "189",
+    "number": 189,
+    "title": "Salmo 25",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "A Ti, Senhor, (M: Ecoa)",
+          "Elevo a minh'alma. (bis)"
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Ó meu Deus, (M: ó meu Deus)",
+          "Em Ti confio, (M: só em Ti confio);",
+          "T: Guarda me, Senhor, pois em Ti, Senhor, me refugio."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Faz me, Senhor,",
+          "Andar em Teus caminhos. (bis)"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Não Te lembres, não,",
+          "Dos meus pecados. (bis)"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "190",
+    "number": 190,
+    "title": "Salmo 51.10",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Cria em mim, oh Deus,",
+          "Um coração puro (bis),"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "E renova dentro em mim (bis),",
+          "Um espírito inabalável."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "191",
+    "number": 191,
+    "title": "Mateus 6.33 e 4.4",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Buscai, pois, em primeiro lugar,",
+          "O reino e sua justiça,",
+          "Todas as coisas serão acrescentadas.",
+          "Alelu-aleluia!",
+          "H: Buscai, pois em primeiro lugar...",
+          "M: Aleluia, aleluia, aleluia, alelu-aleluia!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Não só de pão o homem viverá,",
+          "Mas de toda palavra",
+          "Que se procede da boca de Deus.",
+          "Alelu-aleluia!",
+          "H: Não só de pão o homem viverá...",
+          "M: Aleluia, aleluia, aleluia, alelu-aleluia!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Pedi, pedi, e dar-se-vos-á,",
+          "Buscai, buscai, achareis.",
+          "Batei, batei e abrir-se-vos-á.",
+          "Alelu-aleluia",
+          "H: Não só de pão o homem viverá...",
+          "M: Aleluia, aleluia, aleluia, alelu-aleluia!"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "192",
+    "number": 192,
+    "title": "Salmo 3.6,7",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Não tenho medo de milhares do povo",
+          "Que tomam posição contra mim. (bis)"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Levanta-te, levanta-te,",
+          "Salva-me Deus meu. (bis)"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "194",
+    "number": 194,
+    "title": "O Eterno Amor do Senhor",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "O Eterno amor do Senhor não termina,",
+          "Suas misericórdias não tem fim.",
+          "A alvorada os renova, fidelidade és Tú.",
+          "A minha porção é o Senhor,",
+          "E nEle confiarei."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "195",
+    "number": 195,
+    "title": "Fica Comigo",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Fica comigo, Deus, meu Salvador,",
+          "Viver sem Ti não posso, meu Senhor.",
+          "Sem Teu poder o peso desta vida",
+          "Não mais eu poderia suportar."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Fica comigo, Deus, ó bênção minha!",
+          "Qual outro dom teria mais valor,",
+          "Do que a Tua presença preciosa,",
+          "Dia a dia, ó meu Redentor?"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Fica comigo, quando tempestades",
+          "Caem sobre mim, ó Deus, meu Protetor.",
+          "Se ao meu lado estrondam altos mares,",
+          "Não fazem me jamais sentir temor."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Fica comigo, quando a solidão",
+          "Vence e eu não posso aguentar.",
+          "Chamas de dor e a morte já chegando,",
+          "Ó Deus Senhor, comigo vem ficar."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "196",
+    "number": 196,
+    "title": "Ao Orarmos, Senhor",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Ao Orarmos, Senhor,",
+          "Vem encher nos com Teu amor,",
+          "Para o mundo agitado esquecer,",
+          "Cada dia Tua vida viver.",
+          "Nossas vidas vem, pois transformar,",
+          "Refrigério pra alma nos dá.",
+          "E agora, com outros irmãos,",
+          "Nos unimos a Ti em oração."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "197",
+    "number": 197,
+    "title": "Mateus 21.8 9",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Hosana, hosana ao Rei (2x) (H)"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "H: Hosana, hosana ao Rei (2x)",
+          "M: Mantos e Palmas espalhando vai,",
+          "O povo alegre de Jerusalém,",
+          "Lá bem ao longe, se começa a ver",
+          "O Filho do Homem, que montado vem."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "T: Enquanto mil vozes ressoam por aí:",
+          "Hosana ao que vem em nome do Senhor!",
+          "Como um alento de grande exclamação,",
+          "Prorrompem com voz triunfal:",
+          "Ho, Hosana! Ho, Ho, Hosana ao Rei! (bis)"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "H: Hosana, hosana ao Rei (2x)",
+          "M: Como na estrada de Jerusalém,",
+          "Um dia também poderemos cantar,",
+          "A Jesus Cristo que virá, outra vez",
+          "Para levar-nos ao eterno lar."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "198",
+    "number": 198,
+    "title": "Salmo 24.7 10",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Exaltar-te-ei, oh Deus meu e rei,",
+          "E bendirei o Teu nome! (bis)"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Todos os dias Te bendirei",
+          "E louvarei o Teu nome.",
+          "Para sempre Te bendirei",
+          "E louvarei o Teu nome."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Levantai, ó portas, vossas cabeças!",
+          "Levantai vos, ó portais eternos!",
+          "Para que entre o Rei, o Rei da glória!",
+          "Quem é o Rei, quem é o Rei da glória?",
+          "O Senhor forte! Poderoso Senhor!",
+          "Poderoso nas batalhas!",
+          "O Senhor dos exércitos!",
+          "Ele é o Rei, Ele é o Rei da glória!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Lá, lá, lá...Rei.",
+          "Lá, lá, lá... Senhor.",
+          "Lá, lá, lá...Jesus. Lá, lá, lá..."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "199",
+    "number": 199,
+    "title": "Olhar Somente a Ti, Senhor",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Olhar somente a Ti, Senhor (3x),",
+          "E não olhar atrás."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Seguir Teu caminhar, Senhor,",
+          "Seguir sem vacilar, Senhor,",
+          "Prostrar me em Teu altar, Senhor,",
+          "E não olhar atrás."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Servir somente a Ti, Senhor, etc."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Viver só para Ti, Senhor, etc."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "200",
+    "number": 200,
+    "title": "É Impossível Não Crer",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Olho em tudo e sempre encontro a Ti",
+          "Estás no céu, na terra onde eu for.",
+          "Em tudo que me acontece encontro Seu amor.",
+          "Já não se pode mais deixar de crer em Seu amor."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "É impossível não crer em Cristo.",
+          "É impossível não O encontrar.",
+          "É impossível não fazer de Deus meu ideal. (bis)"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "202",
+    "number": 202,
+    "title": "Vitória Deus Dará a Mim",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Vitória Deus dará a mim, eu sei. (bis)",
+          "Se (eu) andar na Sua luz e confiar só em Jesus,"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Vitória Deus dará a mim (a ti), eu sei."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Vitória Deus já deu a mim (a ti), etc."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "203",
+    "number": 203,
+    "title": "Santo Espírito, Enche a Minha Vida",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Santo Espírito, enche a minha vida,",
+          "Pois com Cristo eu quero brilhar.",
+          "Santo Espírito, enche a minha vida,",
+          "Usa me as almas a salvar."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Aleluia (3x), dou a Cristo Rei.",
+          "Aleluia (3x) dou ao Rei."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Faz-me, Deus, uma luz fulgurante",
+          "Que jamais venha escurecer.",
+          "Faz, ó Deus, que meu facho brilhante,",
+          "Brilhe sempre até o amanhecer."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "204",
+    "number": 204,
+    "title": "Cortaram um Madeiro",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Cortaram um madeiro e fizeram uma cruz",
+          "Para o meu Salvador:",
+          "Madeiro lavrado, com pregos cravados,",
+          "Pesada ficou.",
+          "Ele carregou a cruz,",
+          "No caminho caiu, caiu,",
+          "Mas Deus deu-Lhe graças, morrendo na cruz",
+          "Por mim e por ti."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Foi feita assim a cruz",
+          "Do meu Salvador:",
+          "Madeiro lavrado, com pregos cravados,",
+          "Pesada ficou."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Perante Pilatos, Jesus foi levado",
+          "Como um malfeitor;",
+          "Chegando a Ele, olhando ao Mestre,",
+          "Assim perguntou:",
+          "És o Rei dos judeus?",
+          "Disse Jesus: “Na verdade Eu sou!”.",
+          "“Meu reino é eterno, não é deste mundo,",
+          "Daqui Eu não Sou”."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Chegando ao Calvário, pregaram na cruz",
+          "O meu Salvador;",
+          "Coroa de espinhos na fronte, sangrando,",
+          "Ao Pai suplicou.",
+          "Transpassado de dor ficou",
+          "O meu Salvador;",
+          "Às três horas da tarde, inclinou a cabeça",
+          "E ali expirou."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "206",
+    "number": 206,
+    "title": "Quem Me Poderá Salvar?",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Quem me poderá salvar?",
+          "Cristo que verteu Seu sangue.",
+          "Onde as manchas vou limpar?",
+          "Só no Seu precioso sangue."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Oh! que preciosa paz,",
+          "Que vem da Sua cruz,",
+          "A qual me dá Jesus",
+          "Pelo Seu precioso sangue!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Vejo a minha salvação",
+          "Só no Seu precioso sangue;",
+          "Deus concede-nos perdão",
+          "Só no Seu precioso sangue."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Entrarei no céu, enfim",
+          "Pelo Seu precioso sangue;",
+          "Louvarei então sem fim,",
+          "Esse tão precioso sangue."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "208",
+    "number": 208,
+    "title": "Canta Minh'Alma",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Que Segurança, sou de Jesus!",
+          "Eu já desfruto o gozo da luz!",
+          "Sou por Jesus, herdeiro de Deus,",
+          "Ele me leva à glória dos céus."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Canta minh'alma! canta ao Senhor!",
+          "Rende Lhe sempre ardente louvor! (bis)"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Ao Seu amor, eu me submeti",
+          "E extasiado então me senti!",
+          "Anjos descendo, trazem dos céus",
+          "Ecos da excelsa graça de Deus."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Sempre vivendo em Seu grande amor",
+          "Me regozijo em meu Salvador;",
+          "Esperançoso vivo na luz",
+          "Pela bondade do meu Jesus!"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "209",
+    "number": 209,
+    "title": "Resplendente da Vitória",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Resplendente da vitória após a morte crucial,",
+          "Relevante está na glória meu Jesus celestial;",
+          "Vive, sim, a cada dia edificando a Sua grei",
+          "E com muita alegria O bendirei!"
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "M: Senhor de paz H: Sim, de paz",
+          "M: Ó grande Rei H: Grande Rei",
+          "M: Assim verás H: Sim, verás",
+          "M: Com temor Te bendirei H: Bendirei",
+          "M: Eu sou feliz H: Sou feliz",
+          "M: Em meu Jesus H: Em Jesus",
+          "M: Porque me quis H: Sim, me quis",
+          "M: Com amor trazer à luz H: De Jesus"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "É Jesus, o meu Amigo, meu Irmão e Protetor",
+          "Que me ampara no perigo dando paz e Seu amor;",
+          "Nesta vida eu prossigo jubiloso em Jesus,",
+          "meditando no Bendito que reluz."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "210",
+    "number": 210,
+    "title": "Transborda de Amor",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "H: Meu coração transborda de amor,"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "H: Porque meu Deus M: ecoa",
+          "H: É um Deus de amor M: ecoa"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "H: Minha alma está repleta de paz",
+          "H: Porque Jesus M: ecoa",
+          "H: É a minha paz M: ecoa"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "H: Eu digo aleluia,",
+          "Aleluia, aleluia, aleluia, aleluia",
+          "Eu digo porque M: eu digo porque",
+          "Eu digo aleluia,",
+          "Aleluia, aleluia, aleluia, aleluia",
+          "Aleluia amém M: aleluia amém"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "211",
+    "number": 211,
+    "title": "Oh! Que Belos Hinos",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Oh! Que belos hinos! cantam lá nos céus!",
+          "Pois, do mundo o filho mau voltou.",
+          "Vede no caminho o bom Pai a abraçar",
+          "Esse filho, que Ele tanto amou."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Glória, glória, os anjos cantam lá!",
+          "Glória, glória, as harpas tocam já!",
+          "É o santo coro, dando glória a Deus",
+          "Por mais um remido entrar nos céus."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Oh! que belos hinos cantam lá nos céus.",
+          "É que já se reconciliou",
+          "A alma revoltosa, que submissa a Deus,",
+          "Convertida, o mundo abandonou."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Ó arrependidos, hoje festejai,",
+          "Como os anjos fazem com fervor.",
+          "Ide, pressurosos vós, e anunciai",
+          "Que se resgatou um pecador."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "212",
+    "number": 212,
+    "title": "Lá Está o Meu Tesouro",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Lá está o meu Tesouro,",
+          "Lá onde não há choro,",
+          "Onde todos cantaremos juntos",
+          "Hinos de louvor. (bis)"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Aleluia, aleluia, aleluia, aleluia,",
+          "Hinos de louvor Ao Senhor."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "213",
+    "number": 213,
+    "title": "Rude Cruz se Erigiu",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Rude Cruz se Erigiu, dela o dia fugiu",
+          "Como emblema de vergonha e dor;",
+          "Mas contemplo essa cruz, porque nela Jesus",
+          "Deu a vida por mim, pecador."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Sim, eu amo a mensagem da cruz,",
+          "Té morrer eu a vou proclamar;",
+          "Levarei eu também minha cruz",
+          "Té por uma coroa trocar."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Desde a glória dos céus, o Cordeiro de Deus",
+          "Ao Calvário, humilhante baixou;",
+          "Essa cruz tem pra mim atrativos sem fim,",
+          "Porque nela Jesus me salvou."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Nesta cruz padeceu e por mim já morreu",
+          "Meu Jesus, para dar-me o perdão;",
+          "E eu me alegro na cruz, dela vem graça e luz,",
+          "Para minha santificação."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Eu aqui com Jesus, a vergonha da cruz,",
+          "Quero sempre levar e sofrer;",
+          "Cristo vem me buscar, e com Ele no lar,",
+          "Uma parte da glória hei de ter."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "214",
+    "number": 214,
+    "title": "Ao Ver Morrer",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Ao ver morrer na rude cruz,",
+          "Em dor e angústia meu Jesus;",
+          "Compreendo ser um pecador",
+          "E meu orgulho sem valor."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "As mãos, os pés e a fronte em dor,",
+          "Derramam sangue por amor.",
+          "Oh! Santa mão, ferida mão,",
+          "Deseja dar me salvação."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Dou graças mil a meu Jesus",
+          "E amor provado sobre a cruz;",
+          "Irá suster e conduzir",
+          "A minha vida no porvir."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "215",
+    "number": 215,
+    "title": "Cante, Amém, Amém!",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Cante, amém, amém;",
+          "Alegre se, Amém, Amém.",
+          "Glória a Deus, Amém, Amém! (bis)"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Quando o Senhor voltar outra vez,",
+          "Que o povo cante Amém, Amém! (bis)"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Cante, Amém, Amém;",
+          "Cante Amém, Amém;",
+          "Que o povo cante Amém, Amém! (bis)"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "216",
+    "number": 216,
+    "title": "Glória a Deus",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Glória a Deus, glória a Deus (bis),"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "H: Quero louvar-Te sempre mais e mais (bis),",
+          "Buscar o Teu querer, Tua graça conhecer, quero louvar-Te."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "M: As aves do céu cantam para Ti.",
+          "As flores do campo refletem Teu poder.",
+          "Quero cantar, quero entregar meu coração a Ti."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "H: Quero Amar Te... M: As aves...",
+          "H: Quero Servir Te... M: As aves...",
+          "H: Quero Buscar Te... M: As aves...",
+          "T: Senhor."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "217",
+    "number": 217,
+    "title": "Por Tudo o que Tens Feito",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Por tudo o que tens feito,",
+          "Por tudo que vais fazer,",
+          "Por Tuas promessas e tudo o que És,",
+          "Eu quero Te agradecer com todo o meu ser."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Te agradeço meu Senhor M: ecoam",
+          "Te agradeço meu Senhor"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Te agradeço por me libertar e salvar,",
+          "Por ter morrido em meu lugar,",
+          "Te agradeço, Jesus Te agradeço,",
+          "Eu Te agradeço, Te agradeço."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "218",
+    "number": 218,
+    "title": "É Cristo que Me Faz Cantar",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "É Cristo que me faz cantar (bis),",
+          "Dos meus pecados limpo estou",
+          "E para o céu eu vou,",
+          "É Cristo que me faz cantar."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Ao mundo vou anunciar (bis),",
+          "Que Cristo salva o pobre pecador",
+          "Por Seu amor,",
+          "É Cristo que me faz cantar."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "219",
+    "number": 219,
+    "title": "Hoje É Tempo",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Hoje é tempo de louvar a Deus!",
+          "Em nós agora habita o Seu Espírito."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Então é só cantar e a Cristo exaltar,",
+          "E Sua glória encherá este lugar.",
+          "H: Vem louvar! M: ecoa (2x)"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "No meio dos louvores Deus habita,",
+          "E É Seu prazer cumprir o que nos diz."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Então é só cantar e a Cristo exaltar,",
+          "E Sua glória encherá este lugar.",
+          "H: Vem louvar! M: ecoa (2x)",
+          "H: Vem louvar! M: Hoje é tempo de louvar a Deus (2x)"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "220",
+    "number": 220,
+    "title": "Mesa Preparada",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Mesa preparada, ceia ensinada,",
+          "Cristo instruindo, morte aproximada."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Isto é a Ceia, a Ceia do Senhor,",
+          "Dada em memória do Seu grande amor."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Este pão, Meu corpo que por vós foi dado,",
+          "Sacrifício eterno para ser lembrado."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Sangue derramado, suco abençoado,",
+          "Cristo entristecendo para ser levado."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "221",
+    "number": 221,
+    "title": "Há Momentos",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Há momentos, em que as palavras não resolvem;",
+          "Mas o gesto de Jesus na cruz demonstra amor por nós (bis)."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "H: Foi no Calvário, M: Calvário",
+          "H: Que Ele sem falar, M: sem falar",
+          "H: Mostrou ao mundo inteiro, M: inteiro",
+          "H: O que é amar M: ecoa (bis)"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Aqui no mundo as desilusões são tantas;",
+          "Mas existe a esperança, que Ele vai voltar (bis)."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "222",
+    "number": 222,
+    "title": "Cristo É Meu",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Cristo é meu, sim, Cristo é meu.",
+          "Minha vida se transformou.",
+          "Desde que O vi, crendo recebi",
+          "A eterna salvação."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Seu perdão Jesus trouxe a mim;",
+          "Nova luz minha vida ganhou.",
+          "Depois de buscar,",
+          "Tanto procurar e achar só ilusão."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Vivi sem motivo,",
+          "Vivi sem razão,",
+          "Mas hoje a paz que eu sinto,",
+          "Quero ver em cada coração."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Quero amar como Cristo amou;",
+          "o Seu sangue por mim derramou.",
+          "Quero então cantar, ao Seu lado andar,",
+          "Toda vida Lhe entregar."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "223",
+    "number": 223,
+    "title": "A Tua Paz",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "A Tua paz é como rio,",
+          "Que corre suavemente",
+          "Ao encontro do mar,",
+          "Senhor Jesus."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "A Tua paz é como os campos,",
+          "Onde têm belas flores",
+          "E há pássaros a cantar."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Pássaros a cantar,",
+          "Rios a correr",
+          "Quem tem Jesus",
+          "Tem motivos pra viver. (bis)"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "224",
+    "number": 224,
+    "title": "Cada Dia",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Cada dia meu Senhor",
+          "Deus cuidará de mim.",
+          "Cada dia meu Senhor,",
+          "Sim, paz dará a mim.",
+          "Ele vê meu padecer,",
+          "E me ouvirá;",
+          "Sim, cada dia meu Senhor,",
+          "Deus me protegerá."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "226",
+    "number": 226,
+    "title": "Maranata",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Cristo vem me buscar,",
+          "Para o céu me levará.",
+          "O Cordeiro prometido voltará.",
+          "Cristo manda atento estar,",
+          "Vigiar e sempre orar,",
+          "Para o toque da trombeta esperar."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Oh! glória, aleluia!",
+          "Maranata! Vem Jesus!",
+          "Sou liberto pela força desta cruz.",
+          "Vem o nosso Senhor,",
+          "Sua glória e esplendor;",
+          "Sou liberto pelo sangue de Jesus."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Ó Jesus, vem buscar",
+          "Tua grei ao doce lar;",
+          "Confiante no Senhor hei de estar.",
+          "Novo céu e novo lar;",
+          "Nova terra vou morar,",
+          "Pois contigo, meu Amigo, vou ficar."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "227",
+    "number": 227,
+    "title": "Vaso de Benção",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Quero ser um vaso de benção,",
+          "Sim, um vaso escolhido por Deus,",
+          "Para as Novas levar aos perdidos,",
+          "Boas-novas que vêm lá dos céus."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Faze-me vaso de bênção, Senhor,",
+          "Vaso que leve a mensagem de amor.",
+          "Eis me submisso pra Teu serviço,",
+          "Tudo consagro-Te agora, Senhor."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Quero ser um vaso de bênção,",
+          "Sim, um vaso de bênção sem par,",
+          "Avisando que os salvos em Cristo",
+          "Jubilosos no céu hão de entrar."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Para ser um vaso de bênção,",
+          "É mister uma vida real;",
+          "Uma vida de fé e pureza,",
+          "Revestida do amor divinal."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "228",
+    "number": 228,
+    "title": "João 14.6",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Disse Jesus:",
+          "Eu sou o Caminho, a Verdade e a Vida. (bis)"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Eu sou o pão vivo que desceu do céu",
+          "E quem comer deste pão viverá.",
+          "Este pão é a Minha carne",
+          "Que Eu darei pela vida do mundo. (bis)"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Disse Jesus:",
+          "Eu sou o Caminho, a Verdade e a Vida. (bis)"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "229",
+    "number": 229,
+    "title": "Se Tu, Minh'Alma",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Se tu, minh'alma a Deus suplicas",
+          "E não recebes, confiando ficas",
+          "Em Suas promessas que são mui ricas,",
+          "E infalíveis pra te valer."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "H: Por que te abates? M: Com mui temor,",
+          "H: Ó, ó minh'alma, M: Sem ter pastor,",
+          "H: E te comoves, M: Na aflição",
+          "H: Perdendo a calma. M: De coração",
+          "H: Não tenhas medo, M: Da sua cruz",
+          "H: Em Deus espera M: Por meu Jesus",
+          "H: Porque bem cedo M: Pra te valer",
+          "H: Jesus virá. M: Não tardará"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Ele intercede por ti, minh'alma;",
+          "Espera nEle com fé e calma.",
+          "Jesus, de todos os males salva;",
+          "Te abençoa do alto céu."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Terás em breve as dores findas,",
+          "No dia alegre de Sua vinda.",
+          "Se Cristo tarda, espera ainda",
+          "Mais um pouquinho e o verás."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "230",
+    "number": 230,
+    "title": "Quem Está Andando Aí",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Quem está andando aí,",
+          "Com tal peso sobre si?",
+          "Deixe o fardo, pecador,",
+          "No caminho para o céu!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "T: Eu quero caminhar,",
+          "O meu fardo vou deixar;",
+          "H: Jesus comigo sempre andará.",
+          "M: Louvemos glória, aleluia! T: Seguindo eu vou cantar.",
+          "O sol sempre a brilhar.",
+          "Venha andar comigo no caminho para o céu.",
+          "Jovens de mãos dadas vão, com os anjos cantarão.",
+          "Velhos andam sem cansar, no caminho para o céu.",
+          "Não há mais tristeza lá, choro não existirá; Lágrimas já não tem mais, no caminho para o céu."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "396",
+    "number": 396,
+    "title": "O Renovo",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Jesus, desprezado à cruz, foi morrer.",
+          "Quem creu nesta pregação?",
+          "Ali, rejeitado, pois quis padecer.",
+          "Por causa da transgressão.",
+          "Levou sobre Si, sofrimento de nós,",
+          "Julgado sem condições;",
+          "Aflito, oprimido e ferido de Deus,",
+          "Jesus suportou razões."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Mas, foi transpassado por nossa aversão,",
+          "O que vamos nós fazer?",
+          "Jesus, com Seu sangue, comprou-nos, então:",
+          "Devemo-Lo receber.",
+          "E foi humilhado o Cordeiro na cruz,",
+          "Levado só pra sofrer,",
+          "Ovelha calada, ferida de Deus.",
+          "Que o sangue nos dê poder!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Jesus, Redentor, nosso amado Pastor,",
+          "Nós cremos na Salvação!",
+          "De Ti, nos concede esse grande valor",
+          "No sangue da comunhão!",
+          "Pra sempre em memória de Ti, ó Jesus,",
+          "Faremos de coração!",
+          "Que neste momento nos dá Tua luz",
+          "E que venha Teu perdão"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "397",
+    "number": 397,
+    "title": "Teu Santo Filho",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Teu santo filho sem pecar",
+          "Foi enviado pra levar",
+          "Um peso que era todo meu",
+          "E se tornar Cordeiro de Deus"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "O seu presente de amor",
+          "Foi rejeitado pelos seus",
+          "Humilde Rei nada falou",
+          "E assim se fez Cordeiro de Deus"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Cordeiro de Deus Tão puro és",
+          "Vou te adorar e te exaltar",
+          "Com sangue vem lavar meu ser",
+          "Meu Cristo és Cordeiro de Deus"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Perdido estava sem saber",
+          "Mas me atraíste a teu ser",
+          "E hoje sou um servo teu",
+          "Pra teu louvor Cordeiro de Deus"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 5,
+        "lines": [
+          "Cordeiro de Deus Tão puro és",
+          "Vou te adorar e te exaitar",
+          "Com sangue vem lavar meu ser",
+          "Pra que eu me torne um Cordeiro de Deus"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 6,
+        "lines": [
+          "Com sangue vem lavar meu ser",
+          "Pra que eu me torne um Cordeiro de Deus"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "398",
+    "number": 398,
+    "title": "De Volta para Deus",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Em Sua criação Deus arquitetou",
+          "Criar o homem para expressá-Lo",
+          "Mas este homem do seu Deus se afastou;",
+          "Provando morte, também pecado.",
+          "Deus, então, se fez um homem,",
+          "Homem de dores que se entregou;",
+          "O pecador Cristo alcançou,",
+          "E para Deus Pai o resgatou",
+          "Deus amoroso, que tanto o mundo amou."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Jesus, o Filho amado de Deus e Pai,",
+          "Digno é de honra e glória eterna;",
+          "Ó céus e terra, só a Ele adorai,",
+          "O Soberano dos reis da terra;",
+          "É Jesus - a testemunha",
+          "Que foi fiel a Seu Deus e Pai;",
+          "Obedeceu e foi à cruz,",
+          "Trazendo ao mundo vida e luz,",
+          "Por isso, homens, a este nome honrai."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Um rio que flui do trono de Deus,",
+          "Que alcança o homem para saciá-lo;",
+          "Também a árvore da vida lhe deu,",
+          "Para suprir-lhe e expressa-Lo.",
+          "Ó Jesus, somos-Te gratos",
+          "Por nos trazeres de volta a Deus;",
+          "Hoje em Ti gozamos paz,",
+          "Não a do mundo, mas a que dás,",
+          "A todo homem que se achega a Deus"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "399",
+    "number": 399,
+    "title": "Faze-Me Lembrar",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Nunca me deixes esquecer",
+          "Do Teu amor Jesus",
+          "Antes Te possa engrandecer,",
+          "Leva-me até à cruz."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Faze-me lembrar do Teu amor,",
+          "Faze-me lembrar da Tua dor",
+          "Faze-me lembrar da Tua cruz,",
+          "Ao Calvário me conduz."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Quero estar pronto a carregar",
+          "A minha cruz, Senhor",
+          "O Teu sofrer compartilhar",
+          "Com grato e puro amor."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "400",
+    "number": 400,
+    "title": "Senhor",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Senhor, Tu és o meu abrigo;",
+          "Senhor, Tu és o meu socorro;",
+          "Senhor, Tu és minha esperança;",
+          "Senhor, Tu és o meu renovo."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Por mais que eu queira entender",
+          "Porque morreste em meu lugar",
+          "Obrigado por me amar",
+          "E eu te amo!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Senhor, Tu és o meu descanso;",
+          "Senhor, Tu és o meu caminho;",
+          "Senhor, Tu és minha alegria;",
+          "Senhor, Tu és o meu amigo."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Por mais que eu queira entender",
+          "Porque morreste em meu lugar",
+          "Obrigado por me amar",
+          "E eu te amo! (2x)"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 5,
+        "lines": [
+          "Obrigado por me amar",
+          "E eu te amo!"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "401",
+    "number": 401,
+    "title": "Hosana ao Nosso Deus",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "H: Louvemos ao Senhor M: ecoa (bis)",
+          "T: Adoremos no Seu santo monte, nosso amado Pai, Seu nome é Santo."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Louvemos ao Senhor, pois Seu nome é Santo. (bis)"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Magnifiquemos ao Senhor, ao Rei que é digno de louvor,",
+          "Excelso, Supremo, mui Digno de louvor. (bis)"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "H: Hosana M: ecoa",
+          "H: Hosana M: ecoa",
+          "T: Hosana ao nosso Rei. (bis)"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 5,
+        "lines": [
+          "Cristo é a nossa vida, o motivo do louvor em nosso novo coração;",
+          "Pois, morreu a nossa morte, pra vivermos Sua vida,",
+          "Nos trouxe grande salvação."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 6,
+        "lines": [
+          "H: Hosana M: ecoa",
+          "H: Hosana M: ecoa",
+          "T: Hosana ao nosso Rei. (bis)"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "402",
+    "number": 402,
+    "title": "Grande É o Senhor",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Grande é o Senhor e mui digno de louvor",
+          "Na cidade do nosso Deus, Seu Santo monte",
+          "Alegria de toda terra."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Grande é o Senhor, em quem nós temos a vitória",
+          "Que nos ajuda contra o inimigo",
+          "Por isso, diante dEle nos prostramos."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Queremos o Teu nome engrandecer",
+          "E agradecer-Te por Tua obra em nossa vida",
+          "Confiamos em Teu infinito amor",
+          "Pois só Tu és o Deus eterno",
+          "Sobre toda terra e céus, Jesus."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Grande é o Senhor e mui digno de louvor",
+          "Na cidade do nosso Deus, Seu Santo monte",
+          "Alegria de toda terra, toda terra."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 5,
+        "lines": [
+          "Grande é o Senhor, em quem nós temos a vitória",
+          "Que nos ajuda contra o inimigo",
+          "Por isso, diante Dele nos prostramos."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 6,
+        "lines": [
+          "Queremos o Teu nome engrandecer",
+          "E agradecer-Te por Tua obra em nossa vida",
+          "Confiamos em Teu infinito amor",
+          "Pois só Tu és o Deus eterno",
+          "Sobre toda terra e céus."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 7,
+        "lines": [
+          "Queremos o Teu nome engrandecer",
+          "E agradecer-Te por Tua obra em nossa vida",
+          "Confiamos em Teu infinito amor",
+          "Pois só Tu és o Deus eterno",
+          "Sobre toda terra e céus."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "403",
+    "number": 403,
+    "title": "Graças, pela Manhã Tão Linda",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Graças, pela manhã tão linda.",
+          "Graças, por todo amanhecer.",
+          "Graças, porque os cuidados",
+          "Eu te posso oferecer."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Graças, por todo bom amigo.",
+          "Graças, por todo humano ser.",
+          "Graças, quando os maiores",
+          "Inimigos absolver."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Graças, pelo dever diário.",
+          "Graças, pelo menor prazer.",
+          "Graças, pois devo à música",
+          "E à luz agradecer."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Graças, pelos momentos tristes.",
+          "Graças, por quem consolo dá.",
+          "Graças, porque a qualquer lugar",
+          "Tua mão me guiará."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 5,
+        "lines": [
+          "Graças, pela doutrina Santa.",
+          "Graças, por teus divinos dons.",
+          "Graças, porque és Pai,",
+          "Fizestes os homens meus irmãos."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 6,
+        "lines": [
+          "Graças, na salvação eterna.",
+          "Graças, eu posso confiar.",
+          "Graças, Senhor, eu graças dou",
+          "Por graças poder dar."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "404",
+    "number": 404,
+    "title": "Jesus Meu Guia É",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Jesus meu guia é",
+          "Amigo sem igual",
+          "Ele é o meu bom Pastor",
+          "E quando eu sentir temor"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Nele confiarei",
+          "Nele confiarei",
+          "Fraco sou, mas Deus me dá",
+          "Seu poder, Seu amor"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Jesus meu guia é",
+          "Amigo sem igual",
+          "Ele é o meu bom Pastor",
+          "E quando eu sentir temor"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Nele confiarei",
+          "Nele confiarei",
+          "Fraco sou, mas Deus me dá",
+          "Seu poder, Seu amor"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 5,
+        "lines": [
+          "Nele confiarei"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "405",
+    "number": 405,
+    "title": "Que Consolo e Paz",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Que consolo e paz, que prazer me traz",
+          "O descanso ter nas mãos de Deus!",
+          "Ele tem prazer em tomar meu ser",
+          "E descanso dá nos braços Seus"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Que paz e amor",
+          "E descanso traz a mão de Deus!",
+          "Feliz estou",
+          "Em poder estar nos braços Seus!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Sempre avante vou, confiante estou",
+          "Pois descanso achei na mão de Deus",
+          "Tudo irei vencer pelo Seu poder",
+          "E descanso ter nos braços Seus"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Que paz e amor",
+          "E descanso traz a mão de Deus!",
+          "Feliz estou",
+          "Em poder estar nos braços Seus!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 5,
+        "lines": [
+          "Lutas hei de ter pelo meu viver",
+          "Mas poder terei nas mãos de Deus",
+          "Minha vida assim há de ser sem fim",
+          "Pois a salvo estou nos braços Seus"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 6,
+        "lines": [
+          "Que paz e amor",
+          "E descanso traz a mão de Deus!",
+          "Feliz estou",
+          "Em poder estar nos braços Seus!"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "406",
+    "number": 406,
+    "title": "Louvai a Cristo",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Ó louvai-O: Cristo, o bom Mestre divino!",
+          "Pra salvar-nos, a Sua vida deu",
+          "Graça e força hoje aos contritos outorga",
+          "Pois Seu sangue por todos nós verteu",
+          "Sim, louvai-O; seja pra sempre honrado!",
+          "Por Seus filhos, um mediador será"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Exaltai-O pelas excelsas grandezas",
+          "Desta graça que hoje aos perdidos dá!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Ó louvai-O: Cristo, o bom Mestre divino!",
+          "Bons conselhos dá Ele ao pecador",
+          "Dai ao mundo dádivas maravilhosas",
+          "Concedidas por esse Salvador",
+          "Ide, todos servos fiéis de Cristo",
+          "Ele nunca vos abandonará"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Ó louvai-O: Cristo, o bom Mestre divino!",
+          "Entre os povos, Seu grande amor cantai",
+          "Cristo volta com os milhares de anjos",
+          "Logo ao mundo esta mensagem dai",
+          "Cristo, o bom Pastor, cuida do Seu rebanho",
+          "Ele os salvos sempre conduzirá"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "407",
+    "number": 407,
+    "title": "Brilha em Nós",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Pai, deixe a luz de Sua face brilhar em mim",
+          "Pai, deixe a luz de Sua face brilhar em mim",
+          "E salvo estarei, e vida terei",
+          "Mas se vier a escuridão",
+          "Deixe a luz brilhar em mim"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Pai, graça e paz de Sua mão vou receber",
+          "Pai, graça e paz de Sua mão vou receber",
+          "E salvo estarei, e vida terei",
+          "Mas se vier a escuridão",
+          "Graça e paz, vou receber"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Pai, deixe o amor, Seu amor sem fim, me envolver",
+          "Pai, deixe o amor, Seu amor sem fim, me envolver",
+          "E salvo estarei, e vida terei",
+          "Mas se vier a escuridão",
+          "Deixe o amor me envolver",
+          "E Sua luz brilhar em mim."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "408",
+    "number": 408,
+    "title": "Somente o Santo Deus",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Quem mais domina o imenso céu?",
+          "Quem mais faz todo rei se prostrar?",
+          "Quem mais sussurra e as trevas tremem?",
+          "Somente o Santo Deus!"
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Venha e contemple",
+          "Aquele que é único",
+          "Cante, declare",
+          "Pra sempre um Santo Deus",
+          "Venha, adore o Santo Deus"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Que outra beleza merece glória?",
+          "Qual outro brilho ofusca o sol?",
+          "Que majestade em justiça reina?",
+          "Somente o Santo Deus!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Que outra glória arde como fogo?",
+          "Que outro poder pode reviver?",
+          "Que outro nome é invencível?",
+          "Somente o Santo Deus!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Quem é capaz de me resgatar?",
+          "E Seu Filho único oferecer",
+          "Quem mais me chama pra ser Seu filho?",
+          "Somente o Santo Deus"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "409",
+    "number": 409,
+    "title": "Belo Tu És",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Esplêndido, esplêndido, é Teu amor fiel!",
+          "Tua graça lá na cruz me redimiu!",
+          "Jamais se viu, ninguém ouviu, ou pôde compreender",
+          "quão belo e quão glorioso és!"
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Belo Tu és, Te amo!",
+          "Belo Tu és, Te adoro!",
+          "Belo Tu és, minh' alma canta a Ti!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Deus todo-poderoso,",
+          "Tua glória enche os céus!",
+          "Tuas grandes obras todos podem ver!",
+          "Beleza e majestade que me fazem Te adorar!",
+          "Quão belo e esplêndido Tu és!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Teu grande amor conquistou o meu ser,",
+          "o meu coração pôde ver:",
+          "Na terra ou no céu",
+          "não há outro igual a Ti! (2x)"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "410",
+    "number": 410,
+    "title": "Nós Glorificamos",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Nós glorificamos o Rei dos reis",
+          "Nós glorificamos o Pai",
+          "Nós glorificamos o Senhor",
+          "Ele é o grande Eu Sou"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "O Senhor reina com poder",
+          "Adoramos nosso Pai",
+          "Adoramos nosso Deus da paz",
+          "Só louvamos nosso Rei"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Ele é o Senhor da terra e céus",
+          "É o Senhor de todos nós",
+          "Ele é o Senhor do universo",
+          "Ele merece o louvor"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Aleluias para o rei dos reis",
+          "Aleluias à Jesus",
+          "Aleluias para o criador",
+          "Ele é o grande Eu Sou"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "411",
+    "number": 411,
+    "title": "Glorificarei",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Glorificarei ao Rei dos reis",
+          "Ao Cordeiro Santo de Deus",
+          "Glorificarei ao meu Senhor,",
+          "Ao que diz: O grande Eu Sou"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Reino e majestade Jeová",
+          "Ao Seu trono prostramos nós",
+          "Em justiça vinda adorar,",
+          "Levantemos nossa voz"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Aleluia dou ao Rei dos Reis,",
+          "Ao cordeiro de Deus",
+          "Aleluia dou ao meu Senhor",
+          "Ao que diz: O grande Eu Sou"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Glorificarei ao Rei dos reis",
+          "Ao Cordeiro Santo de Deus",
+          "Glorificarei ao meu Senhor,",
+          "Ao que diz: O grande Eu Sou"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "412",
+    "number": 412,
+    "title": "Aleluia",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Pai eu quero Te amar,"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Tocar o Teu coração",
+          "E me derramar aos Teus pés",
+          "Mais perto eu quero estar Senhor,"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "E Te adorar com tudo que eu sou",
+          "E Te render glória e aleluia"
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Aleluia, Aleluia, Aleluia, Aleluia"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Quando lutas vierem me derrubar,",
+          "Firmado em Ti eu estarei",
+          "Pois Tu és o meu refúgio oh Deus",
+          "E não importa onde estiver,"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 5,
+        "lines": [
+          "No vale ou no monte, adorarei",
+          "A Ti eu canto glória e aleluia"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 6,
+        "lines": [
+          "Senhor eu preciso do Teu olhar,",
+          "Ouvir as batidas do Teu coração",
+          "Me esconder nos Teus braços oh Pai",
+          "Toda minha alma deseja a Ti,"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 7,
+        "lines": [
+          "Junto com os anjos cantarei",
+          "Tu és santo, exaltado, aleluia"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "413",
+    "number": 413,
+    "title": "Pecamos",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Pecamos em palavra,",
+          "Ação, e no pensar",
+          "Insegurança e fraqueza a nos culpar",
+          "Erramos contra o nosso irmão",
+          "E contra Deus",
+          "Arrependido aqui estou",
+          "E volto a ti, oh Deus!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Pai das nações que abençoa",
+          "O pobre ser",
+          "Nós somos servos Da tua vontade aqui",
+          "Nós nos tornamos insensíveis,",
+          "Homens maus",
+          "Mas nosso riso agora é choro",
+          "E em nós se ver seu coração!"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "414",
+    "number": 414,
+    "title": "Amigo de Deus",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Não existe nada melhor",
+          "Do que ser amigo de Deus",
+          "Caminhar seguro na luz",
+          "Desfrutar do seu amor",
+          "Ter a paz no coração",
+          "Viver sempre em comunhão",
+          "E assim perceber",
+          "A grandeza do poder",
+          "De Jesus meu bom pastor"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "415",
+    "number": 415,
+    "title": "A Ele a Glória",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Porque Dele e por Ele,",
+          "Para Ele são todas as coisas. (2x)"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "A Ele a glória! (3x) Pra sempre, amém!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Quão profundas riquezas,",
+          "O saber e o conhecer de Deus!",
+          "Quão insondáveis",
+          "Seus juízos e Seus caminhos!"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "416",
+    "number": 416,
+    "title": "Sonda-Me Senhor",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Sonda-me, Senhor, e me conhece,",
+          "Quebranta o meu coração",
+          "Transforma-me",
+          "Conforme a Tua palavra",
+          "E enche-me até que em mim",
+          "Se ache só a Ti",
+          "Então, usa-me, Senhor, usa-me"
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Como um farol que brilha à noite",
+          "Como ponte sobre as águas",
+          "Como abrigo no deserto",
+          "Como flecha que acerta o alvo",
+          "Eu quero ser usado,",
+          "Da maneira que Te agrade",
+          "Em qualquer hora e em qualquer lugar, eis aqui a minha vida",
+          "Usa-me, Senhor, usa-me"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Sonda-me, Senhor, e me conhece,",
+          "Quebranta o meu coração",
+          "Transforma-me",
+          "Conforme a Tua palavra",
+          "E enche-me até que em mim",
+          "Se ache só a Ti",
+          "Então, usa-me, Senhor, usa-me"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Sonda-me, quebranta-me",
+          "Transforma-me, enche-me,",
+          "E usa-me..."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Sonda-me, quebranta-me",
+          "Transforma-me, enche-me,",
+          "E usa-me, Senhor."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "417",
+    "number": 417,
+    "title": "Coração Igual ao Teu",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Se Tu olhares, Senhor,",
+          "Pra dentro de mim,",
+          "Nada encontrarás de bom;",
+          "Mas um desejo eu tenho",
+          "De ser transformado.",
+          "Preciso tanto do Teu perdão,",
+          "Dai-me um novo coração!"
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Dá-me um coração igual ao Teu,",
+          "Meu Mestre!",
+          "Dá-me um coração igual ao Teu!",
+          "Coração disposto a obedecer,",
+          "Cumprir todo o Teu querer;",
+          "Dai-me um coração igual ao Teu!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Ensina-me amar o meu irmão,",
+          "A olhar com Teus olhos,",
+          "Perdoar com Teu perdão.",
+          "Enche-me com Teu Espírito,",
+          "Endireita os meus caminhos.",
+          "Deus, dai-me um novo coração!"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "418",
+    "number": 418,
+    "title": "Cristo Todo Dia",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Jesus Cristo! Cristo na alvorada;",
+          "Cristo ao meio-dia.",
+          "Jesus Cristo! Cristo com o por do sol.",
+          "(Baixos: Eu vou amá-Lo)"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Ame-O, ame-O! Ame-O na alvorada;",
+          "Ame-O ao meio-dia.",
+          "Ame-O, ame-O!",
+          "Ame-O com o por do sol.",
+          "(Baixos: Eu vou louvá-Lo)"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Louve-O, louve-O! Louve-O na alvorada;",
+          "Louve-O ao meio-dia.",
+          "Louve-O, louve-O!",
+          "Louve-O com o por do sol.",
+          "(Baixos: Seu grande Amigo)"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Jesus Cristo! Ame-O na alvorada;",
+          "Louve-O ao meio-dia.",
+          "Jesus Cristo! Sirva-O com o por do sol."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "419",
+    "number": 419,
+    "title": "Digno de Glória",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Digno de glória e honra.",
+          "Levantemos nossas mãos,",
+          "Pro Teu Nome exaltar. (bis)."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Porque grande és Tu,",
+          "Maravilhas fazes Tu.",
+          "Não há outro igual a Ti. (Não, não há)",
+          "Não há outro igual a Ti. (bis)"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "420",
+    "number": 420,
+    "title": "É o Nosso Deus",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Quem mantém as águas em sua mão?",
+          "Quem da areia conta cada grão?",
+          "Fala, e reis e povos faz tremer?",
+          "A criação se prostra a adorar!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Quem a Ele pode aconselhar?",
+          "Seus decretos pode questionar?",
+          "Quem a Ele pode instruir?",
+          "Quem explica todo o seu agir?"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "É o nosso Deus, no Seu trono está! Vamos adorá-Lo!",
+          "É o nosso Rei, Não há outro igual! Vamos adorá-Lo!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Quem sofreu dos cravos dura dor?",
+          "Quem pagou o mal do pecador?",
+          "Jesus Cristo humilde padeceu!",
+          "Triunfou e reina com poder!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 5,
+        "lines": [
+          "É o nosso Deus, no Seu trono está! Vamos adorá-Lo!",
+          "É o nosso Rei, Não há outro igual! Vamos adorá-Lo!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 6,
+        "lines": [
+          "Reinará pra sempre! (Que sua glória encha a terra)",
+          "Reinará pra sempre! (Que sua glória encha a terra)",
+          "Reinará pra sempre! (Que sua glória encha a terra)",
+          "Reinará pra sempre! (Que sua glória)"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 7,
+        "lines": [
+          "É o nosso Deus, no Seu trono está! Vamos adorá-Lo!",
+          "É o nosso Rei, Não há outro igual! Vamos adorá-Lo!",
+          "É o nosso Deus, no Seu trono está! Vamos adorá-Lo!",
+          "É o nosso Rei, Não há outro igual! Vamos adorá-Lo!"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "421",
+    "number": 421,
+    "title": "Senhor Te Quero",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Eu Te busco, Te procuro, ó Deus!",
+          "No silêncio Tu estás.",
+          "Eu Te busco, toda hora espero em Ti;",
+          "Revela-Te a mim,",
+          "Conhecer-Te eu quero mais!"
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Senhor, Te quero! Quero ouvir Tua voz",
+          "Senhor, Te quero mais!",
+          "Quero tocar-Te, Tua face eu quero ver;",
+          "Senhor, Te quero mais!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Prosseguindo para o alvo, eu vou",
+          "A coroa conquistar; Vou lutando,",
+          "Nada pode me impedir.",
+          "Eu vou Te seguir,",
+          "Conhecer-Te eu quero mais!"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "422",
+    "number": 422,
+    "title": "Só em Jesus - 1",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Só em Jesus, meu Redentor",
+          "A minha fé firmada está;",
+          "Seu sangue salva o pecador,",
+          "Seu nome vida eterna dá."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "A Rocha eterna Ele é,",
+          "Pedra de esquina sem igual;",
+          "O que sustenta a minha fé,",
+          "Seguro abrigo contra o mal."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Ao meu Senhor sou devedor",
+          "De sua graça que é sem fim;",
+          "Como pagar tão alto amor,",
+          "Que O fez subir à cruz por mim?"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Só a Jesus eu servirei,",
+          "A Ele a vida entregarei;",
+          "Ao Deus que homem encarnou,",
+          "Ao Rei que servo se tornou."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 5,
+        "lines": [
+          "Só por Jesus irei travar",
+          "O bom combate pela fé;",
+          "Se vagas querem me tragar,",
+          "Nele a vitória certa é;"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 6,
+        "lines": [
+          "Durante a noite ele é a luz,",
+          "Até que chegue o alvorecer;",
+          "No dia quando o rei Jesus",
+          "Dos céus em glória vai descer"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 7,
+        "lines": [
+          "Só por Jesus irei travar",
+          "O bom combate pela fé;",
+          "-Se vagas querem me tragar,",
+          "Nele a vitória certa é (2x)"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "423",
+    "number": 423,
+    "title": "Só em Jesus - 2",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Só em Jesus eu encontrei",
+          "Minha esperança, a luz, canção",
+          "Lugar seguro nele achei",
+          "Rocha que não se abalará",
+          "Que grande amor em Cristo há",
+          "Sem medo posso caminhar",
+          "Consolador, completa-me",
+          "Em seu amor me apegarei"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Só em Jesus eu encontrei",
+          "Homem divino, Salvador",
+          "Presente doce de amor",
+          "Foi rejeitado pelos seus",
+          "Naquela cruz, sim, padeceu",
+          "Justiça Ele satisfez",
+          "Não sofro mais condenação",
+          "Por Sua morte viverei"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Seu corpo inerte alı ficou",
+          "Luz que ante as trevas se apagou",
+          "Glorioso dia então nasceu",
+          "Vivo Ele está, ressuscitou",
+          "Vitorioso ressurgiu",
+          "Do meu pecado redimiu",
+          "Pois Ele é meu e d'Ele eu sou",
+          "Pelo Seu sangue me comprou"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Não há mais medo",
+          "Ou culpa em mim",
+          "Esse é o poder de Cristo",
+          "Por toda minha vida aqui",
+          "DEle serão os meus dias",
+          "Nem o poder do inferno irá",
+          "Das Suas mãos me afastar",
+          "Até voltar ou me chamar",
+          "Só em Jesus confiarei"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "424",
+    "number": 424,
+    "title": "Poder pra Salvar",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Todos necessitam de um amor perfeito,",
+          "Perdão e compaixão",
+          "Todos necessitam de graça e esperança",
+          "De um Deus que salva"
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Cristo move as montanhas",
+          "E tem poder pra salvar",
+          "Tem poder pra salvar",
+          "Pra sempre, autor da salvação.",
+          "Jesus a morte venceu",
+          "Sobre a morte venceu"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Me aceita com meus medos,",
+          "Falhas e temores. Enche o meu viver",
+          "A minha vida entrego",
+          "Pra seguir Teus passos. A ti me rendo"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Possa o mundo ver brilhar a luz",
+          "Cantamos para a glória",
+          "Do Senhor Jesus (Cristo - Na 1ª vez!)"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "425",
+    "number": 425,
+    "title": "Ouça Meu Coração",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Como explicar? Como descrever",
+          "Amor tão alto tão profundo,",
+          "Que é impossível de medir",
+          "Meus anseios vês",
+          "Meus medos conheces",
+          "Palavras não conseguem expressar,",
+          "Mas espero que me ouça"
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Ouça meu coração no espírito cantar",
+          "Canções de louvor, canções sem cessar",
+          "Levantemos nossa voz",
+          "Para louvar-Te cada dia mais",
+          "Com a voz é incapaz falar do meu amor",
+          "Ouça meu coração"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Se eu pudesse falar palavras sem cessar",
+          "E se mil anos eu tivesse,",
+          "Podia apenas começar",
+          "Se escutas meu coração,",
+          "Escutas o pulsar",
+          "Tu és o caminho, a vida e a verdade",
+          "Te dou minha gratidão"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "426",
+    "number": 426,
+    "title": "Tudo pra Nós",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Pedra angular, base forte",
+          "És fiel, até o fim",
+          "Esperamos em Ti, Jesus",
+          "Tu és tudo para nós"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Unigênito, enviado",
+          "Esperança lá na cruz",
+          "O Messias prometido",
+          "Jesus é tudo para nós"
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Que a glória do seu Nome",
+          "Seja a marca da Igreja",
+          "Que a justiça do Senhor",
+          "Entre nós sempre floresça",
+          "Que o amor da salvação",
+          "Preencha nossa existência",
+          "Tu és tudo para nós"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Quando tudo neste mundo",
+          "Se findar te verei",
+          "E pra sempre louvaremos",
+          "Jesus, é tudo para nós"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Tudo pra nós (3x)",
+          "Jesus é tudo para nós"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "427",
+    "number": 427,
+    "title": "Rei dos Reis",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Bençãos e honra, poder e glória",
+          "Sejam dados ao Rei dos reis.",
+          "Que toda nação, toda criação se ajoelhem",
+          "Para o Rei dos reis."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Toda língua na terra e céus",
+          "Declarará Sua glória.",
+          "Todos vão se ajoelhar diante do trono. Será",
+          "Exaltado ó Deus, e Teu reino nunca acabará,",
+          "Ó Rei dos reis. (bis)"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Seu reino vai durar pra sempre:",
+          "Cante para o Rei dos reis.",
+          "Ninguém pode comparar-se",
+          "A Teu valor.",
+          "Cante para o Rei dos reis. (2x)"
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Ó Rei dos reis. (4x)"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "428",
+    "number": 428,
+    "title": "Vivo por Fé",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Não tenho cuidados",
+          "Não tenho temor",
+          "Do que me espera aqui.",
+          "Confio somente em meu Salvador,",
+          "Pois sei que Ele cuida de mim."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Vivo por fé (SC) Sim vivo por fé (TBC)",
+          "Em meu Salvador! (SC)",
+          "Em meu Salvador! (TB)",
+          "Não temerei, (SC) Não Temerei, (TB)",
+          "Me guarda o Senhor. (SC)",
+          "Me guarda o Senhor. (TBC)",
+          "Nas aflições, (S) Nas aflições, (TBC)",
+          "Ao meu lado estará. (Todos)",
+          "Meu lado estará. (TBC)",
+          "Sim, vivo por fé; (S)",
+          "Sim, vivo por fé. (TBC)",
+          "Ele me susterá! (Todos)",
+          "Me susterá! (TC)"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Eu sei que tormentas virão me abalar,",
+          "O brilho do sol faltará;",
+          "Amigos também poderão me deixar;",
+          "Jesus sempre me susterá."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Um dia virá outra vez o Senhor,",
+          "Ao céu Ele me levará;",
+          "Ali cessarão a tristeza e a dor,",
+          "Pois Deus tudo dominará."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "429",
+    "number": 429,
+    "title": "Alto Preço",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Eu sei que foi pago um alto preço",
+          "Para que contigo",
+          "Eu fosse um meu irmão.",
+          "Quando jesus derramou sua vida",
+          "Ele pensava em mim,",
+          "Ele pensava em ti, pensava em nós! (bis)"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "E nos via redimidos por seu sangue,",
+          "Lutando o bom combate do senhor",
+          "Lado a lado trabalhando,",
+          "Sua igreja edificando,",
+          "E rompendo as barreiras pelo amor."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "E na força do espírito santo,",
+          "Nós proclamamos aqui",
+          "Que pagaremos o preço",
+          "De sermos um só coração no senhor"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "E por mais que as trevas militem,",
+          "E nos tentem separar",
+          "Com nossos olhos em cristo,",
+          "Unidos iremos andar!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 5,
+        "lines": [
+          "E por mais que as trevas militem,",
+          "E nos tentem separar",
+          "Com nossos olhos em cristo.",
+          "Unidos iremos andar! (2x)"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "430",
+    "number": 430,
+    "title": "Calmo, Sereno, e Tranquilo",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Calmo, sereno e tranquilo,",
+          "Sinto descanso neste viver;",
+          "Isto devo a um Amigo,",
+          "Que só por Ele eu pude obter."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "É Jesus, meu Amigo,",
+          "Meu Senhor e Salvador; só por Ele, ganhei a",
+          "Vida eterna com Deus,",
+          "Com Deus."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Triste foi sua história,",
+          "Levado à cruz sem pecado algum;",
+          "Só porque me amou,",
+          "Morreu por mim e não hesitou."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "431",
+    "number": 431,
+    "title": "Brilha Jesus",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Vejo a luz do Senhor que brilha,",
+          "Bem no meio das trevas brilha.",
+          "Jesus Cristo a luz deste mundo,",
+          "Livra-me do pecado imundo."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Brilha em mim, brilha em mim!",
+          "Brilha Jesus,",
+          "Enche a Terra com Tua glória.",
+          "Espírito de Deus, vem, refulge em nós,",
+          "Faz transbordar sobre os povos,",
+          "A Tua graça!",
+          "Vem ordenar que haja luz, ó Senhor!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Comtemplando Tua majestade,",
+          "Eu reflito Tua bondade.",
+          "Cada dia de glória em glória",
+          "Vou contar sempre a Tua história."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "432",
+    "number": 432,
+    "title": "Bendizei",
+    "sections": [
+      {
+        "type": "chorus",
+        "lines": [
+          "Bendizei ao Senhor todo o meu ser",
+          "Seu santo nome adorai",
+          "Sim cantai ao Senhor oh meu ser",
+          "Seu santo nome exaltai"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "O sol raiou, novo dia chegou",
+          "É tempo de louvar, louvar a Deus",
+          "Por tudo o que já foi",
+          "E por tudo o que está vindo",
+          "Quero cantar até o entardecer"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Eu sinto seu amor e misericórdia",
+          "Teu nome é santo, Tu Senhor és bom",
+          "Por Tua bondade vou seguir cantando",
+          "Dez mil razões pra te adorar"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "E quando então eu chegar ao fim",
+          "E o meu viver por aqui findar",
+          "Logo eu vou te louvar pra sempre",
+          "Por dez mil anos e por muito mais"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "433",
+    "number": 433,
+    "title": "Quão Grande É Meu Deus",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Com esplendor de um Rei",
+          "Em Majestade e Luz",
+          "Faz a terra se alegrar,",
+          "Faz a terra se alegrar",
+          "Ele é a própria Luz, e as trevas vão fugir",
+          "Tremer com sua voz,",
+          "Tremer com sua voz"
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Quão grande é o meu Deus",
+          "Cantarei quão grande é o meu Deus",
+          "E todos hão de ver",
+          "Quão grande é o meu Deus"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Por gerações Ele é",
+          "O tempo está em Tuas mãos",
+          "O começo e o fim, o começo e o fim",
+          "Três se formam em um",
+          "Filho, Espírito e Pai",
+          "Cordeiro e Leão, Cordeiro e Leão"
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Quão grande...",
+          "(Homens)",
+          "Sobre todo nome é o Seu",
+          "Tu és digno do louvor",
+          "Eu cantarei",
+          "Quão Grande é o Meu Deus"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "434",
+    "number": 434,
+    "title": "Salvador, Maravilhoso",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Salvador maravilhoso,",
+          "Precioso amigo e Senhor",
+          "Quem imaginou o Cordeiro,",
+          "Morrendo pelo pecador?",
+          "Oh, morrendo pelo pecador!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Conselheiro que nos protege,",
+          "Espírito consolador",
+          "Que oferece esperança",
+          "E paz em meio à dor!",
+          "Oh, e paz em meio à dor!"
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Somente a Ti adoramos!",
+          "Somente a Ti o louvor!",
+          "Tu nos dá cura e graça",
+          "Que precisamos, Senhor!",
+          "Oh, que precisamos, Senhor!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Todo-poderoso infinito,",
+          "Meu Pai fiel ama os seus!",
+          "Na minha fraqueza me achas,",
+          "Assim me rendo a Deus!",
+          "Oh, assim me rendo a Deus!"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "435",
+    "number": 435,
+    "title": "Curvamos",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "É Senhor criador e Senhor do mar",
+          "Senhor da terra e de mim",
+          "Eras Senhor dos céus antes de começar",
+          "Senhor dos Senhores em fim!"
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Curvamos e adoramos o Senhor (3x)!",
+          "Senhor dos senhores em fim!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "É Rei criador e o Rei do mar",
+          "Rei da terra e de mim",
+          "Era Rei dos céus antes de começar",
+          "Rei dos reis em fim!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Curvamos e adoramos o Rei (3x)!",
+          "Rei dos reis em fim"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "436",
+    "number": 436,
+    "title": "Este É o Meu Desejo",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Este é meu desejo, Senhor, Te honrar!",
+          "Com meu coração, Te adorar"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Tudo o que há em mim Te dá louvor!",
+          "Só a Ti adoro, meu Senhor"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Toma o meu coração",
+          "E toda a minha alma",
+          "Eu vivo só pra Ti",
+          "Sempre que eu respirar",
+          "Cada vez que eu acordar",
+          "Faze o Teu querer em mim"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "437",
+    "number": 437,
+    "title": "Santo e Ungido",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Jesus, Jesus,",
+          "Santo e ungido, Jesus.",
+          "Jesus, Jesus, ressuscitou e és Senhor, Jesus."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Teu nome em meus lábios",
+          "É como o mel",
+          "Teu Espírito como águas",
+          "Em meu ser",
+          "Tua santa palavra é minha luz,",
+          "Cristo te amo, te amo."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Final: Jesus, Jesus."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "438",
+    "number": 438,
+    "title": "Jesus em Tua Presença",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Jesus, em Tua presença reunimo-nos aqui",
+          "Contemplamos Tua face e rendemo-nos a Ti",
+          "Pois um dia Tua morte",
+          "Trouxe vida a todos nós",
+          "E nos deu completo acesso",
+          "Ao coração do Pai (bis)"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "O véu que separava já não separa mais",
+          "A luz que outrora apagada agora brilha",
+          "E cada dia brilha mais"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Só pra Te adorar",
+          "E fazer Teu nome grande",
+          "E Te dar o louvor que é devido",
+          "Estamos nós aqui (bis)"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "439",
+    "number": 439,
+    "title": "Flua",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Flua em mim, Senhor, a Tua graça",
+          "Flua em mim, Senhor, o Teu amor",
+          "Flua em mim, Senhor, a Tua vida",
+          "Flua em mim, Senhor, o Teu perdão (bis)"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Para Te adorar",
+          "E declarar meu amor",
+          "Para Te coroar meu Rei",
+          "Senhor da minha vida (bis)"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "440",
+    "number": 440,
+    "title": "Te Louvarei (Perto Quero Estar)",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Perto quero estar",
+          "Junto aos Teus pés",
+          "Pois prazer maior não há",
+          "Que me render e Te adorar"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Tudo que há em mim",
+          "Quero Te ofertar",
+          "Mas ainda é pouco, eu sei",
+          "Se comparado ao que ganhei"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Não sou apenas servo",
+          "Teu amigo me tornei"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Te louvarei",
+          "Não importam as circunstâncias",
+          "Adorarei",
+          "Somente a Ti, Jesus"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "441",
+    "number": 441,
+    "title": "Toma Minha Vida",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Toma a minha vida,",
+          "Prostrado em Teu altar",
+          "Toma a minha vida,",
+          "Venho Te entregar (bis)"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Cada canção que eu cantar",
+          "Cada palavra que disser",
+          "Meus pensamentos e ações",
+          "Meus sonhos, minhas intenções"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Sejam pra Te honrar Senhor",
+          "E Te adorar com todo o amor",
+          "Rendo a Ti meu coração",
+          "Tudo o que sou"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "442",
+    "number": 442,
+    "title": "Descansarei",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Cobre-me",
+          "Com Tuas mãos",
+          "Com poder",
+          "Vem me esconder, Senhor"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Se o trovão e o mar se erguendo vêm",
+          "Sobre a tempestade eu voarei",
+          "Sobre as águas Tu também és Rei",
+          "Descansarei, pois sei que és Deus"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Minh'alma está",
+          "Segura em Ti",
+          "Sabe bem",
+          "Que em Cristo firme está"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Se o trovão e o mar se erguendo vêm",
+          "Sobre a tempestade eu voarei",
+          "Sobre as águas Tu também és Rei",
+          "Descansarei, pois sei que és Deus"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 5,
+        "lines": [
+          "Se o trovão e o mar se erguendo vêm",
+          "Sobre a tempestade eu voarei",
+          "Sobre as águas Tu também és Rei",
+          "Descansarei, pois sei que és Deus",
+          "Meu Deus"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 6,
+        "lines": [
+          "Minh'alma está",
+          "Segura em Ti",
+          "Sabe bem",
+          "Que em Cristo firme está"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 7,
+        "lines": [
+          "Se o trovão e o mar se erguendo vêm",
+          "Sobre a tempestade eu voarei",
+          "Sobre as águas Tu também és Rei",
+          "Descansarei, pois sei que és Deus (3x)"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "443",
+    "number": 443,
+    "title": "Rompendo em Fé",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Cada vez que a minha fé é provada",
+          "Tu me dás a chance de crescer um pouco mais",
+          "As montanhas e vales, desertos e mares",
+          "Que atravesso me levam para perto de Ti"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Minhas provações não são maiores do que o meu Deus",
+          "E não vão me impedir de caminhar",
+          "Se diante de mim não se abrir o mar",
+          "Deus vai me fazer andar por sobre as águas"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Rompendo em fé",
+          "Minha vida se revestirá do Teu poder",
+          "Rompendo em fé",
+          "Com ousadia, vou mover no sobrenatural"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Vou lutar e vencer",
+          "Vou plantar e colher",
+          "A cada dia vou viver rompendo em fé"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "444",
+    "number": 444,
+    "title": "Mais de Cristo",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Mais de Cristo eu quero ver",
+          "Mais do Seu amor obter",
+          "Mais da Sua compaixão",
+          "Mais da Sua mansidão"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Mais, mais de Cristo!",
+          "Mais, mais de Cristo!",
+          "Mais do Seu puro e santo amor",
+          "Mais de Ti mesmo, ó Salvador!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Mais de Cristo compreender",
+          "Quero a Cristo obedecer",
+          "Sempre perto dEle andar",
+          "Seu amor manifestar"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "445",
+    "number": 445,
+    "title": "Rocha Eterna",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Rocha eterna, foi na cruz",
+          "Que morreste Tu, Jesus;",
+          "Vem de Ti um sangue tal",
+          "Que me limpa todo mal;",
+          "Traz as bênçãos do perdão:",
+          "Gozo, paz e salvação."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Nem trabalho, nem penar",
+          "Pode o pecador salvar;",
+          "Só Tu podes, bom Jesus,",
+          "Dar-me vida, paz e luz.",
+          "Peço-Te perdão, Senhor,",
+          "Pois confio em Teu amor."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Eis que vem a morte atrás",
+          "Desta vida tão fugaz;",
+          "Quando eu ao meu lar subir,",
+          "E Teu rosto em glória vir,",
+          "Rocha eterna que prazer",
+          "Eu terei de em Ti viver!"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "446",
+    "number": 446,
+    "title": "Necessitado",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "De Ti, Jesus, Senhor,",
+          "Eu tenho precisão;",
+          "Só Teu divino amor",
+          "Dá paz ao coração."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Ó meu Jesus, comigo",
+          "Vem estar agora,",
+          "Té que no céu contigo",
+          "Eu vá morar."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Oh, dá-me, meu Jesus,",
+          "Fruir Teu rico amor,",
+          "E andar em Tua luz,",
+          "Submisso a Ti, Senhor!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Vencendo a tentação,",
+          "Contente viverei",
+          "Sob Tua proteção,",
+          "Ó meu bendito Rei!"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "447",
+    "number": 447,
+    "title": "Vou Te Buscar",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "A minha alma Te busca insaciavelmente",
+          "Tenho sede de Deus, meu Senhor",
+          "Tenho sede das fontes eternas do amor",
+          "Tenho sede do infinito, quero Te encontrar"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Toda vez que eu busco a Tua santidade",
+          "Minha face começa a brilhar",
+          "E até minha sombra é cura",
+          "Quando estou em Tua presença,",
+          "Não consigo explicar"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Vou Te buscar nos montes",
+          "Vou Te buscar nos vales",
+          "Vou Te buscar, Senhor",
+          "Vou seguir o Teu amor",
+          "Vou Te buscar bem cedo",
+          "Vou Te buscar no pôr do sol",
+          "Vou Te buscar sem medo",
+          "Quero Te encontrar"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Espírito Santo me dá entendimento",
+          "Para compreender-te Senhor",
+          "Eu desejo o centro da Tua vontade",
+          "Caminhando na verdade vou Te adorar"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 5,
+        "lines": [
+          "Toda vez que eu busco a Tua santidade",
+          "Minha face começa a brilhar",
+          "E até minha sombra é cura",
+          "Quando estou em Tua presença,",
+          "Não consigo explicar"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 6,
+        "lines": [
+          "Não há quem possa conhecer a Deus",
+          "Pelos caminhos dos homens",
+          "Pelos caminhos dos anjos",
+          "Vou Te buscar pelo caminho da cruz",
+          "Te conhecer Jesus"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 7,
+        "lines": [
+          "Eu vou contar uma história",
+          "Pra você que está na Biblia",
+          "Que vi, e li",
+          "E minha vida não foi mesma",
+          "Depois daquele dia tudo mudou",
+          "Tudo mudou, tudo mudou",
+          "Que Deus amou o mundo de tal maneira",
+          "Que deu o seu filho unigênito",
+          "Para que todo que nEle crê",
+          "Não pereça mais tenha a vida eterna",
+          "Que a minha vida não foi mais a mesma",
+          "Depois daquele dia tudo mudou."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "448",
+    "number": 448,
+    "title": "Em Fervente Oração",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Em fervente oração, vem o teu coração",
+          "Na presença de Deus derramar!",
+          "Mas só podes fruir o que estás a pedir,",
+          "Quando tudo deixares no Altar."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Quando tudo perante o Senhor estiver,",
+          "E todo o teu ser Ele controlar,",
+          "Só, então, hás de ver que o Senhor tem poder,",
+          "Quando tudo deixares no Altar."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Maravilhas de amor te fará o Senhor.",
+          "Atendendo à oração que aceitar.",
+          "Seu imenso poder, te virá socorrer,",
+          "Quando tudo deixares no Altar."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Se orares, porém, sem o teu coração",
+          "Ter a paz que o Senhor pode dar,",
+          "Foi por Deus não Sentir que tua alma se abriu,",
+          "Tudo, tudo, deixando no Altar."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "449",
+    "number": 449,
+    "title": "Despertar para o Trabalho",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Posso tendo as mãos vazias,",
+          "Com Jesus eu me encontrar?",
+          "Nada fiz, e vão-se os dias,",
+          "Que Lhe posso apresentar?"
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Posso tendo as mãos vazias,",
+          "Com Jesus, eu me encontrar?",
+          "Quantas almas poderia",
+          "Ao Senhor apresentar?"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Não mais temerei a morte;",
+          "Vencerei por salvo estar;",
+          "Qual será a minha sorte,",
+          "Se no céu vazio entrar?"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "No celeste lar entrando,",
+          "Como irei ao Salvador?",
+          "Quantas almas irei levando,",
+          "Para meu fiel Senhor?"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Do pecado, preso em elos,",
+          "Passei anos em vão labor;",
+          "Quem me dera reavê-los,",
+          "Pra servir ao meu Senhor."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 5,
+        "lines": [
+          "Despertemos, já é dia;",
+          "Trabalhemos, com fervor;",
+          "E levemos, com alegria,",
+          "Muitas almas ao Senhor."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "450",
+    "number": 450,
+    "title": "O Exilado",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Da linda pátria estou bem longe;",
+          "Cansado estou;",
+          "Eu tenho de Jesus saudada,",
+          "Oh, quando é que eu vou?"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Passarinhos, belas flores,",
+          "Querem m'encantar;",
+          "São vãos terrestres esplendores,",
+          "Mas contemplo o meu lar."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Jesus me deu a Sua promessa;",
+          "Me vem buscar;",
+          "Meu coração está com pressa,",
+          "Eu quero já voar."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Meus pecados foram muitos,",
+          "Mui culpado sou;",
+          "Porém, Seu sangue põe-me limpo;",
+          "Eu para pátria vou."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 5,
+        "lines": [
+          "Qual filho de seu lar saudoso,",
+          "Eu quero ir;",
+          "Qual passarinho para o ninho,",
+          "Pra os braços Seus fugir;"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 6,
+        "lines": [
+          "É fiel, Sua vinda é certa,",
+          "Quando... Eu não sei.",
+          "Mas Ele manda estar alerta;",
+          "Do exílio voltarei."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 7,
+        "lines": [
+          "Sua vinda aguardo eu cantando;",
+          "Meu lar no céu;",
+          "Seus passos hei de ouvir soando",
+          "Além do escuro véu."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 8,
+        "lines": [
+          "Passarinhos, belas flores,",
+          "Querem m'encantar;",
+          "São vãos terrestres esplendores,",
+          "Mas contemplo o meu lar."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "451",
+    "number": 451,
+    "title": "Grato a Ti",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Ó meu Senhor, dá-me mais gratidão,",
+          "Por tudo que Tu fizeste por mim",
+          "Por Tua graça no meu coração,",
+          "Que me encheu de ventura sem fim!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Mais grato a Ti, mais grato a Ti.",
+          "Mais consagrado, ó faz-me, Senhor!",
+          "Mais humilhado e cheio de amor",
+          "Faz-me mais grato a ti, mais grato a Ti!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "De graça deste ao meu coração",
+          "A santidade, a paz e a fé;",
+          "Gozo celeste e consolação,",
+          "E liberdade de estar aos Teus pés."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "O meu Senhor, Tu fizeste por mim,",
+          "O que ninguém poderia fazer;",
+          "Na cruz pregado verteste, assim,",
+          "Sangue, no qual sempre posso vencer!"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "452",
+    "number": 452,
+    "title": "Vem Cear",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Cristo já nos preparou",
+          "Um manjar que nos comprou,",
+          "E, agora, nos convida a cear:",
+          "Com celestial maná",
+          "Que de graça Deus te dá,",
+          "Vem, faminto, tua alma saciar."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "“Vem cear”, o Mestre chama - “vem cear”.",
+          "Mesmo hoje tu te podes saciar;",
+          "Poucos pães multiplicou,",
+          "Água em vinho transformou,",
+          "Vem, faminto, a Jesus, “vem cear”."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Eis discípulos a voltar,",
+          "Sem os peixes apanhar,",
+          "Mas Jesus os manda outra vez partir,",
+          "Ao tornar à praia, então,",
+          "Vêem no fogo peixe e pão,",
+          "E Jesus, que os convida à ceia vir."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Quem sedento se achar,",
+          "Venha a Cristo sem tardar,",
+          "Pois o vinho sem mistura Ele dá;",
+          "E também da vida, o pão,",
+          "Que nos traz consolação;",
+          "Eis que tudo preparado já está."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Breve Cristo vai descer,",
+          "E a Noiva receber",
+          "Seu lugar ao lado do Senhor Jesus;",
+          "Quem a fome suportou.",
+          "E a sede já passou,",
+          "Lá no céu irá cear em santa luz."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "453",
+    "number": 453,
+    "title": "Na Maldição da Cruz",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Tu. na maldição da cruz,",
+          "Elevaste o Teu amor,",
+          "Em rogar, Senhor Jesus:",
+          "“Pai, perdoa ao transgressor\"."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Queres, queres, com vigor,",
+          "Muitas almas despertar;",
+          "Queres, queres, ó Senhor!",
+          "Transformar, remir, curar;",
+          "Oh! Sim! Oh! Sim!",
+          "Queres todos renovar."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "O Maligno tentador é",
+          "O autor da perdição,",
+          "Do pecado, mal e dor,",
+          "Da doença e da aflição."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Tu levaste, ó bom Jesus,",
+          "O pecado, o mal e a dor,",
+          "E a doença sobre a cruz;",
+          "És o grande Salvador!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Deus é bom, quer sempre o",
+          "Bem do oprimido pecador;",
+          "Mal nenhum, em Si, Deus tem;",
+          "Deus é luz, Deus é amor!"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "454",
+    "number": 454,
+    "title": "Cristo, o Fiel Amigo",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Cristo Jesus é fiel amigo,",
+          "Ele só, Ele só.",
+          "E nas fraquezas está comigo,",
+          "Ele só, Ele só."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "E nas lutas de cada dia,",
+          "Cristo nunca me deixa só;",
+          "Pois Ele é meu seguro guia,",
+          "Ele só, Ele só."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Não há amigo mais nobre e digno,",
+          "Não, não há; não, não há.",
+          "Nem mais humilde e mais benigno,",
+          "Não, não há; não, não há."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Ao pecador perdoar anela,",
+          "Ele só, Ele só;",
+          "E pelos Seus santos sempre vela,",
+          "Ele só, Ele só."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Deus, em Seu Filho, se há comprazido,",
+          "NEle só, nEle só;",
+          "Mas Sua glória me há repartido,",
+          "DEle só, dEle só."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 5,
+        "lines": [
+          "NEle nós temos um firme guia,",
+          "NEle só, nEle só;",
+          "A noite enche de alegria,",
+          "Ele só, Ele só"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "455",
+    "number": 455,
+    "title": "Nossa Esperança",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Jesus, sim, vem do céu, em glória Ele vem!",
+          "Ecoa a nova pelo mundo além;",
+          "Oh esperança que a Sua Igreja tem!",
+          "Dai glória a Deus, Jesus em breve vem!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Nossa esperança é Sua vinda",
+          "O Rei dos reis vem nos buscar;",
+          "Nós aguardamos, Jesus, ainda,",
+          "Té a luz da manhã raiar.",
+          "Nossa esperança é Sua vinda",
+          "O Rei dos reis vem nos buscar;",
+          "Nós aguardamos, Jesus, ainda,",
+          "Té a luz da manhã raiar."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Jesus, sim, vem, os mortos esperando estão;",
+          "O gran momento da ressurreição",
+          "E do sepulcro em breve se levantarão!",
+          "Dai glória a Deus, Jesus em breve vem!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Jesus, sim, vem do céu cercado de esplendor,",
+          "Aniquilando a corrupção e a dor,",
+          "Quebrando os laços do astuto usurpador,",
+          "Dai glória a Deus, Jesus em breve vem!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 5,
+        "lines": [
+          "Jesus, sim, vem, completamente restaurar",
+          "O mundo que se arruína sem parar;",
+          "Sim, todas as coisas vem depressa transformar",
+          "Dai glória a Deus, Jesus em breve vem!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 6,
+        "lines": [
+          "Jesus, sim, vem, e sempiterna adoração",
+          "Daremos nós ao Rei de coração;",
+          "Ao grande autor da nossa eterna salvação,",
+          "Dai glória a Deus, Jesus em breve vem!"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "456",
+    "number": 456,
+    "title": "O Dia do Triunfo",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Quando lá do céu descendo,",
+          "para os Seus, Jesus voltar,",
+          "E o clarim de Deus a todos proclamar,",
+          "Que chegou o grande dia do triunfar do meu Rei,",
+          "Eu, por Sua imensa graça, lá estarei."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Quando enfim, chegar o dia",
+          "Do triunfar do meu Rei,",
+          "Quando enfim, chegar o dia,",
+          "Pela graça de Jesus eu lá estarei!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Nesse dia, quando os mortos",
+          "hão de a voz de Cristo ouvir,",
+          "E dos seus sepulcros hão de ressurgir,",
+          "Os remidos reunidos, logo aclamarão seu Rei,",
+          "E, por Sua imensa graça, lá estarei."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Pelo mundo, rejeitado foi,",
+          "Jesus, meu Salvador.",
+          "Desprezaram, insultaram meu Senhor,",
+          "Mas, faustoso, vem o dia do triunfar do meu Rei,",
+          "E, por Sua imensa graça, lá estarei."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Em mim mesmo, nada tenho em que possa confiar,",
+          "Mas Jesus morreu na cruz p'ra me salvar;",
+          "Tão somente nEle espero, sim, e sempre esperarei.",
+          "Pois, por Sua imensa graça, lá estarei."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "457",
+    "number": 457,
+    "title": "Trabalhai e Orai",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Eu quero trabalhar pra meu Senhor,",
+          "Levando a Palavra com amor;",
+          "Quero eu cantar e orar,",
+          "E ocupado quero estar,",
+          "Sim, na vinha do Senhor."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Trabalhai e orai.",
+          "Na seara e na vinha do Senhor;",
+          "Meu desejo é orar,",
+          "E ocupado quero estar",
+          "Sim, na vinha do Senhor."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Eu quero, cada dia, trabalhar;",
+          "Escravos do pecado libertar;",
+          "Conduzi-los a Jesus,",
+          "Nosso guia, nossa luz,",
+          "Sim, na vinha do Senhor."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Eu quero ser obreiro de valor,",
+          "Confiando no poder do Salvador;",
+          "Se quiseres trabalhar,",
+          "Acharás também lugar,",
+          "Sim, na vinha do Senhor."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "458",
+    "number": 458,
+    "title": "Fala Jesus Querido",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Fala, Jesus querido; fala-me, hoje sim!",
+          "Fala com Tua bondade; fica ao pé de mim;",
+          "Meu coração aberto está pra Tua voz ouvir;",
+          "Enche-me de louvores e gozo pra Te servir."
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Fala-me suavemente! Fala, com muito amor!",
+          "Vencedor para sempre, livre te hei de por,",
+          "Fala-me cada dia, sempre em terno tom;",
+          "Ouvir Tua voz eu quero e neste mesmo som."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Para teus filhos fala, e, no caminho bom,",
+          "Pela bondade os guia a pedir o santo dom;",
+          "Quererão consagrar-se para suas vidas dar.",
+          "Obedecendo a Cristo e com fervor O amar."
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Como no tempo antigo, Tu revelaste a lei,",
+          "Mostra-me Tua vontade, e à Tua santa grei;",
+          "Deixa-me gloriar-Te, quero a Ti louvar,",
+          "Cantar alegremente e sempre Te honrar."
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "459",
+    "number": 459,
+    "title": "O Rei Está Voltando",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Os fiéis são trasladados; seu trabalho aqui findou.",
+          "A carreira desses santos, nesta vida já cessou.",
+          "Do Senhor os bons ceifeiros, terminaram seu labor;",
+          "A colheita completou-se: é a vinda do Senhor!"
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "O Rei está voltando! o Rei está voltando!",
+          "A trombeta está soando, para os santos trasladar.",
+          "Sim, o Rei está voltando! o Rei está voltando!",
+          "Aleluia! Ele vem nos buscar!"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Desta Terra estão subindo os remidos para o céu,",
+          "Ao encontro do Deus Filho, que aparece além do véu.",
+          "E o templo está deserto; sua pregação cessou.",
+          "É noticia em toda parte: “Jesus Cristo já voltou!”"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Os remidos vão subindo: é a festa celestial:",
+          "Todo o Céu está se abrindo, num “Bem-vindo!” sem igual,",
+          "Qual o som de muitas águas, nós ouvimos entoar",
+          "Aleluias ao Cordeiro! - vamos indo para o Lar!"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "460",
+    "number": 460,
+    "title": "Bondade de Deus",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Te amo, Deus",
+          "Tua graça nunca falha",
+          "Todos os dias",
+          "Eu estou em Tuas mãos",
+          "Desde quando me levanto",
+          "Até eu me deitar",
+          "Eu cantarei da bondade de Deus"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "És fiel em todo tempo",
+          "Em todo tempo Tu és tão, tão bom",
+          "Com todo fôlego que tenho",
+          "Eu cantarei da bondade de Deus"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Tua doce voz",
+          "Que me guia em meio ao fogo",
+          "Na escuridão",
+          "Tua presença me conforta",
+          "Sei que és meu Pai",
+          "Que amigo és",
+          "Eu vivo na bondade de Deus"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "És fiel em todo tempo",
+          "Em todo tempo Tu és tão, tão bom",
+          "Com todo fôlego que tenho",
+          "Eu cantarei da bondade de Deus (2x)"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 5,
+        "lines": [
+          "Tua bondade me seguirá",
+          "Me seguirá, Senhor",
+          "Tua bondade me seguirá",
+          "Me seguirá, Senhor",
+          "Eu me rendo a Ti, Te dou o meu ser",
+          "Entrego tudo a Ti",
+          "Tua bondade me seguirá",
+          "Me seguirá, Senhor (2x)"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 6,
+        "lines": [
+          "És fiel em todo tempo",
+          "Em todo tempo Tu és tão, tão bom",
+          "Com todo fôlego que tenho",
+          "Eu cantarei da bondade de Deus (4x)"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "461",
+    "number": 461,
+    "title": "Caminho no Deserto",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Estás aqui movendo entre nós",
+          "Te adorarei, Te adorarei",
+          "Estás aqui mudando destinos",
+          "Te adorarei, Te adorarei",
+          "Estás aqui operando milagres",
+          "Te adorarei, Te adorarei",
+          "Estás aqui transformando nossas vidas",
+          "Te adorarei, Te adorarei"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Meu Deus é",
+          "Deus de milagres, Deus de promessas",
+          "Caminho no deserto, luz na escuridão",
+          "Meu Deus, esse é quem Tu és (2x)"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Estás aqui tocando os corações",
+          "Te adorarei, Te adorarei",
+          "Estás aqui curando multidões",
+          "Te adorarei, Te adorarei",
+          "Estás aqui restaurando corações",
+          "Te adorarei, Te adorarei",
+          "Estás aqui transformando histórias",
+          "Te adorarei, Te adorarei"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Enxuga as lágrimas, restaura os corações",
+          "Tu és a resposta, Jesus",
+          "Enxuga as lágrimas, restaura os corações",
+          "Tu és a resposta, Jesus"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 5,
+        "lines": [
+          "Meu Deus é",
+          "Deus de milagres, Deus de promessas",
+          "Caminho no deserto, luz na escuridão",
+          "Meu Deus, esse é quem Tu és"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "462",
+    "number": 462,
+    "title": "Deus Cuida de Mim",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Eu preciso aprender um pouco aqui",
+          "Preciso aprender um pouco ali",
+          "Eu preciso aprender mais de Deus",
+          "Porque Ele é quem cuida de mim",
+          "Se uma porta se fecha aqui",
+          "Outras portas se abrem ali",
+          "Eu preciso aprender mais de Deus",
+          "Porque Ele é quem cuida de mim",
+          "Deus cuida de mim"
+        ]
+      },
+      {
+        "type": "chorus",
+        "lines": [
+          "Deus cuida de mim, na sombra das Suas asas",
+          "Deus cuida de mim, eu amo a Sua casa",
+          "E não ando sozinho, não estou sozinho,",
+          "Pois sei, Deus cuida de mim"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Se na vida não tenho direção",
+          "É preciso tomar decisão",
+          "Eu sei que existe alguém que me ama",
+          "Ele quer me dar a mão",
+          "Se uma porta se fecha aqui",
+          "Outras portas se abrem ali",
+          "Eu preciso aprender mais de Deus",
+          "Porque Ele é quem cuida de mim",
+          "Deus cuida de mim"
+        ]
+      }
+    ],
+    "version": 3
+  },
+  {
+    "id": "463",
+    "number": 463,
+    "title": "Incomparável",
+    "sections": [
+      {
+        "type": "verse",
+        "number": 1,
+        "lines": [
+          "Tu não habitas em tendas",
+          "Nem em templos feitos por mãos",
+          "Eterno, perfeito, princípio e fim",
+          "Acima das religiões",
+          "Não há nada no céu",
+          "Na terra ou no mar",
+          "Semelhante a Ti, Senhor",
+          "Tua imagem está revelada em nós",
+          "Expressão do Teu amor"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 2,
+        "lines": [
+          "Incomparável, Senhor, Tu és",
+          "Tua voz ressoa como um trovão",
+          "E as nuvens são o pó dos Teus pés",
+          "Incomparável, Senhor, Tu és",
+          "Minh'alma está apegada a Ti",
+          "Senhor, incomparável és"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 3,
+        "lines": [
+          "Tu não habitas em tendas",
+          "Nem em templos feitos por mãos",
+          "Eterno, perfeito, princípio e fim",
+          "Acima das religiões",
+          "Não há nada no céu",
+          "Na terra ou no mar",
+          "Semelhante a Ti, Senhor",
+          "Tua imagem está revelada em nós",
+          "Expressão do Teu amor"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 4,
+        "lines": [
+          "Incomparável, Senhor, Tu és",
+          "Tua voz ressoa como um trovão",
+          "E as nuvens são o pó dos Teus pés",
+          "Incomparável, Senhor, Tu és",
+          "Tua voz ressoa como um trovão",
+          "E as nuvens são o pó dos Teus pés",
+          "Incomparável, Senhor, Tu és"
+        ]
+      },
+      {
+        "type": "verse",
+        "number": 5,
+        "lines": [
+          "Minh'alma está apegada a Ti",
+          "Senhor, incomparável és (3x)"
+        ]
+      }
+    ],
+    "version": 3
+  }
 ];

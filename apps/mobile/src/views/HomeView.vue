@@ -3,6 +3,7 @@ import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import {
   Check,
+  Copy,
   GripVertical,
   ListOrdered,
   Plus,
@@ -15,7 +16,11 @@ import type { Hymn } from '@hinario/core';
 import { useHymnsStore } from '@/stores/hymnsStore';
 import { useFavoritesStore } from '@/stores/favoritesStore';
 import { useWorshipStore } from '@/stores/worshipStore';
-import { shareOrCopyWorshipService } from '@/services/worshipShare';
+import {
+  buildWorshipShareMessage,
+  copyWorshipLink,
+  shareOrCopyWorshipService,
+} from '@/services/worshipShare';
 import HymnListItem from '@/components/HymnListItem.vue';
 import AddWorshipHymnModal from '@/components/AddWorshipHymnModal.vue';
 
@@ -25,6 +30,7 @@ const favoritesStore = useFavoritesStore();
 const worshipStore = useWorshipStore();
 
 const isAddModalOpen = ref(false);
+const isShareWorshipModalOpen = ref(false);
 const copiedShareFeedback = ref(false);
 
 const isWorshipView = computed({
@@ -61,11 +67,37 @@ async function openWorshipHymn(hymnId: string) {
   await router.push('/hymn');
 }
 
+const worshipSharePreview = computed(() => {
+  if (worshipHymns.value.length === 0) return null;
+  const numbers = worshipHymns.value.map((h) => h.number);
+  return buildWorshipShareMessage(numbers);
+});
+
+function openShareWorshipModal() {
+  if (worshipHymns.value.length === 0) return;
+  copiedShareFeedback.value = false;
+  isShareWorshipModalOpen.value = true;
+}
+
+async function handleCopyWorshipLink() {
+  if (worshipHymns.value.length === 0) return;
+  const numbers = worshipHymns.value.map((h) => h.number);
+  const ok = await copyWorshipLink(numbers);
+  if (ok) {
+    copiedShareFeedback.value = true;
+    setTimeout(() => {
+      copiedShareFeedback.value = false;
+    }, 2200);
+  }
+}
+
 async function handleShareWorship() {
   if (worshipHymns.value.length === 0) return;
   const numbers = worshipHymns.value.map((h) => h.number);
   const result = await shareOrCopyWorshipService(numbers);
-  if (result === 'copied') {
+  if (result === 'shared') {
+    isShareWorshipModalOpen.value = false;
+  } else if (result === 'copied') {
     copiedShareFeedback.value = true;
     setTimeout(() => {
       copiedShareFeedback.value = false;
@@ -224,18 +256,17 @@ function onHandlePointerEnd(event: PointerEvent) {
         <template v-if="worshipHymns.length > 0">
           <button
             type="button"
-            @click="handleShareWorship"
+            @click="openShareWorshipModal"
             class="flex items-center justify-center gap-1.5 rounded-xl border py-2.5 px-3 text-xs font-semibold transition-colors active:scale-[0.98] cursor-pointer"
-            :style="{
-              backgroundColor: copiedShareFeedback ? 'var(--accent-soft)' : 'var(--bg-surface)',
-              borderColor: copiedShareFeedback ? 'var(--accent-primary)' : 'var(--border-subtle)',
-              color: copiedShareFeedback ? 'var(--accent-primary)' : 'var(--text-primary)',
-            }"
+            style="
+              background-color: var(--bg-surface);
+              border-color: var(--border-subtle);
+              color: var(--text-primary);
+            "
             title="Compartilhar culto"
           >
-            <Check v-if="copiedShareFeedback" :size="15" />
-            <Share2 v-else :size="15" />
-            <span>{{ copiedShareFeedback ? 'Copiado!' : 'Compartilhar' }}</span>
+            <Share2 :size="15" />
+            <span>Compartilhar</span>
           </button>
 
           <button
@@ -412,6 +443,92 @@ function onHandlePointerEnd(event: PointerEvent) {
       :is-open="isAddModalOpen"
       @close="isAddModalOpen = false"
     />
+
+    <!-- Modal de compartilhamento do culto (escolher entre Copiar Link ou Compartilhar) -->
+    <Teleport to="body">
+      <Transition name="share-modal">
+        <div
+          v-if="isShareWorshipModalOpen && worshipSharePreview"
+          class="fixed inset-0 z-50 flex items-end justify-center sm:items-center"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Compartilhar culto"
+        >
+          <div
+            class="fixed inset-0 bg-black/60 backdrop-blur-xs"
+            @click="isShareWorshipModalOpen = false"
+          />
+
+          <div
+            class="relative z-10 flex w-full max-w-md flex-col overflow-hidden rounded-t-3xl border-t p-5 sm:rounded-3xl sm:border shadow-2xl safe-bottom"
+            style="background-color: var(--bg-surface); border-color: var(--border-subtle)"
+          >
+            <div class="flex items-center justify-between">
+              <div>
+                <h2 class="text-base font-bold" style="color: var(--text-primary)">
+                  Compartilhar Culto
+                </h2>
+                <p class="mt-0.5 text-xs" style="color: var(--text-muted)">
+                  {{ worshipHymns.length }}
+                  {{ worshipHymns.length === 1 ? 'hino selecionado' : 'hinos selecionados' }}
+                </p>
+              </div>
+              <button
+                type="button"
+                @click="isShareWorshipModalOpen = false"
+                class="flex h-8 w-8 items-center justify-center rounded-full border transition-colors cursor-pointer"
+                style="
+                  background-color: var(--bg-primary);
+                  border-color: var(--border-subtle);
+                  color: var(--text-secondary);
+                "
+                aria-label="Fechar"
+              >
+                <X :size="16" />
+              </button>
+            </div>
+
+            <div
+              class="my-3.5 rounded-xl border px-3.5 py-2.5 font-mono text-xs break-all select-all"
+              style="
+                background-color: var(--bg-primary);
+                border-color: var(--border-subtle);
+                color: var(--text-secondary);
+              "
+            >
+              {{ worshipSharePreview.url }}
+            </div>
+
+            <div class="flex items-center gap-2.5">
+              <button
+                type="button"
+                @click="handleCopyWorshipLink"
+                class="flex flex-1 items-center justify-center gap-1.5 rounded-xl border py-2.5 px-3 text-xs font-semibold transition-colors cursor-pointer"
+                :style="{
+                  backgroundColor: copiedShareFeedback ? 'var(--accent-soft)' : 'var(--bg-primary)',
+                  borderColor: copiedShareFeedback ? 'var(--accent-primary)' : 'var(--border-subtle)',
+                  color: copiedShareFeedback ? 'var(--accent-primary)' : 'var(--text-primary)',
+                }"
+              >
+                <Check v-if="copiedShareFeedback" :size="15" />
+                <Copy v-else :size="15" />
+                <span>{{ copiedShareFeedback ? 'Link copiado!' : 'Copiar link' }}</span>
+              </button>
+
+              <button
+                type="button"
+                @click="handleShareWorship"
+                class="flex flex-1 items-center justify-center gap-1.5 rounded-xl py-2.5 px-3 text-xs font-bold transition-opacity active:opacity-90 cursor-pointer"
+                style="background-color: var(--accent-primary); color: #ffffff"
+              >
+                <Share2 :size="15" />
+                <span>Compartilhar</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </Transition>
+    </Teleport>
 
     <!-- Modal de confirmação ao abrir um link de culto quando já há um culto editado pelo usuário -->
     <Teleport to="body">

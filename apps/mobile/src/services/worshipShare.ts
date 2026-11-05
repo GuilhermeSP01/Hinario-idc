@@ -172,6 +172,19 @@ export function extractWorshipSeedFromUrl(rawUrlOrSearch: string): string | null
 }
 
 /**
+ * Copia apenas o link do culto para a área de transferência.
+ */
+export async function copyWorshipLink(hymnNumbers: number[]): Promise<boolean> {
+  const { url } = buildWorshipShareMessage(hymnNumbers);
+  try {
+    await copyTextToClipboard(url);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+/**
  * Compartilha o link do culto usando o menu nativo do dispositivo (quando disponível)
  * ou copia para a área de transferência.
  */

@@ -171,7 +171,7 @@ function onHandlePointerEnd(event: PointerEvent) {
             {{ isWorshipView ? 'Organizar Culto' : 'Hinário IDC' }}
           </h1>
           <p v-if="isWorshipView" class="mt-0.5 text-xs" style="color: var(--text-muted)">
-            Arraste pela alça lateral para definir a ordem dos louvores
+            Arraste pela alça lateral para definir a ordem dos hinos
           </p>
         </div>
 
@@ -460,8 +460,12 @@ function onHandlePointerEnd(event: PointerEvent) {
           />
 
           <div
-            class="relative z-10 flex w-full max-w-md flex-col overflow-hidden rounded-t-3xl border-t p-5 sm:rounded-3xl sm:border shadow-2xl safe-bottom"
-            style="background-color: var(--bg-surface); border-color: var(--border-subtle)"
+            class="relative z-10 flex w-full max-w-md flex-col overflow-hidden rounded-t-3xl border-t px-5 pt-5 pb-7 sm:rounded-3xl sm:border sm:pb-5 shadow-2xl"
+            style="
+              background-color: var(--bg-surface);
+              border-color: var(--border-subtle);
+              padding-bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
+            "
           >
             <div class="flex items-center justify-between">
               <div>
@@ -546,8 +550,12 @@ function onHandlePointerEnd(event: PointerEvent) {
           />
 
           <div
-            class="relative z-10 flex max-h-[82dvh] w-full max-w-md flex-col overflow-hidden rounded-t-3xl border-t p-5 sm:rounded-3xl sm:border shadow-2xl safe-bottom"
-            style="background-color: var(--bg-surface); border-color: var(--border-subtle)"
+            class="relative z-10 flex max-h-[82dvh] w-full max-w-md flex-col overflow-hidden rounded-t-3xl border-t px-5 pt-5 pb-7 sm:rounded-3xl sm:border sm:pb-5 shadow-2xl"
+            style="
+              background-color: var(--bg-surface);
+              border-color: var(--border-subtle);
+              padding-bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
+            "
           >
             <h2 class="text-base font-bold" style="color: var(--text-primary)">
               Substituir culto atual?

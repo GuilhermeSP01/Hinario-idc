@@ -198,8 +198,12 @@ function clearSearch() {
 
           <!-- Rodapé Fixo -->
           <div
-            class="shrink-0 border-t px-4 py-3 safe-bottom"
-            style="background-color: var(--bg-surface); border-color: var(--border-subtle)"
+            class="shrink-0 border-t px-4 pt-3"
+            style="
+              background-color: var(--bg-surface);
+              border-color: var(--border-subtle);
+              padding-bottom: calc(0.875rem + env(safe-area-inset-bottom, 0px));
+            "
           >
             <button
               type="button"

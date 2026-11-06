@@ -118,11 +118,19 @@ const listContainerRef = ref<HTMLElement | null>(null);
 const draggingIndex = ref<number | null>(null);
 
 function onHandlePointerDown(index: number, event: PointerEvent) {
+  worshipStore.dismissReorderToast();
   const target = event.currentTarget as HTMLElement | null;
   if (target) {
     target.setPointerCapture(event.pointerId);
   }
   draggingIndex.value = index;
+}
+
+function handleCloseAddModal() {
+  isAddModalOpen.value = false;
+  if (worshipStore.isReorderToastVisible) {
+    worshipStore.showReorderHintToast(3800);
+  }
 }
 
 function onHandlePointerMove(event: PointerEvent) {
@@ -166,14 +174,9 @@ function onHandlePointerEnd(event: PointerEvent) {
       style="background-color: color-mix(in srgb, var(--bg-primary) 92%, transparent)"
     >
       <div class="flex items-center justify-between gap-3" :class="isWorshipView ? '' : 'mb-3'">
-        <div>
-          <h1 class="text-xl font-bold tracking-tight" style="color: var(--text-primary)">
-            {{ isWorshipView ? 'Organizar Culto' : 'Hinário IDC' }}
-          </h1>
-          <p v-if="isWorshipView" class="mt-0.5 text-xs" style="color: var(--text-muted)">
-            Arraste pela alça lateral para definir a ordem dos hinos
-          </p>
-        </div>
+        <h1 class="text-xl font-bold tracking-tight" style="color: var(--text-primary)">
+          {{ isWorshipView ? 'Organizar Culto' : 'Hinário IDC' }}
+        </h1>
 
         <!-- Botão circular de acesso à Organização de Culto -->
         <button
@@ -238,18 +241,18 @@ function onHandlePointerEnd(event: PointerEvent) {
 
     <!-- MODO 1: TELA DE ORGANIZAR CULTO -->
     <template v-if="isWorshipView">
-      <div class="mt-1 mb-3.5 flex items-center justify-between gap-2">
+      <div class="mt-1 mb-3.5 flex items-center justify-between gap-1.5">
         <button
           type="button"
           @click="isAddModalOpen = true"
-          class="flex flex-1 items-center justify-center gap-1.5 rounded-xl border py-2.5 px-3 text-xs font-bold transition-all active:scale-[0.99] cursor-pointer"
+          class="flex flex-1 items-center justify-center gap-1.5 rounded-xl border py-2.5 px-2.5 text-xs font-bold whitespace-nowrap transition-all active:scale-[0.99] cursor-pointer"
           style="
             background-color: var(--accent-soft);
             border-color: var(--accent-primary);
             color: var(--accent-primary);
           "
         >
-          <Plus :size="16" :stroke-width="2.5" />
+          <Plus :size="15" :stroke-width="2.5" class="shrink-0" />
           <span>Adicionar hino</span>
         </button>
 
@@ -257,7 +260,7 @@ function onHandlePointerEnd(event: PointerEvent) {
           <button
             type="button"
             @click="openShareWorshipModal"
-            class="flex items-center justify-center gap-1.5 rounded-xl border py-2.5 px-3 text-xs font-semibold transition-colors active:scale-[0.98] cursor-pointer"
+            class="flex shrink-0 items-center justify-center gap-1 rounded-xl border py-2.5 px-2.5 text-xs font-semibold whitespace-nowrap transition-colors active:scale-[0.98] cursor-pointer"
             style="
               background-color: var(--bg-surface);
               border-color: var(--border-subtle);
@@ -265,14 +268,14 @@ function onHandlePointerEnd(event: PointerEvent) {
             "
             title="Compartilhar culto"
           >
-            <Share2 :size="15" />
+            <Share2 :size="14" class="shrink-0" />
             <span>Compartilhar</span>
           </button>
 
           <button
             type="button"
             @click="worshipStore.clearWorship()"
-            class="flex items-center justify-center gap-1.5 rounded-xl border py-2.5 px-3 text-xs font-semibold transition-colors active:scale-[0.98] cursor-pointer"
+            class="flex shrink-0 items-center justify-center gap-1 rounded-xl border py-2.5 px-2.5 text-xs font-semibold whitespace-nowrap transition-colors active:scale-[0.98] cursor-pointer"
             style="
               background-color: var(--bg-surface);
               border-color: var(--border-subtle);
@@ -280,7 +283,7 @@ function onHandlePointerEnd(event: PointerEvent) {
             "
             title="Limpar lista do culto"
           >
-            <Trash2 :size="15" />
+            <Trash2 :size="14" class="shrink-0" />
             <span>Limpar</span>
           </button>
         </template>
@@ -441,8 +444,37 @@ function onHandlePointerEnd(event: PointerEvent) {
     <!-- Modal de busca e adição de hinos ao culto -->
     <AddWorshipHymnModal
       :is-open="isAddModalOpen"
-      @close="isAddModalOpen = false"
+      @close="handleCloseAddModal"
     />
+
+    <!-- Toast sutil de dica de reordenação (exibida apenas 1 vez por sessão ao passar de 1 hino) -->
+    <Teleport to="body">
+      <Transition name="toast-pop">
+        <div
+          v-if="worshipStore.isReorderToastVisible && isWorshipView && !isAddModalOpen"
+          @click="worshipStore.dismissReorderToast()"
+          role="status"
+          aria-live="polite"
+          class="fixed left-4 right-4 z-40 mx-auto flex max-w-sm items-center gap-2.5 rounded-2xl border px-3.5 py-2.5 shadow-lg cursor-pointer"
+          style="
+            bottom: calc(4.75rem + env(safe-area-inset-bottom, 0px));
+            background-color: var(--bg-surface);
+            border-color: var(--accent-primary);
+            color: var(--text-primary);
+          "
+        >
+          <span
+            class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg"
+            style="background-color: var(--accent-soft); color: var(--accent-primary)"
+          >
+            <GripVertical :size="15" />
+          </span>
+          <span class="text-xs font-medium leading-snug">
+            Arraste pela alça lateral para definir a ordem dos hinos
+          </span>
+        </div>
+      </Transition>
+    </Teleport>
 
     <!-- Modal de compartilhamento do culto (escolher entre Copiar Link ou Compartilhar) -->
     <Teleport to="body">

@@ -23,9 +23,6 @@ const themeOptions: { value: ThemeMode; label: string; icon: typeof Sun }[] = [
       <h1 class="text-xl font-bold tracking-tight" style="color: var(--text-primary)">
         Configurações
       </h1>
-      <p class="mt-0.5 text-xs" style="color: var(--text-muted)">
-        Personalize a aparência e a leitura dos hinos
-      </p>
     </header>
 
     <div class="flex flex-col gap-5">

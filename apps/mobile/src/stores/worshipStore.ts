@@ -13,7 +13,31 @@ export const useWorshipStore = defineStore('worship', () => {
   const isWorshipViewOpen = ref<boolean>(false);
   const pendingImportedIds = ref<string[] | null>(null);
 
+  // Estado em memória da sessão para a toast de dica de reordenação
+  const hasShownReorderHintInSession = ref<boolean>(false);
+  const isReorderToastVisible = ref<boolean>(false);
+  let reorderToastTimeout: ReturnType<typeof setTimeout> | null = null;
+
   const worshipSet = computed(() => new Set(worshipIds.value));
+
+  function showReorderHintToast(durationMs = 4200): void {
+    if (reorderToastTimeout) {
+      clearTimeout(reorderToastTimeout);
+    }
+    isReorderToastVisible.value = true;
+    reorderToastTimeout = setTimeout(() => {
+      isReorderToastVisible.value = false;
+      reorderToastTimeout = null;
+    }, durationMs);
+  }
+
+  function dismissReorderToast(): void {
+    if (reorderToastTimeout) {
+      clearTimeout(reorderToastTimeout);
+      reorderToastTimeout = null;
+    }
+    isReorderToastVisible.value = false;
+  }
 
   async function initWorship(): Promise<void> {
     const [storedIds, edited] = await Promise.all([
@@ -44,7 +68,12 @@ export const useWorshipStore = defineStore('worship', () => {
 
   async function addHymn(hymnId: string): Promise<void> {
     if (worshipSet.value.has(hymnId)) return;
-    await persistUserChange([...worshipIds.value, hymnId]);
+    const nextIds = [...worshipIds.value, hymnId];
+    await persistUserChange(nextIds);
+    if (nextIds.length > 1 && !hasShownReorderHintInSession.value) {
+      hasShownReorderHintInSession.value = true;
+      showReorderHintToast();
+    }
   }
 
   async function removeHymn(hymnId: string): Promise<void> {
@@ -138,6 +167,7 @@ export const useWorshipStore = defineStore('worship', () => {
     isEditedByUser,
     isWorshipViewOpen,
     pendingImportedIds,
+    isReorderToastVisible,
     initWorship,
     hasHymn,
     getOrderNumber,
@@ -150,5 +180,7 @@ export const useWorshipStore = defineStore('worship', () => {
     handleIncomingSharedWorship,
     confirmPendingImport,
     cancelPendingImport,
+    showReorderHintToast,
+    dismissReorderToast,
   };
 });

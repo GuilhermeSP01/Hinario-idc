@@ -238,3 +238,20 @@ input[type="search"]::-webkit-search-results-decoration {
   transform: translateY(24px);
   opacity: 0;
 }
+
+/* Transição da Toast Notification */
+.toast-pop-enter-active {
+  transition: opacity 0.24s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.24s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.toast-pop-leave-active {
+  transition: opacity 0.18s cubic-bezier(0.4, 0, 1, 1),
+    transform 0.18s cubic-bezier(0.4, 0, 1, 1);
+}
+
+.toast-pop-enter-from,
+.toast-pop-leave-to {
+  opacity: 0;
+  transform: translateY(12px) scale(0.96);
+}

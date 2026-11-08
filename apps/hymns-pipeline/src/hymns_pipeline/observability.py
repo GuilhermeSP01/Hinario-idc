@@ -40,13 +40,18 @@ VALIDATORS = {
     'dryRun': lambda v: type(v) is bool,
     'errorType': lambda v: isinstance(v, str) and v in {'ValueError', 'OSError', 'KeyError', 'ValidationError', 'TypeError', 'Exception', 'PublicationError'},
     'errorCode': lambda v: isinstance(v, str) and v in {'invalid_input', 'filesystem_error', 'validation_failed', 'internal_error',
-                                'publication_failed', 'publication_outcome_unknown', 'invalid_configuration'},
+                                'publication_failed', 'publication_outcome_unknown', 'invalid_configuration',
+                                'immutable_conflict', 'integrity_mismatch', 'editorial_review_required', 'remote_version_conflict',
+                                'release_version_used', 'version_downgrade', 'publication_limit', 'credentials_unavailable'},
     'schemaPath': lambda v: isinstance(v, str) and len(v) < 300 and bool(re.fullmatch(r'[A-Za-z0-9_/$.-]+', v)),
 }
 ERROR_FIELDS = {'errorType', 'errorCode', 'schemaPath', 'httpStatus'}
 RELEASE_FIELDS = {'releaseVersion', 'releaseHash', 'projectId', 'dryRun', 'writes', 'upserts',
                   'removals', 'addedCount', 'changedCount', 'hymnCount'}
 EVENT_FIELDS = {
+    'bronze.ingest.started': {'sourceVersion'},
+    'silver.transform.started': {'sourceVersion'},
+    'gold.release.started': {'datasetId', 'releaseVersion'},
     'pipeline.command.started': set(),
     'pipeline.command.succeeded': {'durationMs'},
     'pipeline.command.failed': ERROR_FIELDS | {'durationMs'},
@@ -124,6 +129,12 @@ def error_context(error):
     if isinstance(error, OSError):
         return dict(errorType='OSError', errorCode='filesystem_error')
     if isinstance(error, (ValueError, KeyError, TypeError)):
+        reasons = {'Immutable artifact differs': 'immutable_conflict', 'checksum mismatch': 'integrity_mismatch',
+                   'hash mismatch': 'integrity_mismatch', 'requires review': 'editorial_review_required',
+                   'Remote version changed': 'remote_version_conflict', 'Version already used': 'release_version_used',
+                   'must be higher': 'version_downgrade', 'exceeds': 'publication_limit',
+                   'ADC credentials unavailable': 'credentials_unavailable'}
+        reason = next((code for marker, code in reasons.items() if marker in str(error)), 'invalid_input')
         return dict(errorType=type(error).__name__ if type(error).__name__ in {'ValueError', 'KeyError', 'TypeError'} else 'ValueError',
-                    errorCode='invalid_input')
+                    errorCode=reason)
     return dict(errorType='Exception', errorCode='internal_error')

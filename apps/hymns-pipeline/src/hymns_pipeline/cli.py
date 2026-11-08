@@ -1,5 +1,6 @@
 """CLI: every stage is explicit; extraction never publishes or overwrites the seed."""
 import argparse
+import json
 from pathlib import Path
 from time import perf_counter
 from . import observability as logs
@@ -59,8 +60,10 @@ def main():
                 export_seed(release, args.check)
             elif args.command == 'publish':
                 from .firestore import publish
-                publish(release, manifest, args.project, args.expected_remote_version, args.dry_run)
-            print(f'{args.command}: release {args.release} OK')
+                summary = publish(release, manifest, args.project, args.expected_remote_version, args.dry_run)
+                print(json.dumps(dict(summary, project=args.project, dryRun=args.dry_run)))
+            if args.command != 'publish':
+                print(f'{args.command}: release {args.release} OK')
         logs.emit('pipeline.command.succeeded', durationMs=logs.elapsed(start))
     except Exception as error:
         if not getattr(error, 'logged', False):

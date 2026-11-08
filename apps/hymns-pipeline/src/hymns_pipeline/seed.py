@@ -1,5 +1,6 @@
 """Explicit consumer projection from a validated Gold release."""
 import json
+from . import observability as logs
 from .storage import ROOT
 
 SEED = ROOT / 'packages/firebase/src/seed/initialHymns.ts'
@@ -21,3 +22,5 @@ def export_seed(release, check=False):
             raise ValueError('Offline seed differs from Gold release; run hymns:seed')
     else:
         SEED.write_text(content, encoding='utf-8')
+    logs.emit('seed.check.succeeded' if check else 'seed.export.succeeded',
+              releaseVersion=release['version'], hymnCount=len(release['hymns']))

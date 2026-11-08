@@ -1,6 +1,7 @@
 """Offline readiness and reproducibility checks for the current data release."""
 from pathlib import Path
 import tempfile
+from . import observability as logs
 from .layers import load_bronze, load_silver, load_gold, ingest, silver, gold
 from .seed import export_seed
 from .storage import DATA, read_json
@@ -37,4 +38,5 @@ def check(data=DATA):
         if rebuilt != release or rebuilt_manifest != manifest:
             raise ValueError('Current Gold release is not reproducible')
     export_seed(release, check=True)
+    logs.emit('layers.check.succeeded', releaseVersion=current, hymnCount=len(release['hymns']))
     print(f'All stored layers valid; current release {current} reproduced; offline seed matches')

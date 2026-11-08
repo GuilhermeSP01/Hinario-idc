@@ -217,3 +217,20 @@ def mutate(kind, *, hymn_id=None, payload=None, reason, data=DATA):
         return dict(revision=rid, id=target, before=previous, after=after,
                     warning='Links shared by number may resolve differently after renumbering.'
                     if previous and after and previous['number'] != after['number'] else None)
+
+
+def release_revision(rid, version, updated_at, data=DATA):
+    from .layers import load_silver
+    from .validation import timestamp, validate_release
+    record = load_revision(rid, data)
+    if type(version) is not int or version <= record['baseRelease']:
+        raise ValueError('Editorial release must be newer than its baseline')
+    updated_at = timestamp(updated_at)
+    hymns = [dict(h, version=version, updatedAt=updated_at, deleted=False) for h in record['hymns']]
+    release = dict(schemaVersion=1, version=version, updatedAt=updated_at, totalHymns=len(hymns), hymns=hymns)
+    validate_release(release)
+    manifest = dict(schemaVersion=2, baseRelease=record['baseRelease'], revisionId=rid,
+                    datasetId=record['datasetId'], silverHash=digest(load_silver(record['datasetId'], data)),
+                    releaseHash=digest(release))
+    return immutable_directory(Path(data)/'gold'/str(version),
+                               {'hymns.json':encode(release),'manifest.json':encode(manifest)})

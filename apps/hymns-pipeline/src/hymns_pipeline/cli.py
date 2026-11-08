@@ -29,9 +29,15 @@ def main():
     p = commands.add_parser('transform')
     p.add_argument('--source-version', required=True)
     p = commands.add_parser('release')
-    p.add_argument('--dataset', required=True)
+    release_input = p.add_mutually_exclusive_group(required=True)
+    release_input.add_argument('--dataset')
+    release_input.add_argument('--revision')
     p.add_argument('--version', required=True, type=int)
     p.add_argument('--updated-at', required=True)
+    p = commands.add_parser('source-reconcile')
+    p.add_argument('--dataset', required=True)
+    p.add_argument('--file', type=Path)
+    p.add_argument('--reason')
     for command in ('create', 'update', 'delete'):
         p = commands.add_parser(command)
         p.add_argument('--reason', required=True)
@@ -74,6 +80,11 @@ def main():
             result = mutate(args.command, hymn_id=getattr(args, 'id', None), payload=payload, reason=args.reason, data=args.data_dir)
             logs.emit('editorial.change.prepared', operation=args.command, revisionId=result['revision'])
             print(json.dumps(result, ensure_ascii=False))
+        elif args.command == 'source-reconcile':
+            from .source_reconciliation import reconcile_source, source_report
+            from .storage import read_json
+            result = reconcile_source(args.dataset, read_json(args.file), args.reason, args.data_dir) if args.file else source_report(args.dataset,args.data_dir)
+            print(json.dumps(result, ensure_ascii=False))
         elif args.command == 'check':
             from .check import check
             check(args.data_dir)
@@ -82,7 +93,14 @@ def main():
         elif args.command == 'transform':
             print(silver(args.source_version, args.data_dir))
         elif args.command == 'release':
-            print(gold(args.dataset, args.version, args.updated_at, args.data_dir))
+            if args.revision:
+                from .editorial import release_revision
+                print(release_revision(args.revision, args.version, args.updated_at, args.data_dir))
+            else:
+                from .storage import read_json
+                if args.version > read_json(args.data_dir / 'current.json')['release']:
+                    raise ValueError('New releases require an editorial revision; reconcile new sources first')
+                print(gold(args.dataset, args.version, args.updated_at, args.data_dir))
         else:
             release, manifest = load_gold(args.release, args.data_dir)
             if args.command == 'seed':

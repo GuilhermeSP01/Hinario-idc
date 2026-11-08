@@ -72,3 +72,34 @@ class EditorialTests(unittest.TestCase):
         result=subprocess.run(command,capture_output=True,text=True)
         self.assertEqual(result.returncode,1)
         self.assertEqual(head(self.data)[0],before)
+
+    def test_release_and_seed_with_renumbered_identity(self):
+        from hymns_pipeline.editorial import release_revision
+        from hymns_pipeline.layers import load_gold
+        from hymns_pipeline.seed import render_seed
+        result=mutate('update',hymn_id='145',payload={'number':464},reason='Renumber',data=self.data)
+        release_revision(result['revision'],4,'2026-11-08T00:00:00Z',self.data)
+        release,manifest=load_gold(4,self.data)
+        self.assertEqual(manifest['schemaVersion'],2)
+        h=next(h for h in release['hymns']if h['id']=='145')
+        self.assertEqual(h['number'],464)
+        self.assertIn('"number": 464',render_seed(release))
+        with self.assertRaises(ValueError):release_revision(result['revision'],3,release['updatedAt'],self.data)
+        (self.data/'current.json').write_text('{"release":4}')
+        next_edit=mutate('update',hymn_id='145',payload={'title':'New title'},reason='Next release',data=self.data)
+        self.assertEqual(load_revision(next_edit['revision'],self.data)['baseRelease'],4)
+
+    def test_source_reconciliation_requires_all_decisions(self):
+        from hymns_pipeline.source_reconciliation import reconcile_source
+        from hymns_pipeline.layers import load_silver
+        rid,parent=head(self.data)
+        silver=load_silver(parent['datasetId'],self.data)
+        assignments=[dict(sourceOrdinal=h['sourceOrdinal'],id=parent['sourceMapping'][str(h['sourceOrdinal'])],use='source') for h in silver['hymns']]
+        # Start with a local correction, then explicitly choose source for every entry.
+        change=mutate('update',hymn_id='145',payload={'title':'Local title'},reason='Local',data=self.data)
+        review={'expectedRevision':change['revision'],'assignments':assignments,'remaining':[]}
+        result=reconcile_source(parent['datasetId'],review,'Choose source',self.data)
+        record=load_revision(result['revision'],self.data)
+        self.assertEqual(next(h for h in record['hymns']if h['id']=='145')['title'],'Rocha Eterna')
+        review['expectedRevision']=result['revision'];review['assignments']=assignments[:-1]
+        with self.assertRaises(ValueError):reconcile_source(parent['datasetId'],review,'Incomplete',self.data)

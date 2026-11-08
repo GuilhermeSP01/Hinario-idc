@@ -11,6 +11,7 @@ Monorepo do ecossistema **Hinário IDC**, organizado com `pnpm workspaces` para 
 - **`packages/hymns-contracts/`**: Contratos JSON Schema compartilhados e tipos TypeScript gerados.
 - **`tools/`**: Utilitários de assets do aplicativo.
 - **`infra/firebase/`**: Regras, índices, ferramentas e validação local do Firebase.
+- **`infra/docker/`**: Instruções de execução e smoke test dos containers.
 
 ## Configuração do Firebase
 
@@ -87,3 +88,21 @@ corepack pnpm contracts:check
 O processamento usa os comandos `hymns:ingest`, `hymns:transform`,
 `hymns:release` e `hymns:validate`. A geração do seed usa `hymns:seed`,
 e a publicação no Firestore usa `hymns:publish`.
+
+## Docker
+
+O app web e a pipeline possuem imagens independentes. Execute os builds a partir
+da raiz do monorepo:
+
+```bash
+docker build -f apps/mobile/Dockerfile -t hinario-web .
+docker run --rm -p 8090:8080 hinario-web
+
+docker build -f apps/hymns-pipeline/Dockerfile -t hinario-pipeline .
+docker run --rm hinario-pipeline
+```
+
+A imagem web serve o build estático; a imagem da pipeline executa a verificação
+das camadas por padrão. Consulte [os comandos de Docker](infra/docker/README.md)
+para desenvolvimento com Vite, configurações Firebase, persistência de dados e
+credenciais em execução.

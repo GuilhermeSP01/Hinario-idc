@@ -26,6 +26,18 @@ fixa também as transitivas para instalação e CI. Para atualizar, use um venv 
 instale as dependências diretas, regenere o lock com `python -m pip freeze` e teste.
 Não é necessário instalar o pacote Python globalmente: os comandos usam `run.py`.
 
+## Ajuda da CLI
+
+```bash
+python apps/hymns-pipeline/run.py help
+python apps/hymns-pipeline/run.py help update
+python apps/hymns-pipeline/run.py update --help
+corepack pnpm hymns:create --help
+```
+
+`-h` e `--help` exibem sintaxe, finalidade e opções sem executar operações.
+O comando `help` aceita o nome de qualquer comando para mostrar sua ajuda detalhada.
+
 ## Camadas e versionamento
 
 ```text

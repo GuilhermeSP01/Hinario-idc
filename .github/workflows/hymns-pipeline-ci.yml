@@ -1,0 +1,49 @@
+name: Hymns Pipeline CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: hymns-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+          package-manager-cache: false
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Instalar dependências
+        run: |
+          python -m venv apps/hymns-pipeline/.venv
+          apps/hymns-pipeline/.venv/bin/python -m pip install -r apps/hymns-pipeline/requirements.lock
+          echo "$GITHUB_WORKSPACE/apps/hymns-pipeline/.venv/bin" >> "$GITHUB_PATH"
+          corepack pnpm install --frozen-lockfile
+      - name: Validar contratos, camadas e seed offline
+        run: |
+          corepack pnpm contracts:check
+          corepack pnpm --filter @hinario/hymns-contracts test
+          corepack pnpm hymns:test
+          corepack pnpm hymns:check
+          corepack pnpm --filter @hinario/hymns-contracts validate --all
+      - name: Validar consumidores TypeScript
+        run: |
+          corepack pnpm typecheck
+          corepack pnpm build
+      - name: Confirmar que validação não modifica artefatos rastreados
+        run: git diff --exit-code

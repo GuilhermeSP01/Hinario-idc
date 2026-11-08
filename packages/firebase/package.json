@@ -11,7 +11,8 @@
   },
   "dependencies": {
     "@hinario/core": "workspace:*",
-    "firebase": "^11.3.1"
+    "firebase": "^11.3.1",
+    "@hinario/observability": "workspace:*"
   },
   "devDependencies": {
     "typescript": "^5.7.3"

@@ -1,3 +1,4 @@
+import { log } from '@hinario/observability';
 import {
   collection,
   doc,
@@ -28,6 +29,7 @@ export async function fetchRemoteMetadata(db: Firestore): Promise<HinarioMetadat
 
   const data = snapshot.data();
   if (typeof data.currentVersion !== 'number') {
+    log('firebase.metadata.invalid');
     return null;
   }
 
@@ -50,10 +52,12 @@ export async function fetchHymnsDelta(db: Firestore, localVersion: number): Prom
 
   const snapshot = await getDocs(deltaQuery);
   const updatedHymns: Hymn[] = [];
+  let invalidCount = 0;
 
   snapshot.forEach((docSnap) => {
     const raw = docSnap.data();
     if (typeof raw.number !== 'number' || typeof raw.title !== 'string') {
+      invalidCount++;
       return;
     }
 
@@ -75,5 +79,6 @@ export async function fetchHymnsDelta(db: Firestore, localVersion: number): Prom
     });
   });
 
+  if (invalidCount) log('firebase.delta.invalid_records', { invalidCount });
   return updatedHymns;
 }

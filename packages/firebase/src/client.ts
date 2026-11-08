@@ -1,3 +1,4 @@
+import { reportError } from '@hinario/observability';
 import { getApps, initializeApp, type FirebaseApp } from 'firebase/app';
 import { getFirestore, type Firestore } from 'firebase/firestore';
 
@@ -57,7 +58,8 @@ export function getOrInitFirestore(config: FirebaseEnvConfig): Firestore | null 
 
     cachedFirestore = getFirestore(app);
     return cachedFirestore;
-  } catch {
+  } catch (error) {
+    reportError('firebase.init.failed', error);
     return null;
   }
 }

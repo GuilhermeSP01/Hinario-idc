@@ -1,3 +1,4 @@
+import { log, reportError } from '@hinario/observability';
 import { Capacitor } from '@capacitor/core';
 import { copyTextToClipboard } from '@/services/shareHymn';
 
@@ -179,7 +180,8 @@ export async function copyWorshipLink(hymnNumbers: number[]): Promise<boolean> {
   try {
     await copyTextToClipboard(url);
     return true;
-  } catch {
+  } catch (error) {
+    reportError('share.failed', error, { kind: 'worship' });
     return false;
   }
 }
@@ -204,13 +206,15 @@ export async function shareOrCopyWorshipService(
       if (err instanceof Error && err.name === 'AbortError') {
         return 'cancelled';
       }
+      log('share.fallback', { kind: 'worship' });
     }
   }
 
   try {
     await copyTextToClipboard(text);
     return 'copied';
-  } catch {
+  } catch (error) {
+    reportError('share.failed', error, { kind: 'worship' });
     return 'cancelled';
   }
 }

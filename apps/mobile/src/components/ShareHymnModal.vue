@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { reportError } from '@hinario/observability';
 import { computed, onMounted, ref, watch } from 'vue';
 import {
   AlignLeft,
@@ -147,7 +148,7 @@ async function handleShareImage() {
   } catch (err) {
     // Caso o usuário cancele o share nativo (AbortError), apenas permanece ou fecha sem erro
     if ((err as Error)?.name !== 'AbortError') {
-      console.error(err);
+      reportError('share.failed', err, { kind: 'image' });
     }
   } finally {
     isBusy.value = false;
@@ -189,7 +190,7 @@ async function handleShareText() {
     }
   } catch (err) {
     if ((err as Error)?.name !== 'AbortError') {
-      console.error(err);
+      reportError('share.failed', err, { kind: 'text' });
     }
   } finally {
     isBusy.value = false;

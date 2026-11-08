@@ -1,0 +1,15 @@
+[build-system]
+requires = ["setuptools>=75,<81"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hinario-hymns-pipeline"
+version = "0.1.0"
+requires-python = ">=3.10"
+dependencies = ["jsonschema==4.23.0", "google-auth==2.40.3", "requests==2.32.5"]
+
+[project.scripts]
+hymns-pipeline = "hymns_pipeline.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

@@ -1,14 +1,30 @@
 """Reference checks captured before migrating the extractor (no output writes)."""
 import hashlib
-import importlib.util
 import json
 from pathlib import Path
 import unittest
 
 ROOT = Path(__file__).resolve().parents[3]
-spec = importlib.util.spec_from_file_location('legacy', ROOT / 'tools/extract_hymns.py')
-legacy = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(legacy)
+import sys
+sys.path.insert(0, str(ROOT / 'apps/hymns-pipeline/src'))
+from hymns_pipeline import odt, transform, rules
+
+class Legacy:
+    LineSegment = odt.LineSegment
+    normalize_text = staticmethod(rules.normalize_text)
+    format_title_pt = staticmethod(rules.format_title_pt)
+    clean_lyric_line = staticmethod(transform.clean_lyric_line)
+    build_sections_from_lines = staticmethod(transform.build_sections_from_lines)
+
+    @staticmethod
+    def extract_hymns():
+        source = ROOT / 'apps/hymns-pipeline/data/bronze/sv-001/source.odt'
+        hymns, _ = transform.standardize(odt.read_hymns(source))
+        return [dict(id=f"{h['number']:03d}", number=h['number'], title=h['title'],
+                     sections=h['sections'], version=3) for h in hymns]
+
+legacy = Legacy()
+
 
 
 class LegacyExtractionTests(unittest.TestCase):

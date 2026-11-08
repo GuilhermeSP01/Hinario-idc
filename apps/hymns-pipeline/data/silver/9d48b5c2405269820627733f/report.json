@@ -1,0 +1,581 @@
+{
+  "rawHymns": 349,
+  "acceptedHymns": 236,
+  "exclusions": [
+    {
+      "sourceOrdinal": 169,
+      "header": "231. EU QUERO SER",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 170,
+      "header": "232. VENCENDO VEM JESUS",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 171,
+      "header": "233. A ALEGRIA ESTÁ NO CORAÇÃO",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 172,
+      "header": "234. SENHOR PODEROSO",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 173,
+      "header": "235. SOLDADOS DE JESUS",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 174,
+      "header": "237. PAI, EU TE ADORO",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 175,
+      "header": "238. KUM BA YA",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 176,
+      "header": "240. ALÉM DO CÉU AZUL",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 177,
+      "header": "241. AQUI NÃO É MEU LAR",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 178,
+      "header": "242. ISAÍAS 9.6",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 179,
+      "header": "243. 2 CORÍNTIOS 9.17",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 180,
+      "header": "244. PARA CANAÃ",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 181,
+      "header": "245. MEU DEUS E EU",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 182,
+      "header": "246. VIVO É JESUS",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 183,
+      "header": "247. TRANSMITIR",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 184,
+      "header": "250. SIM HÁ UM DEUS",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 185,
+      "header": "252. LOUVAI AO SENHOR PRA SEMPRE",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 186,
+      "header": "253. CONTENTE",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 187,
+      "header": "254. LINDA CANÇÃO",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 188,
+      "header": "255. GRATO",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 189,
+      "header": "256. SATISFAÇÃO",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 190,
+      "header": "258. ABENÇOA ESTA OFERTA",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 191,
+      "header": "259. PÕE A MÃO NA MÃO DO MEU SENHOR",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 192,
+      "header": "260. TESOURO",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 193,
+      "header": "261. SOMOS UM NO ESPÍRITO",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 194,
+      "header": "262. CRISTO NA ALVORADA",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 195,
+      "header": "263. RAZÃO DE VIVER",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 196,
+      "header": "266. ANUNCIAMOS A PAZ",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 197,
+      "header": "267. MARAVILHOSO",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 198,
+      "header": "268. BELEZA DE CRISTO",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 199,
+      "header": "269. JESUS É MEU SENHOR",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 200,
+      "header": "272. VENHA, CRISTO",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 201,
+      "header": "273. SEM DEUS",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 202,
+      "header": "275. ESTOU SEGUINDO A JESUS CRISTO",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 203,
+      "header": "276. TOMADO PELA MÃO",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 204,
+      "header": "277. MINH’ALMA ESTÁ CHEIA DE PAZ",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 205,
+      "header": "279. ESTOU ALEGRE AQUI",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 206,
+      "header": "281. SEJA ONDE FOR EU LOUVO",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 207,
+      "header": "283. PORQUE ELE VIVE",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 208,
+      "header": "284. COM CRISTO NO BARCO",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 209,
+      "header": "291. CRISTO TEM PODER",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 210,
+      "header": "292. SALMO 18:3,46",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 211,
+      "header": "295. SEGURA NA MÃO DE DEUS",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 212,
+      "header": "296. LUCAS 10:27",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 213,
+      "header": "297. OLHE PARA A ROCHA",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 214,
+      "header": "299. CRISTO, O NOME MAIS BELO DA TERRA",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 215,
+      "header": "300. 1 PEDRO 5:6",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 216,
+      "header": "301. QUÃO BOM E QUÃO MARAVILHO",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 217,
+      "header": "303. SALMO 23:1,3",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 218,
+      "header": "304. SOLTA O CABO DA NAU",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 219,
+      "header": "305. SHALOM",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 220,
+      "header": "306. RESSUSCITOU MEU JESUS",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 221,
+      "header": "307. EXALTADO",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 222,
+      "header": "308. DIANTE DO SEU PODER",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 223,
+      "header": "309. DERRAMA A TUA UNÇÃO",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 224,
+      "header": "311. LUZ PARA MEU CAMINHO",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 225,
+      "header": "312. POR TUDO QUE TÚ ÉS",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 226,
+      "header": "315. QUANDO ESTOU",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 227,
+      "header": "317. SALMO 103.1-4, 21-22",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 228,
+      "header": "319. COROAMOS",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 229,
+      "header": "321. SEJA ENGRANDECIDO",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 230,
+      "header": "322. NÃO OLHO CIRCUNSTÂNCIAS",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 231,
+      "header": "323. SALMO 21:13",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 232,
+      "header": "324. PALAVRAS DA MINHA BOCA",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 233,
+      "header": "325. CANTE ALELUIA",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 234,
+      "header": "326. OBRIGADO JESUS",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 235,
+      "header": "328. SEI QUE O SENHOR",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 236,
+      "header": "330. CRISTO É TUDO PRA MIM",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 237,
+      "header": "332. SALMO 40:17",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 238,
+      "header": "333. ENCHE A MINHA VIDA",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 239,
+      "header": "334. A COMEÇAR EM MIM",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 240,
+      "header": "335. VISITANTE, SEJA BEM VINDO!",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 241,
+      "header": "336. DEUS ESTÁ AQUI",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 242,
+      "header": "337. ALIANÇA NO SENHOR",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 243,
+      "header": "339. DAMOS GRAÇAS AO SENHOR",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 244,
+      "header": "340. I JOÃO 3.1",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 245,
+      "header": "341. TEMPO PARA LOUVAR A DEUS",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 246,
+      "header": "342. CRISTO É MEU",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 247,
+      "header": "343. EM ESPÍRITO, EM VERDADE",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 248,
+      "header": "344. CRISTO SALVADOR",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 249,
+      "header": "345. FIQUE QUIETO",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 250,
+      "header": "346. PAI SENHOR",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 251,
+      "header": "347. SENHOR, PREPARA-ME",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 252,
+      "header": "348. NÃO HÁ DEUS MAIOR",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 253,
+      "header": "349. NOVO CORAÇÃO",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 254,
+      "header": "354. INCEIA A MINH’ALMA",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 255,
+      "header": "356. TU ÉS SANTO",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 256,
+      "header": "364. ENTRA NO MEU CORAÇÃO",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 257,
+      "header": "365. INCOMPARÁVEIS PROMESSAS",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 258,
+      "header": "367. ABRE, SENHOR, OS MEUS OLHOS",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 259,
+      "header": "368. ROMANOS 8:11",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 260,
+      "header": "369. DEUS, O POVO TE LOUVA",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 261,
+      "header": "370. AQUELE QUE TEM O PODER",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 262,
+      "header": "373. SENHOR AMOROSO",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 263,
+      "header": "375. VEM, DERRAMA A PAZ",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 264,
+      "header": "376. ESTAMOS TODOS AQUI",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 265,
+      "header": "377. QUERO É LOUVAR A DEUS",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 266,
+      "header": "378. KUM BA YA",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 267,
+      "header": "379. A-LA-LELUIA",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 268,
+      "header": "380. TÚ ÉS A LETRA E A MÚSICA",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 269,
+      "header": "383. LOUVAMOS A DEUS",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 270,
+      "header": "385. RIO JORDÃO",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 271,
+      "header": "386. FURE MINHA ORELHA",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 272,
+      "header": "388. DEUS PODE SUPRIR",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 273,
+      "header": "389. O VENTO BALANÇOU MEU BARCO",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 274,
+      "header": "390. LUZ DAS NAÇÕES",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 275,
+      "header": "391. DESDE OS CONFINS DA TERRA",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 276,
+      "header": "392. A PAZ DO CÉU",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 277,
+      "header": "393. AGNUS DEI",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 278,
+      "header": "394. REINA EM MIM",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 279,
+      "header": "395. EU SOU A OVELHA",
+      "reason": "excluded_range"
+    },
+    {
+      "sourceOrdinal": 325,
+      "header": "GRANDE É O SENHOR",
+      "reason": "approved_legacy_duplicate",
+      "decision": {
+        "titleKey": "GRANDE É O SENHOR",
+        "keptSectionsHash": "41c524ce321f2ffcf0ac6b849fcd1392de7a4ad07c3bf27ff5a4b45458d03022",
+        "discardedSectionsHash": "f1fbe8737418a0d19cd010dfbbad9691ca480d347660b085546c26edd09e7138"
+      }
+    },
+    {
+      "sourceOrdinal": 349,
+      "header": "CORAÇÃO IGUAL AO TEU",
+      "reason": "approved_legacy_duplicate",
+      "decision": {
+        "titleKey": "CORAÇÃO IGUAL AO TEU",
+        "keptSectionsHash": "f3ce0b129462e6f8c64df0af58adae9b5564c8fec37ceca505f4b4745df6a11d",
+        "discardedSectionsHash": "a7704ab15d4aeaaf46687cad3ba2bfb5813c427c918bca4f373d0183ed01ee4c"
+      }
+    }
+  ]
+}

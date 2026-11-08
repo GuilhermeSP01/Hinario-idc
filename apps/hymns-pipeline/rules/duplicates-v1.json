@@ -1,0 +1,14 @@
+[
+  {
+    "titleKey": "GRANDE É O SENHOR",
+    "keptSectionsHash": "41c524ce321f2ffcf0ac6b849fcd1392de7a4ad07c3bf27ff5a4b45458d03022",
+    "discardedSectionsHash": "f1fbe8737418a0d19cd010dfbbad9691ca480d347660b085546c26edd09e7138",
+    "reason": "Preserve the selection made by the legacy extractor for the initial source."
+  },
+  {
+    "titleKey": "CORAÇÃO IGUAL AO TEU",
+    "keptSectionsHash": "f3ce0b129462e6f8c64df0af58adae9b5564c8fec37ceca505f4b4745df6a11d",
+    "discardedSectionsHash": "a7704ab15d4aeaaf46687cad3ba2bfb5813c427c918bca4f373d0183ed01ee4c",
+    "reason": "Preserve the selection made by the legacy extractor for the initial source."
+  }
+]

@@ -82,9 +82,11 @@ class FirestoreTests(unittest.TestCase):
     def test_dry_run_never_sends_commit(self):
         client = Mock(base=BASE, url='https://firestore.googleapis.com/v1/' + BASE)
         client.snapshot.return_value = self.metadata, {}
-        publish(self.release, self.manifest, 'hinario-idc', 3, True, client)
+        from hymns_pipeline.remote import snapshot
+        baseline=dict(projectId='hinario-idc',snapshot=snapshot(self.metadata,{}),allowMissingHash=False)
+        publish(self.release, self.manifest, 'hinario-idc', 3, True, client, baseline=baseline)
         client.request.assert_not_called()
-        publish(self.release, self.manifest, 'hinario-idc', 3, False, client)
+        publish(self.release, self.manifest, 'hinario-idc', 3, False, client, baseline=baseline)
         client.request.assert_called_once()
         self.assertEqual(client.request.call_args.args[0], 'POST')
         self.assertEqual(len(client.request.call_args.args[2]['writes']), 2)

@@ -40,6 +40,9 @@ jobs:
         run: |
           corepack pnpm install --frozen-lockfile
           corepack pnpm build
+          python -m venv apps/hymns-pipeline/.venv
+          apps/hymns-pipeline/.venv/bin/python -m pip install -r apps/hymns-pipeline/requirements.lock
+          echo "$GITHUB_WORKSPACE/apps/hymns-pipeline/.venv/bin" >> "$GITHUB_PATH"
       - name: Validar configuração e emuladores Firebase
         run: |
           corepack pnpm infra:check

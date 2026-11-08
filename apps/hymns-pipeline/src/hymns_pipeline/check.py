@@ -1,6 +1,7 @@
 """Offline readiness and reproducibility checks for the current data release."""
 from pathlib import Path
 import tempfile
+import shutil
 from . import observability as logs
 from .layers import load_bronze, load_silver, load_gold, ingest, silver, gold
 from .seed import export_seed
@@ -18,6 +19,12 @@ def check(data=DATA):
     for directory in sorted((data / 'gold').iterdir()):
         if directory.is_dir() and not directory.name.startswith('.'):
             load_gold(int(directory.name), data)
+    editorial = data / 'editorial'
+    if (editorial / 'revisions').exists():
+        from .editorial import load_revision, head
+        for directory in (editorial / 'revisions').iterdir():
+            if directory.is_dir(): load_revision(directory.name, data)
+        if (editorial / 'head.json').exists(): head(data)
     current = read_json(data / 'current.json')['release']
     if type(current) is not int or current < 1:
         raise ValueError('Current release must be a positive integer')
@@ -33,7 +40,16 @@ def check(data=DATA):
         dataset = silver(payload['sourceVersion'], root)
         if dataset != manifest['datasetId']:
             raise ValueError('Current Silver was generated with different rules; create a new dataset/release')
-        gold(dataset, release['version'], release['updatedAt'], root)
+        if manifest['schemaVersion'] == 2:
+            from .editorial import release_revision
+            for layer in ('bronze', 'silver', 'editorial'):
+                shutil.copytree(data / layer, root / layer, dirs_exist_ok=True)
+            for prior in (data / 'gold').iterdir():
+                if prior.is_dir() and prior.name != str(current):
+                    shutil.copytree(prior, root / 'gold' / prior.name)
+            release_revision(manifest['revisionId'], release['version'], release['updatedAt'], root)
+        else:
+            gold(dataset, release['version'], release['updatedAt'], root)
         rebuilt, rebuilt_manifest = load_gold(current, root)
         if rebuilt != release or rebuilt_manifest != manifest:
             raise ValueError('Current Gold release is not reproducible')

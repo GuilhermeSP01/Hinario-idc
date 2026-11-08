@@ -22,3 +22,8 @@
 **/*.tsbuildinfo
 apps/mobile/android
 apps/mobile/ios
+
+**/test-results
+**/playwright-report
+apps/hymns-pipeline/data/editorial/.lock
+apps/hymns-pipeline/data/editorial/.head-*

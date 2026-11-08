@@ -157,3 +157,9 @@ docker logs <nome-do-container>
 Sem um coletor remoto, falhas em dispositivos de usuários não são centralizadas.
 A escolha de um serviço, retenção e política de coleta deve ser feita antes de
 adicionar esse destino. Não há persistência automática dos logs do app no dispositivo.
+
+Operações editoriais registram `editorial.change.prepared` com o tipo de operação
+(`create`, `update`, `delete`, `source`, `remote`) e hash da revisão. Motivos,
+letras, títulos e snapshots não entram na telemetria. Resultados explícitos de
+CRUD, consultas e relatórios são JSON em stdout e podem conter conteúdo do acervo.
+Divergências de conteúdo remoto usam o código seguro `remote_content_drift`.

@@ -51,6 +51,10 @@ jobs:
         run: |
           corepack pnpm typecheck
           corepack pnpm build
+      - name: Validar identidade e renumeração no navegador
+        run: |
+          corepack pnpm exec playwright install --with-deps chromium
+          corepack pnpm hymns:browser-test
       - name: Confirmar que validação não modifica artefatos rastreados
         run: git diff --exit-code
 

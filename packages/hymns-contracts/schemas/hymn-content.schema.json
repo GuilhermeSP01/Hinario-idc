@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "HymnContent",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "number": {
+      "$ref": "hymn.schema.json#/properties/number"
+    },
+    "title": {
+      "$ref": "hymn.schema.json#/properties/title"
+    },
+    "sections": {
+      "$ref": "hymn.schema.json#/properties/sections"
+    }
+  },
+  "required": [
+    "number",
+    "title",
+    "sections"
+  ]
+}

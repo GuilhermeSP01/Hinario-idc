@@ -17,7 +17,7 @@ RUN = ContextVar('pipeline_run', default=None)
 ENVIRONMENT = ContextVar('pipeline_environment', default='production')
 COMMAND = ContextVar('pipeline_command', default=None)
 LEVELS = {'DEBUG': logging.DEBUG, 'INFO': logging.INFO, 'WARN': logging.WARNING, 'ERROR': logging.ERROR}
-COMMANDS = {'ingest', 'transform', 'release', 'validate', 'seed', 'publish', 'check'}
+COMMANDS = {'ingest', 'transform', 'release', 'validate', 'seed', 'publish', 'check', 'create', 'update', 'delete', 'list', 'get', 'reconcile', 'source-reconcile'}
 
 
 def token(value):
@@ -29,6 +29,8 @@ def number(value):
 
 
 VALIDATORS = {
+    'operation': lambda v: isinstance(v, str) and v in {'create', 'update', 'delete', 'source', 'remote'},
+    'revisionId': lambda v: isinstance(v, str) and bool(re.fullmatch(r'[a-f0-9]{64}', v)),
     'sourceVersion': token, 'datasetId': lambda v: isinstance(v, str) and bool(re.fullmatch(r'[a-f0-9]{24}', v)),
     'sourceHash': lambda v: isinstance(v, str) and bool(re.fullmatch(r'[a-f0-9]{64}', v)),
     'rulesHash': lambda v: isinstance(v, str) and bool(re.fullmatch(r'[a-f0-9]{64}', v)),
@@ -41,7 +43,7 @@ VALIDATORS = {
     'errorType': lambda v: isinstance(v, str) and v in {'ValueError', 'OSError', 'KeyError', 'ValidationError', 'TypeError', 'Exception', 'PublicationError'},
     'errorCode': lambda v: isinstance(v, str) and v in {'invalid_input', 'filesystem_error', 'validation_failed', 'internal_error',
                                 'publication_failed', 'publication_outcome_unknown', 'invalid_configuration', 'invalid_arguments',
-                                'immutable_conflict', 'integrity_mismatch', 'editorial_review_required', 'remote_version_conflict',
+                                'remote_content_drift', 'immutable_conflict', 'integrity_mismatch', 'editorial_review_required', 'remote_version_conflict',
                                 'release_version_used', 'version_downgrade', 'publication_limit', 'credentials_unavailable'},
     'schemaPath': lambda v: isinstance(v, str) and len(v) < 300 and bool(re.fullmatch(r'[A-Za-z0-9_/$.-]+', v)),
 }
@@ -52,6 +54,7 @@ EVENT_FIELDS = {
     'bronze.ingest.started': {'sourceVersion'},
     'silver.transform.started': {'sourceVersion'},
     'gold.release.started': {'datasetId', 'releaseVersion'},
+    'editorial.change.prepared': {'operation', 'revisionId'},
     'pipeline.command.started': set(),
     'pipeline.command.succeeded': {'durationMs'},
     'pipeline.command.failed': ERROR_FIELDS | {'durationMs'},
@@ -131,7 +134,7 @@ def error_context(error):
     if isinstance(error, TypeError):
         return dict(errorType='TypeError', errorCode='internal_error')
     if isinstance(error, (ValueError, KeyError)):
-        reasons = {'Immutable artifact differs': 'immutable_conflict', 'checksum mismatch': 'integrity_mismatch',
+        reasons = {'Remote content differs': 'remote_content_drift', 'Immutable artifact differs': 'immutable_conflict', 'checksum mismatch': 'integrity_mismatch',
                    'hash mismatch': 'integrity_mismatch', 'requires review': 'editorial_review_required',
                    'Remote version changed': 'remote_version_conflict', 'Version already used': 'release_version_used',
                    'must be higher': 'version_downgrade', 'exceeds': 'publication_limit',

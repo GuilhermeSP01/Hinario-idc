@@ -129,6 +129,19 @@ def load_gold(version, data=DATA):
     directory = Path(data) / 'gold' / str(int(version))
     release = read_json(directory / 'hymns.json')
     manifest = read_json(directory / 'manifest.json')
+    if manifest.get('schemaVersion') == 2:
+        from .editorial import load_revision
+        if type(manifest.get('baseRelease')) is not int or not 0 < manifest['baseRelease'] < release['version']:
+            raise ValueError('Invalid editorial release baseline')
+        record = load_revision(manifest['revisionId'], data)
+        payload = load_silver(manifest['datasetId'], data)
+        validate_release(release)
+        expected = [dict(h, version=release['version'], updatedAt=release['updatedAt'], deleted=False) for h in record['hymns']]
+        if (record['baseRelease'] != manifest['baseRelease'] or record['datasetId'] != manifest['datasetId']
+                or digest(payload) != manifest['silverHash'] or digest(release) != manifest['releaseHash']
+                or release['version'] != int(version) or expected != release['hymns']):
+            raise ValueError('Editorial Gold lineage mismatch')
+        return release, manifest
     payload = load_silver(manifest['datasetId'], data)
     if (manifest['schemaVersion'] != 1 or digest(release) != manifest['releaseHash']
             or digest(payload) != manifest['silverHash'] or release['version'] != int(version)):

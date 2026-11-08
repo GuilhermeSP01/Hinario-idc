@@ -1,13 +1,15 @@
 # Hinário IDC
 
-Monorepo do ecossistema **Hinário IDC**, organizado com `pnpm workspaces` para suportar o aplicativo mobile (Vue 3 + Vite + Capacitor) e futuras camadas de edição administrativa e análise de dados.
+Monorepo do ecossistema **Hinário IDC**, organizado com `pnpm workspaces` para suportar o aplicativo mobile (Vue 3 + Vite + Capacitor).
 
 ## Estrutura do Repositório
 
-- **`packages/core` (`@hinario/core`)**: Modelos de domínio (`Hymn`, `HymnSection`, `HinarioMetadata`), normalização de texto sem acentos e motor de busca indexada em memória/cache (`MiniSearch`).
+- **`packages/core` (`@hinario/core`)**: Reexportação dos contratos de domínio (`Hymn`, `HymnSection`, `HinarioMetadata`), normalização de texto sem acentos e motor de busca indexada em memória/cache (`MiniSearch`).
 - **`packages/firebase` (`@hinario/firebase`)**: Integração modular com o Cloud Firestore, sincronização delta por versão (`version > localVersion`) e snapshot inicial de hinos (seed offline).
 - **`apps/mobile` (`@hinario/mobile`)**: Aplicativo mobile com Vue 3, Vite, Tailwind CSS, Pinia, Dexie.js (IndexedDB) e Capacitor (Android/iOS).
-- **`tools/`**: Scripts utilitários, ETL de hinos e futuros projetos de análise de dados.
+- **`apps/hymns-pipeline/`**: Pipeline Python medallion: fontes versionadas em bronze, hinos padronizados em silver e releases do Firestore em gold.
+- **`packages/hymns-contracts/`**: Contratos JSON Schema compartilhados e tipos TypeScript gerados.
+- **`tools/`**: Utilitários de assets do aplicativo.
 
 ## Configuração do Firebase
 
@@ -49,3 +51,28 @@ corepack pnpm build
 # Verificar tipos em todos os pacotes
 corepack pnpm typecheck
 ```
+
+## Pipeline de dados dos hinos
+
+A aplicação [`apps/hymns-pipeline`](apps/hymns-pipeline/README.md) extrai,
+padroniza e publica os hinos. Seus dados são organizados em três camadas:
+
+- **Bronze:** documentos ODT originais, versionados com manifesto e hash de integridade.
+- **Silver:** hinos extraídos e padronizados, com relatório das decisões editoriais.
+- **Gold:** releases no formato do Firestore, usadas também para gerar o seed offline.
+
+A ingestão, a geração do seed e a publicação no banco são etapas independentes.
+
+Consulte o README da pipeline para preparar o venv Python, processar novas edições,
+gerar releases e configurar a publicação manual via identidade federada.
+
+```bash
+# Com o venv da pipeline ativado:
+corepack pnpm hymns:test
+corepack pnpm hymns:check
+corepack pnpm contracts:check
+```
+
+O processamento usa os comandos `hymns:ingest`, `hymns:transform`,
+`hymns:release` e `hymns:validate`. A geração do seed usa `hymns:seed`,
+e a publicação no Firestore usa `hymns:publish`.

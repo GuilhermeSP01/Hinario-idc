@@ -1,0 +1,10 @@
+import { readFile } from 'node:fs/promises';
+import Ajv from 'ajv';
+import addFormats from 'ajv-formats';
+const hymn = JSON.parse(await readFile(new URL('../schemas/hymn.schema.json', import.meta.url)));
+const release = JSON.parse(await readFile(new URL('../schemas/release.schema.json', import.meta.url)));
+const ajv = new Ajv({ allErrors: true });
+addFormats(ajv);
+ajv.addSchema(hymn, 'hymn.schema.json');
+export const validateRelease = ajv.compile(release);
+export const errorsText = () => ajv.errorsText(validateRelease.errors);

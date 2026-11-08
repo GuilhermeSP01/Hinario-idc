@@ -47,3 +47,11 @@ Thumbs.db
 
 # AI / Agents workspace
 .agents/
+# Python development
+__pycache__/
+*.py[cod]
+.venv/
+*.egg-info/
+
+# Temporary Google GitHub Actions ADC files
+gha-creds-*.json

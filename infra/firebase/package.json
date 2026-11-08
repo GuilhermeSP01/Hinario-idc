@@ -1,0 +1,12 @@
+{
+  "name": "@hinario/infra-firebase",
+  "version": "0.1.0",
+  "private": true,
+  "devDependencies": {
+    "firebase-tools": "15.0.0"
+  },
+  "scripts": {
+    "test": "firebase emulators:exec --config ../../firebase.json --project demo-hinario-idc --only firestore,hosting \"node smoke.mjs\"",
+    "test:hosting": "firebase emulators:exec --config ../../firebase.json --project demo-hinario-idc --only hosting \"node smoke.mjs --hosting-only\""
+  }
+}

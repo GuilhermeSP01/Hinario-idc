@@ -10,6 +10,7 @@ Monorepo do ecossistema **Hinário IDC**, organizado com `pnpm workspaces` para 
 - **`apps/hymns-pipeline/`**: Pipeline Python medallion: fontes versionadas em bronze, hinos padronizados em silver e releases do Firestore em gold.
 - **`packages/hymns-contracts/`**: Contratos JSON Schema compartilhados e tipos TypeScript gerados.
 - **`tools/`**: Utilitários de assets do aplicativo.
+- **`infra/firebase/`**: Regras, índices, ferramentas e validação local do Firebase.
 
 ## Configuração do Firebase
 
@@ -25,6 +26,16 @@ VITE_FIREBASE_APP_ID=...
 ```
 
 > Enquanto o `.env` não estiver preenchido ou o dispositivo estiver offline, o aplicativo opera normalmente utilizando o snapshot inicial embutido e o banco local IndexedDB.
+
+## Infraestrutura Firebase
+
+As regras e os índices do Firestore estão em [`infra/firebase/`](infra/firebase/README.md).
+O `firebase.json` e o `.firebaserc` ficam na raiz para definir o projeto e os caminhos
+do Hosting. O Firebase CLI é uma dependência de desenvolvimento do workspace de
+infraestrutura, com versão fixada no lockfile.
+
+Após gerar o build, `corepack pnpm infra:check` valida os caminhos da configuração.
+`corepack pnpm infra:test` executa os testes dos emuladores de Hosting e Firestore.
 
 ## Deploy no Firebase Hosting
 

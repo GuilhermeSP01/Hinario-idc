@@ -24,6 +24,16 @@ VITE_FIREBASE_APP_ID=...
 
 > Enquanto o `.env` não estiver preenchido ou o dispositivo estiver offline, o aplicativo opera normalmente utilizando o snapshot inicial embutido e o banco local IndexedDB.
 
+## Deploy no Firebase Hosting
+
+- Abra um PR para `main` a partir de uma branch do próprio repositório para receber a URL de prévia em um comentário. Novos commits atualizam a prévia. Ela expira sete dias após o último deploy.
+- PRs de forks executam o build sem publicar uma prévia.
+- Todo push para `main`, inclusive o gerado por um merge, publica o build web no canal de produção. Se o deploy deve acontecer somente após revisão, configure a proteção de `main` para exigir PR e aprovação.
+
+Em **Settings → Secrets and variables → Actions**, cadastre as seis variáveis `VITE_FIREBASE_*` de `apps/mobile/.env.example` na aba **Variables**, com os valores do app web do projeto `hinario-idc`. As prévias e a produção usam o Firestore configurado nessas variáveis.
+
+Na aba **Secrets**, cadastre o JSON da conta de serviço de deploy como `FIREBASE_SERVICE_ACCOUNT_HINARIO_IDC`. Siga a [configuração manual da conta de serviço](https://github.com/FirebaseExtended/action-hosting-deploy/blob/main/docs/service-account.md#manually-configure-the-service-account) para provisionar a chave. Também é possível usar `firebase init hosting:github` para cadastrar o secret automaticamente. Nesse caso, mantenha apenas os workflows deste repositório para evitar deploys duplicados.
+
 ## Comandos Principais
 
 ```bash

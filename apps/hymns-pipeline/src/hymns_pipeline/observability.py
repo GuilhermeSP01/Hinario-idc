@@ -17,7 +17,7 @@ RUN = ContextVar('pipeline_run', default=None)
 ENVIRONMENT = ContextVar('pipeline_environment', default='production')
 COMMAND = ContextVar('pipeline_command', default=None)
 LEVELS = {'DEBUG': logging.DEBUG, 'INFO': logging.INFO, 'WARN': logging.WARNING, 'ERROR': logging.ERROR}
-COMMANDS = {'ingest', 'transform', 'release', 'validate', 'seed', 'publish', 'check'}
+COMMANDS = {'ingest', 'transform', 'release', 'validate', 'seed', 'publish', 'check', 'create', 'update', 'delete', 'list', 'get', 'reconcile', 'source-reconcile'}
 
 
 def token(value):
@@ -29,6 +29,8 @@ def number(value):
 
 
 VALIDATORS = {
+    'operation': lambda v: isinstance(v, str) and v in {'create', 'update', 'delete', 'source', 'remote'},
+    'revisionId': lambda v: isinstance(v, str) and bool(re.fullmatch(r'[a-f0-9]{64}', v)),
     'sourceVersion': token, 'datasetId': lambda v: isinstance(v, str) and bool(re.fullmatch(r'[a-f0-9]{24}', v)),
     'sourceHash': lambda v: isinstance(v, str) and bool(re.fullmatch(r'[a-f0-9]{64}', v)),
     'rulesHash': lambda v: isinstance(v, str) and bool(re.fullmatch(r'[a-f0-9]{64}', v)),
@@ -52,6 +54,7 @@ EVENT_FIELDS = {
     'bronze.ingest.started': {'sourceVersion'},
     'silver.transform.started': {'sourceVersion'},
     'gold.release.started': {'datasetId', 'releaseVersion'},
+    'editorial.change.prepared': {'operation', 'revisionId'},
     'pipeline.command.started': set(),
     'pipeline.command.succeeded': {'durationMs'},
     'pipeline.command.failed': ERROR_FIELDS | {'durationMs'},

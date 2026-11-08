@@ -32,6 +32,14 @@ def main():
     p.add_argument('--dataset', required=True)
     p.add_argument('--version', required=True, type=int)
     p.add_argument('--updated-at', required=True)
+    for command in ('create', 'update', 'delete'):
+        p = commands.add_parser(command)
+        p.add_argument('--reason', required=True)
+        if command != 'create': p.add_argument('--id', required=True)
+        if command != 'delete': p.add_argument('--file', type=Path, required=command == 'create')
+        if command == 'update':
+            p.add_argument('--title')
+            p.add_argument('--number', type=int)
     for command in ('validate', 'seed', 'publish'):
         p = commands.add_parser(command)
         p.add_argument('--release', type=int, required=True)
@@ -53,7 +61,20 @@ def main():
     start = perf_counter()
     logs.emit('pipeline.command.started')
     try:
-        if args.command == 'check':
+        if args.command in ('create', 'update', 'delete'):
+            from .editorial import mutate
+            from .storage import read_json
+            payload = read_json(args.file) if getattr(args, 'file', None) else {}
+            if not isinstance(payload, dict): raise ValueError('Expected JSON object')
+            for key in ('title', 'number'):
+                value = getattr(args, key, None)
+                if value is not None:
+                    if key in payload: raise ValueError('Field supplied both in file and flags')
+                    payload[key] = value
+            result = mutate(args.command, hymn_id=getattr(args, 'id', None), payload=payload, reason=args.reason, data=args.data_dir)
+            logs.emit('editorial.change.prepared', operation=args.command, revisionId=result['revision'])
+            print(json.dumps(result, ensure_ascii=False))
+        elif args.command == 'check':
             from .check import check
             check(args.data_dir)
         elif args.command == 'ingest':

@@ -1,0 +1,67 @@
+name: Publish Hymns to Firestore
+
+on:
+  workflow_dispatch:
+    inputs:
+      release:
+        description: 'Versão Gold já commitada e validada'
+        required: true
+        type: string
+      expected_remote_version:
+        description: 'Versão atual em metadata/version (0 se ausente)'
+        required: true
+        type: string
+      dry_run:
+        description: 'Somente simular, sem gravar no Firestore'
+        default: true
+        type: boolean
+
+permissions:
+  contents: read
+
+concurrency:
+  group: hymns-firestore-production
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment: firestore-production
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Instalar e testar pipeline
+        run: |
+          python -m venv apps/hymns-pipeline/.venv
+          apps/hymns-pipeline/.venv/bin/python -m pip install -r apps/hymns-pipeline/requirements.lock
+          echo "$GITHUB_WORKSPACE/apps/hymns-pipeline/.venv/bin" >> "$GITHUB_PATH"
+          apps/hymns-pipeline/.venv/bin/python -m unittest discover -s apps/hymns-pipeline/tests -v
+          apps/hymns-pipeline/.venv/bin/python apps/hymns-pipeline/run.py check
+      - name: Validar release selecionada
+        env:
+          RELEASE: ${{ inputs.release }}
+        run: python apps/hymns-pipeline/run.py validate --release "$RELEASE"
+      - name: Autenticar com identidade federada
+        uses: google-github-actions/auth@v3
+        with:
+          workload_identity_provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ vars.HYMNS_PUBLISHER_SERVICE_ACCOUNT }}
+      - name: Simular ou publicar release atômica
+        env:
+          RELEASE: ${{ inputs.release }}
+          EXPECTED_REMOTE_VERSION: ${{ inputs.expected_remote_version }}
+          DRY_RUN: ${{ inputs.dry_run }}
+        run: |
+          args=()
+          if [[ "$DRY_RUN" == 'true' ]]; then args+=(--dry-run); fi
+          python apps/hymns-pipeline/run.py publish \
+            --release "$RELEASE" --project hinario-idc \
+            --expected-remote-version "$EXPECTED_REMOTE_VERSION" "${args[@]}"

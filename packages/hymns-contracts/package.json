@@ -1,0 +1,22 @@
+{
+  "name": "@hinario/hymns-contracts",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/hymn.generated.ts"
+  },
+  "scripts": {
+    "generate": "node scripts/generate.mjs",
+    "check": "node scripts/generate.mjs --check",
+    "validate": "node scripts/validate.mjs",
+    "typecheck": "tsc --noEmit",
+    "test": "node --test tests/*.test.mjs"
+  },
+  "devDependencies": {
+    "json-schema-to-typescript": "15.0.4",
+    "ajv": "8.17.1",
+    "ajv-formats": "3.0.1",
+    "typescript": "^5.7.3"
+  }
+}

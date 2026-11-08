@@ -89,6 +89,9 @@ corepack pnpm contracts:check
 O processamento usa os comandos `hymns:ingest`, `hymns:transform`,
 `hymns:release` e `hymns:validate`. A geração do seed usa `hymns:seed`,
 e a publicação no Firestore usa `hymns:publish`.
+O [guia de edição](apps/hymns-pipeline/EDITORIAL.md) descreve o CRUD local por
+arquivos JSON, consultas ao Firestore e reconciliação antes da publicação.
+As edições geram revisões imutáveis; os IDs permanecem estáveis ao renumerar hinos.
 
 ## Docker
 

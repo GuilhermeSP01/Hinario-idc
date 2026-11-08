@@ -33,6 +33,7 @@ data/
 ├── bronze/<source-version>/    # Documento original + manifest.json com SHA-256
 ├── silver/<dataset-id>/        # Hinos padronizados + relatório + manifesto
 ├── gold/<release-version>/     # Documentos finais do banco + manifesto
+├── editorial/                 # Revisões imutáveis, decisões e ponteiro de edição
 └── current.json               # Release escolhida para o seed e reprodução no CI
 ```
 
@@ -69,8 +70,11 @@ edição (os números abaixo são exemplos; consulte a versão atual do banco):
 ```bash
 corepack pnpm hymns:ingest --source /caminho/hinario-atualizado.odt --source-version sv-002
 corepack pnpm hymns:transform --source-version sv-002
-# O comando anterior imprime o dataset-id a usar no próximo comando.
-corepack pnpm hymns:release --dataset <dataset-id> --version 4 --updated-at 2026-11-08T12:00:00Z
+# O comando anterior imprime o dataset-id. Revise o mapeamento explícito dos IDs:
+corepack pnpm hymns:source-reconcile --dataset <dataset-id> > /tmp/source-review.json
+# Crie as decisões descritas no guia de edição e aplique-as:
+corepack pnpm hymns:source-reconcile --dataset <dataset-id> --file /tmp/decisions.json --reason "Nova edição"
+corepack pnpm hymns:release --revision <hash-da-revisão> --version 4 --updated-at 2026-11-08T12:00:00Z
 corepack pnpm hymns:validate --release 4
 corepack pnpm hymns:seed --release 4
 ```
@@ -112,10 +116,13 @@ letras, repetições e estrutura. Uma colisão com conteúdo diferente sem decis
 cadastrada interrompe a transformação para revisão editorial.
 Uma mudança nas decisões exige novo dataset silver e nova release gold.
 
-Os IDs são derivados da numeração e identificam os hinos no Firestore,
-nos favoritos e nos links compartilhados. Inserir/reordenar hinos no bloco sem numeração pode
-mudar IDs; revise esse impacto editorial. Identidade permanente independente da
-numeração exigiria uma migração própria dos consumidores.
+Os IDs são permanentes e independentes da numeração: os existentes são preservados;
+novos hinos recebem UUID4. Favoritos e repertórios referenciam IDs. Links compartilhados
+continuam referenciando números entre 1 e 65535: renumerar pode mudar o significado
+ou invalidar links antigos. Números não podem se repetir entre hinos ativos.
+
+Consulte o [guia de edição e CRUD](EDITORIAL.md) para arquivos de entrada, revisões,
+reconciliação com novas fontes e tratamento de divergências no Firestore.
 
 ## Contratos compartilhados
 
@@ -148,8 +155,10 @@ A simulação faz leituras autenticadas, mas não envia gravações. A publicaç
 
 1. Valida gold e sua linhagem antes de obter credenciais.
 2. Confere a versão remota esperada e exige versão superior para conteúdo novo.
-3. Prepara os documentos ativos e tombstones (`deleted: true`) para IDs removidos.
-4. Envia hinos, tombstones e metadados em um único commit atômico, com precondições
+3. Compara o conteúdo remoto inteiro com a base local ou checkpoint revisado;
+   divergências, mesmo na mesma versão, bloqueiam a publicação até reconciliação.
+4. Prepara os documentos ativos e tombstones (`deleted: true`) para IDs removidos.
+5. Envia hinos, tombstones e metadados em um único commit atômico, com precondições
    de `updateTime`/inexistência para rejeitar alterações concorrentes nos documentos.
 
 IDs removidos recebem tombstones, sem exclusão física. Cada release é enviada
@@ -161,7 +170,7 @@ Todos os escritores do acervo devem seguir o protocolo de publicação; alteraç
 avulsas diretamente no console não são uma forma suportada de atualizar hinos.
 
 Uma repetição da mesma release é um no-op quando metadados e documentos ativos
-correspondem exatamente. Versão igual com conteúdo diferente e downgrade são
+e tombstones correspondem exatamente, desconsiderando timestamps. Versão igual com conteúdo diferente e downgrade são
 recusados. Após conflito/timeout, consulte o estado e refaça a simulação; não há
 retry cego de commits. Um rollback de conteúdo deve ser uma nova versão crescente.
 

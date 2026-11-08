@@ -20,13 +20,17 @@ Na raiz do repositório:
 corepack pnpm install --frozen-lockfile
 corepack pnpm build
 corepack pnpm infra:check
+python -m pip install -r apps/hymns-pipeline/requirements.lock
 corepack pnpm infra:test
 ```
 
 `infra:check` usa o Firebase CLI para conferir os caminhos das regras, índices e
 build do Hosting. `infra:test` inicia os emuladores, verifica as rotas SPA, testa
 leitura pública de hinos/metadados e rejeição de gravações sem autenticação, e
-encerra os processos ao finalizar. O projeto de testes é `demo-hinario-idc`.
+encerra os processos ao finalizar. O projeto de testes é `demo-hinario-idc`. Também executa a integração Python do
+CRUD: publicação inicial, criação, renumeração, tombstone, repetição idempotente,
+bloqueio de divergência e reconciliação. Requer as dependências Python da pipeline
+e Firestore local vazio; remove somente as fixtures criadas no projeto de demonstração.
 O download inicial do emulador Firestore requer acesso a `storage.googleapis.com`.
 
 Para executar somente a verificação do Hosting:

@@ -72,7 +72,10 @@ docker run --rm --user "$(id -u):$(id -g)" \
   hinario-pipeline ingest --source /input/hinario.odt --source-version sv-002
 ```
 
-Use o mesmo mount de dados em `transform`, `release`, `validate` e `publish`. Para
+Use o mesmo mount de dados em `transform`, `create`, `update`, `delete`,
+`source-reconcile`, `reconcile`, `release`, `validate` e `publish`. Edições persistem
+em `data/editorial`; monte arquivos JSON de entrada em `/input` e passe `--file`.
+O diretório de dados precisa permitir escrita pelo UID escolhido. Para
 persistir a geração do seed, monte também `packages/firebase/src/seed` em
 `/app/packages/firebase/src/seed`. Sem mounts, alterações ficam no filesystem do
 container e são descartadas com `--rm`.

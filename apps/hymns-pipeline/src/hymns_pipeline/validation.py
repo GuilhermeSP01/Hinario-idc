@@ -1,5 +1,6 @@
 """Shared JSON Schema contracts plus domain invariants."""
 from datetime import datetime, timezone
+import re
 from jsonschema import Draft7Validator, FormatChecker
 from referencing import Registry, Resource
 from .storage import ROOT, read_json
@@ -24,11 +25,11 @@ def validate_hymns(hymns):
     ids, numbers = set(), set()
     for hymn in hymns:
         number = hymn['number']
-        if type(number) is not int or number < 1 or number in numbers:
+        if type(number) is not int or not 1 <= number <= 65535 or number in numbers:
             raise ValueError('Invalid/duplicate hymn number')
         numbers.add(number)
         if 'id' in hymn:
-            if hymn['id'] != f'{number:03d}' or hymn['id'] in ids:
+            if not isinstance(hymn['id'], str) or not re.fullmatch(HYMN['properties']['id']['pattern'], hymn['id']) or hymn['id'] in ids:
                 raise ValueError('Invalid/duplicate hymn id')
             ids.add(hymn['id'])
         if not hymn['title'].strip() or not hymn['sections']:
@@ -57,3 +58,10 @@ def validate_release(release):
             raise ValueError('Release contains inconsistent version/deletion state')
         if hymn.get('updatedAt') != release['updatedAt']:
             raise ValueError('Release timestamp mismatch')
+
+
+def validate_content(value, partial=False):
+    schema = read_json(SCHEMAS / ('hymn-update.schema.json' if partial else 'hymn-content.schema.json'))
+    Draft7Validator(schema, registry=REGISTRY, format_checker=FormatChecker()).validate(value)
+    if not partial:
+        validate_hymns([value])

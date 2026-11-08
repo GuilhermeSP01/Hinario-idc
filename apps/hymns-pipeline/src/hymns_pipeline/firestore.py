@@ -94,7 +94,13 @@ def plan(release, manifest, base, metadata, existing, expected_remote_version):
     writes.append(update_write(f'{base}/metadata/version', target_metadata, metadata))
     if len(writes) > MAX_WRITES or len(canonical({'writes': writes})) > MAX_COMMIT_BYTES:
         raise ValueError('Release exceeds atomic publication limits; no writes were sent')
-    return writes, {'unchanged': False, 'upserts': len(desired), 'removals': removals,
+    content_keys = ('id', 'number', 'title', 'sections')
+    added = sorted(desired.keys() - active.keys())
+    removed = sorted(active.keys() - desired.keys())
+    changed = sorted(key for key in desired.keys() & active.keys()
+                     if any(desired[key].get(field) != active[key].get(field) for field in content_keys))
+    return writes, {'unchanged': False, 'addedIds': added, 'changedIds': changed,
+                    'removedIds': removed, 'upserts': len(desired), 'removals': removals,
                     'version': release['version'], 'writes': len(writes)}
 
 
@@ -105,14 +111,25 @@ class Firestore:
         if session is None:
             import google.auth
             from google.auth.transport.requests import AuthorizedSession
-            credentials, _ = google.auth.default(scopes=['https://www.googleapis.com/auth/datastore'])
+            from google.auth.exceptions import DefaultCredentialsError
+            try:
+                credentials, _ = google.auth.default(scopes=['https://www.googleapis.com/auth/datastore'])
+            except DefaultCredentialsError:
+                raise ValueError('ADC credentials unavailable; configure Application Default Credentials '
+                                 'or Workload Identity Federation before publishing.') from None
             session = AuthorizedSession(credentials)
         self.session = session
         self.base = f'projects/{project}/databases/(default)/documents'
         self.url = f'https://firestore.googleapis.com/v1/{self.base}'
 
     def request(self, method, url, body=None, missing_ok=False):
-        response = self.session.request(method, url, json=body, timeout=30)
+        from requests.exceptions import RequestException
+        from google.auth.exceptions import GoogleAuthError
+        try:
+            response = self.session.request(method, url, json=body, timeout=30)
+        except (RequestException, GoogleAuthError):
+            raise ValueError('Firestore request failed; publication not confirmed. '
+                             'Read remote state and repeat the dry-run before retrying.') from None
         if missing_ok and response.status_code == 404:
             return None
         if not 200 <= response.status_code < 300:

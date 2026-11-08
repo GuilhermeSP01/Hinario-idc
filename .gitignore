@@ -59,3 +59,7 @@ gha-creds-*.json
 # Editorial OS lock and interrupted atomic pointer writes
 apps/hymns-pipeline/data/editorial/.lock
 apps/hymns-pipeline/data/editorial/.head-*
+
+# Browser test outputs
+test-results/
+playwright-report/

@@ -24,7 +24,8 @@ def wire(state):
 class RemoteTests(unittest.TestCase):
     def setUp(self):
         self.temp=tempfile.TemporaryDirectory();self.addCleanup(self.temp.cleanup)
-        self.data=Path(self.temp.name)/'data';shutil.copytree(DATA,self.data)
+        from editorial_fixtures import copy_baseline
+        self.data=copy_baseline(Path(self.temp.name)/'data')
         self.state=version_snapshot(3,self.data)
         self.client=Mock(base='projects/hinario-idc/databases/(default)/documents',url='https://example.invalid')
         self.client.snapshot.side_effect=lambda:wire(self.state)

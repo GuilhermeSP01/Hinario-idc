@@ -27,9 +27,18 @@
     "emulators": "corepack pnpm --filter @hinario/infra-firebase exec firebase emulators:start --config ../../firebase.json --project demo-hinario-idc --only firestore,hosting",
     "infra:check": "node infra/firebase/check.mjs",
     "infra:test": "corepack pnpm --filter @hinario/infra-firebase test",
-    "logs:test": "corepack pnpm --filter @hinario/observability test"
+    "logs:test": "corepack pnpm --filter @hinario/observability test",
+    "hymns:create": "python apps/hymns-pipeline/run.py create",
+    "hymns:update": "python apps/hymns-pipeline/run.py update",
+    "hymns:delete": "python apps/hymns-pipeline/run.py delete",
+    "hymns:list": "python apps/hymns-pipeline/run.py list",
+    "hymns:get": "python apps/hymns-pipeline/run.py get",
+    "hymns:reconcile": "python apps/hymns-pipeline/run.py reconcile",
+    "hymns:source-reconcile": "python apps/hymns-pipeline/run.py source-reconcile",
+    "hymns:browser-test": "corepack pnpm exec playwright test --config apps/mobile/playwright.config.mjs"
   },
   "devDependencies": {
-    "typescript": "^5.7.3"
+    "typescript": "^5.7.3",
+    "@playwright/test": "1.65.0"
   }
 }

@@ -15,7 +15,8 @@ def payload(number=464):
 class EditorialTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory(); self.addCleanup(self.temp.cleanup)
-        self.data = Path(self.temp.name)/'data'; shutil.copytree(DATA, self.data)
+        from editorial_fixtures import copy_baseline
+        self.data = copy_baseline(Path(self.temp.name)/'data')
 
     def test_crud_and_replay_preserve_ids(self):
         created = mutate('create', payload=payload(), reason='Create', data=self.data)
@@ -103,3 +104,34 @@ class EditorialTests(unittest.TestCase):
         self.assertEqual(next(h for h in record['hymns']if h['id']=='145')['title'],'Rocha Eterna')
         review['expectedRevision']=result['revision'];review['assignments']=assignments[:-1]
         with self.assertRaises(ValueError):reconcile_source(parent['datasetId'],review,'Incomplete',self.data)
+
+    def test_editorial_release_full_reproduction_check(self):
+        from unittest.mock import patch
+        from hymns_pipeline.editorial import release_revision
+        from hymns_pipeline.check import check
+        result=mutate('create',payload=payload(),reason='Create',data=self.data)
+        release_revision(result['revision'],4,'2026-11-08T00:00:00Z',self.data)
+        (self.data/'current.json').write_text('{"release":4}')
+        with patch('hymns_pipeline.check.export_seed') as seed:
+            check(self.data)
+        self.assertEqual(seed.call_args.args[0]['version'],4)
+        self.assertTrue(seed.call_args.kwargs['check'])
+
+    def test_source_explicit_new_omit_and_keep(self):
+        from hymns_pipeline.source_reconciliation import reconcile_source
+        from hymns_pipeline.layers import load_silver
+        rid,parent=head(self.data)
+        source=load_silver(parent['datasetId'],self.data)['hymns']
+        assignments=[dict(sourceOrdinal=h['sourceOrdinal'],id=parent['sourceMapping'][str(h['sourceOrdinal'])],use='source') for h in source]
+        first_id=assignments[0]['id']
+        second_id=assignments[1]['id']
+        assignments[0]=dict(sourceOrdinal=source[0]['sourceOrdinal'],omit=True)
+        assignments[1]=dict(sourceOrdinal=source[1]['sourceOrdinal'],new=True)
+        review=dict(expectedRevision=rid,assignments=assignments,remaining=[dict(id=first_id,action='keep'),dict(id=second_id,action='delete')])
+        result=reconcile_source(parent['datasetId'],review,'Explicit replacement',self.data)
+        record=load_revision(result['revision'],self.data)
+        self.assertIn(first_id,{h['id']for h in record['hymns']})
+        self.assertIn(second_id,record['retiredIds'])
+        new_id=record['sourceMapping'][str(source[1]['sourceOrdinal'])]
+        self.assertNotEqual(new_id,second_id)
+        self.assertRegex(new_id,r'^[a-f0-9-]{36}$')

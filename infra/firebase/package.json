@@ -6,7 +6,7 @@
     "firebase-tools": "15.0.0"
   },
   "scripts": {
-    "test": "firebase emulators:exec --config ../../firebase.json --project demo-hinario-idc --only firestore,hosting \"node smoke.mjs\"",
+    "test": "firebase emulators:exec --config ../../firebase.json --project demo-hinario-idc --only firestore,hosting \"node smoke.mjs && python ../../apps/hymns-pipeline/tests/firestore_integration.py\"",
     "test:hosting": "firebase emulators:exec --config ../../firebase.json --project demo-hinario-idc --only hosting \"node smoke.mjs --hosting-only\""
   }
 }

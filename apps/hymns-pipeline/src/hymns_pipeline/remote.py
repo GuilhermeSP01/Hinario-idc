@@ -89,7 +89,7 @@ def read_remote(project, identity=None, client=None):
     from urllib.parse import quote
     client=client or Firestore(project)
     if identity is not None:
-        if not identity or '/' in identity or len(identity.encode())>1500: raise ValueError('Invalid document ID')
+        if not identity or identity in {'.','..'} or '/' in identity or len(identity.encode())>1500: raise ValueError('Invalid document ID')
         doc=client.request('GET',client.url+'/hymns/'+quote(identity,safe=''),missing_ok=True)
         if doc is None: raise ValueError('Remote hymn not found')
         return dict(id=identity,data=document_fields(doc))

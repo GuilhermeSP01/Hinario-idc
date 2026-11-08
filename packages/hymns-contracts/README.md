@@ -6,6 +6,6 @@
 - `pnpm --filter @hinario/hymns-contracts check`: falha se os tipos estiverem desatualizados.
 - `pnpm --filter @hinario/hymns-contracts validate <caminho/hymns.json>`: valida releases com Ajv.
 
-Python valida os mesmos schemas com `jsonschema`. Os tipos gerados não substituem validação em runtime. Restrições de quantidade dos arrays ficam na validação JSON Schema; os tipos usam arrays TS comuns para manter compatibilidade com os consumidores existentes. Unicidade, ordenação, IDs e versões são verificados adicionalmente pela pipeline.
+Python valida os mesmos schemas com `jsonschema`. Os tipos gerados não substituem validação em runtime. Restrições de quantidade dos arrays ficam na validação JSON Schema; os tipos usam arrays TS comuns. Unicidade, ordenação, IDs e versões são verificados adicionalmente pela pipeline.
 
-`@hinario/core` reexporta os tipos públicos para preservar os imports existentes. Tipos exclusivos de busca permanecem em TS. Alterações incompatíveis exigem uma nova versão do contrato e migração dos consumidores.
+`@hinario/core` reexporta os tipos públicos para os consumidores do domínio. Tipos exclusivos de busca são definidos em TS. Alterações incompatíveis exigem uma nova versão do contrato e migração dos consumidores.

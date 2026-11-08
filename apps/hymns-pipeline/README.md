@@ -37,9 +37,9 @@ data/
 ```
 
 Os artefatos das três camadas são versionados no Git para este acervo pequeno.
-Novos documentos entram diretamente em bronze: `docs/` não é uma área de dados.
-O documento histórico foi movido sem modificar seus bytes para
-`data/bronze/sv-001/source.odt`; seu nome original permanece no manifesto.
+Os documentos de origem são armazenados diretamente em bronze. A edição
+`sv-001` está em `data/bronze/sv-001/source.odt`, com seus bytes originais
+preservados e o nome do arquivo registrado no manifesto.
 Não há arquivo `latest` mutável nas camadas. Repetir uma etapa é permitido apenas
 se produzir os mesmos bytes; uma versão existente nunca é sobrescrita.
 
@@ -91,7 +91,7 @@ Use o mesmo `--data-dir` antes do subcomando nas etapas seguintes.
 
 ## Regras editoriais
 
-A primeira migração mantém os 236 hinos da seleção anterior:
+A seleção da fonte `sv-001` contém 236 hinos. O processamento aplica estas regras:
 
 - Preserva a numeração dos hinos presentes entre 1 e 230.
 - Exclui o intervalo 231 a 395.
@@ -103,14 +103,17 @@ A quantidade 236 é uma referência da fonte `sv-001`, não uma restrição de f
 edições. As regras de transformação ficam em módulos Python testados; decisões
 editoriais declarativas ficam em `rules/`.
 
-O extrator legado descartava duplicatas pelo título, mesmo com letras diferentes.
-`rules/duplicates-v1.json` preserva as duas decisões históricas para “Grande É o
-Senhor” e “Coração Igual ao Teu”, vinculadas aos hashes exatos das seções mantidas
-e descartadas. Uma nova colisão com conteúdo diferente falha para revisão editorial.
+A deduplicação do bloco sem numeração compara títulos normalizados. Para
+ocorrências com seções diferentes, `rules/duplicates-v1.json` registra as decisões
+editoriais aprovadas, vinculadas aos hashes exatos das seções mantidas e descartadas.
+As duas decisões cadastradas selecionam a primeira ocorrência de “Grande É o Senhor”
+e de “Coração Igual ao Teu”. São versões das mesmas músicas, com diferenças nas
+letras, repetições e estrutura. Uma colisão com conteúdo diferente sem decisão
+cadastrada interrompe a transformação para revisão editorial.
 Uma mudança nas decisões exige novo dataset silver e nova release gold.
 
-IDs continuam derivados da numeração para compatibilidade com Firestore,
-favoritos e links existentes. Inserir/reordenar hinos no bloco sem numeração pode
+Os IDs são derivados da numeração e identificam os hinos no Firestore,
+nos favoritos e nos links compartilhados. Inserir/reordenar hinos no bloco sem numeração pode
 mudar IDs; revise esse impacto editorial. Identidade permanente independente da
 numeração exigiria uma migração própria dos consumidores.
 
@@ -149,7 +152,8 @@ A simulação faz leituras autenticadas, mas não envia gravações. A publicaç
 4. Envia hinos, tombstones e metadados em um único commit atômico, com precondições
    de `updateTime`/inexistência para rejeitar alterações concorrentes nos documentos.
 
-Não há exclusão física de IDs legados nem divisão de uma release em lotes.
+IDs removidos recebem tombstones, sem exclusão física. Cada release é enviada
+em um único commit.
 A implementação recusa mais de 400 operações, documentos acima de 900 KiB ou
 payload acima de 9 MiB antes de gravar. Esses limites conservadores preservam a
 publicação atômica; acervos maiores precisam de uma estratégia própria.
@@ -161,9 +165,9 @@ correspondem exatamente. Versão igual com conteúdo diferente e downgrade são
 recusados. Após conflito/timeout, consulte o estado e refaça a simulação; não há
 retry cego de commits. Um rollback de conteúdo deve ser uma nova versão crescente.
 
-A release 3 é a referência histórica, não uma instrução para republicar o banco.
-Se a versão 3 remota veio do uploader antigo e não tem `releaseHash`, crie uma
-release maior; não force a substituição com a mesma versão. O seed e o banco devem
+O arquivo `data/current.json` seleciona a release usada no seed e na verificação
+de reprodução. Antes de publicar, consulte a versão remota. Uma versão remota sem
+`releaseHash` requer uma nova release com versão superior. O seed e o banco devem
 receber o mesmo número de release, pois o cliente consulta `version > localVersion`.
 
 ## GitHub Actions

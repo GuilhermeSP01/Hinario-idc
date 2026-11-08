@@ -1,5 +1,6 @@
 """CLI: every stage is explicit; extraction never publishes or overwrites the seed."""
 import argparse
+from jsonschema.exceptions import ValidationError
 from pathlib import Path
 from .layers import ingest, silver, gold, load_gold
 from .seed import export_seed
@@ -10,6 +11,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--data-dir', type=Path, default=DATA)
     commands = parser.add_subparsers(dest='command', required=True)
+    commands.add_parser('check')
     p = commands.add_parser('ingest')
     p.add_argument('--source', required=True, type=Path)
     p.add_argument('--source-version', required=True)
@@ -30,7 +32,10 @@ def main():
             p.add_argument('--expected-remote-version', type=int, required=True)
     args = parser.parse_args()
     try:
-        if args.command == 'ingest':
+        if args.command == 'check':
+            from .check import check
+            check(args.data_dir)
+        elif args.command == 'ingest':
             print(ingest(args.source, args.source_version, args.data_dir))
         elif args.command == 'transform':
             print(silver(args.source_version, args.data_dir))
@@ -44,5 +49,7 @@ def main():
                 from .firestore import publish
                 publish(release, manifest, args.project, args.expected_remote_version, args.dry_run)
             print(f'{args.command}: release {args.release} OK')
+    except ValidationError as error:
+        parser.exit(1, f'Contract validation failed: {error.message}\n')
     except (ValueError, OSError, KeyError) as error:
         parser.exit(1, f'Pipeline failed: {error}\n')

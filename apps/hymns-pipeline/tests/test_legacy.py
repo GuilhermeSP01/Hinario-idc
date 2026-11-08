@@ -30,7 +30,8 @@ legacy = Legacy()
 class LegacyExtractionTests(unittest.TestCase):
     def test_document_matches_published_dataset(self):
         hymns = legacy.extract_hymns()
-        expected = json.loads((ROOT / 'tools/output/hymns.json').read_text())['hymns']
+        gold = json.loads((ROOT / 'apps/hymns-pipeline/data/gold/3/hymns.json').read_text())
+        expected = [{k: h[k] for k in ('id', 'number', 'title', 'sections', 'version')} for h in gold['hymns']]
         self.assertEqual(hymns, expected)
         self.assertEqual(len(hymns), 236)
         canonical = json.dumps(hymns, ensure_ascii=False, sort_keys=True, separators=(',', ':'))

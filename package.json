@@ -15,9 +15,15 @@
     "deploy": "corepack pnpm build && firebase deploy --only firestore,hosting",
     "deploy:hosting": "corepack pnpm build && firebase deploy --only hosting",
     "deploy:rules": "firebase deploy --only firestore",
-    "hymns:extract": "python tools/extract_hymns.py",
-    "hymns:upload": "python tools/upload_firestore.py",
-    "hymns:sync": "python tools/extract_hymns.py && python tools/upload_firestore.py --bump"
+    "hymns:ingest": "python apps/hymns-pipeline/run.py ingest",
+    "hymns:transform": "python apps/hymns-pipeline/run.py transform",
+    "hymns:release": "python apps/hymns-pipeline/run.py release",
+    "hymns:validate": "python apps/hymns-pipeline/run.py validate",
+    "hymns:seed": "python apps/hymns-pipeline/run.py seed",
+    "hymns:publish": "python apps/hymns-pipeline/run.py publish",
+    "hymns:check": "python apps/hymns-pipeline/run.py check",
+    "hymns:test": "python -m unittest discover -s apps/hymns-pipeline/tests -v",
+    "contracts:check": "corepack pnpm --filter @hinario/hymns-contracts check"
   },
   "devDependencies": {
     "typescript": "^5.7.3"

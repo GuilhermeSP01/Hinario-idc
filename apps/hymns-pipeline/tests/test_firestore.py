@@ -5,7 +5,7 @@ import unittest
 from unittest.mock import Mock
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'src'))
 from hymns_pipeline.firestore import (Firestore, document_fields, from_value, plan, publish,
-                                     to_value, update_write)
+                                     to_value)
 from hymns_pipeline.storage import digest
 
 BASE = 'projects/hinario-idc/databases/(default)/documents'
@@ -35,6 +35,8 @@ class FirestoreTests(unittest.TestCase):
                     '7': doc('hymns/7', hymn(7, version=3))}
         writes, summary = plan(self.release, self.manifest, BASE, self.metadata, existing, 3)
         self.assertEqual(summary['removals'], 2)
+        self.assertEqual(summary['changedIds'], ['001'])
+        self.assertEqual(summary['removedIds'], ['002', '7'])
         self.assertEqual(len(writes), 4)
         self.assertTrue(all('updateTime' in w['currentDocument'] for w in writes))
         values = [document_fields(w['update']) for w in writes]
@@ -107,3 +109,12 @@ class FirestoreTests(unittest.TestCase):
     def test_value_encoding_roundtrip(self):
         value = {'bool': True, 'int': 4, 'empty': [], 'null': None, 'nested': [{'text': 'Ó Rei'}]}
         self.assertEqual(from_value(to_value(value)), value)
+
+    def test_transport_error_is_reported_without_credential_details(self):
+        from requests.exceptions import Timeout
+        session = Mock()
+        session.request.side_effect = Timeout('Sensitive internal request detail')
+        client = Firestore('hinario-idc', session)
+        with self.assertRaisesRegex(ValueError, 'publication not confirmed') as error:
+            client.request('POST', client.url + ':commit', {})
+        self.assertNotIn('Sensitive', str(error.exception))

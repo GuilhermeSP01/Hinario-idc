@@ -1,6 +1,7 @@
 """Bronze sources -> standardized Silver -> database-ready Gold releases."""
 from pathlib import Path
 import zipfile
+import re
 from . import odt, transform
 from .storage import APP, DATA, digest, encode, file_hash, identifier, immutable_directory, read_json
 from .validation import timestamp, validate_hymns, validate_release
@@ -33,6 +34,7 @@ def load_bronze(source_version, data=DATA):
     manifest = read_json(directory / 'manifest.json')
     if (manifest['schemaVersion'] != 1 or manifest['sourceVersion'] != source_version
             or manifest['format'] != 'odt' or manifest['file'] != 'source.odt'
+            or not manifest['originalName'] or Path(manifest['originalName']).name != manifest['originalName']
             or file_hash(directory / 'source.odt') != manifest['sha256']):
         raise ValueError('Bronze manifest/checksum mismatch')
     return directory, manifest
@@ -47,8 +49,9 @@ def silver(source_version, data=DATA):
     for event in exclusions:
         if event['reason'] == 'duplicate_title':
             original = raw[event['sourceOrdinal'] - 1]
-            title = ' '.join(original['header'].strip().upper().split())
-            candidates = [h for h in hymns if ' '.join(h['rawTitle'].upper().split()) == title]
+            title = ' '.join(re.sub(r'^(\d{1,3})\.\s*', '', original['header']).strip().upper().split())
+            candidates = [h for h in hymns if h['number'] >= 396
+                          and ' '.join(h['rawTitle'].upper().split()) == title]
             discarded = transform.build_sections_from_lines(original['lines'])
             if not candidates:
                 raise ValueError(f'Duplicate without retained hymn: {title}')

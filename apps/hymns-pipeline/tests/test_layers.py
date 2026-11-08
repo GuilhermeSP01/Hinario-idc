@@ -2,6 +2,7 @@ import copy
 from pathlib import Path
 import tempfile
 import unittest
+import zipfile
 from unittest.mock import patch
 import sys
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'src'))
@@ -31,8 +32,8 @@ class LayerTests(unittest.TestCase):
         ingest(self.source, 'test-001', self.data)
         gold(dataset, 3, release['updatedAt'], self.data)
         self.assertEqual(before, {str(p): p.read_bytes() for p in self.data.rglob('*') if p.is_file()})
-        from hymns_pipeline.seed import SEED
-        self.assertEqual(render_seed(release), SEED.read_text())
+        from hymns_pipeline.layers import load_gold
+        self.assertEqual(render_seed(release), render_seed(load_gold(3)[0]))
         report = read_json(self.data / 'silver' / dataset / 'report.json')
         self.assertEqual(report['acceptedHymns'], 236)
         self.assertEqual(sum(e['reason'] == 'approved_legacy_duplicate' for e in report['exclusions']), 2)
@@ -86,3 +87,23 @@ class LayerTests(unittest.TestCase):
             else: bad['hymns'][0]['unexpected'] = True
             with self.subTest(mutation=mutation), self.assertRaises(Exception):
                 validate_release(bad)
+
+    def test_updated_document_preserves_old_source_and_release(self):
+        _, original_release = self.build()
+        original_bytes = (self.data / 'bronze/test-001/source.odt').read_bytes()
+        updated = self.data / 'updated.odt'
+        with zipfile.ZipFile(self.source) as old, zipfile.ZipFile(updated, 'w') as new:
+            for member in old.infolist():
+                content = old.read(member.filename)
+                if member.filename == 'content.xml':
+                    needle = 'A Ti, ó Deus, fiel e bom Senhor.'.encode()
+                    self.assertIn(needle, content)
+                    content = content.replace(needle, 'A Ti, ó Deus, fiel Senhor.'.encode(), 1)
+                new.writestr(member, content)
+        ingest(updated, 'test-002', self.data)
+        dataset = silver('test-002', self.data)
+        gold(dataset, 4, '2026-11-08T00:00:00Z', self.data)
+        updated_release, _ = load_gold(4, self.data)
+        self.assertNotEqual(original_release['hymns'][0]['sections'], updated_release['hymns'][0]['sections'])
+        self.assertEqual(load_gold(3, self.data)[0], original_release)
+        self.assertEqual((self.data / 'bronze/test-001/source.odt').read_bytes(), original_bytes)

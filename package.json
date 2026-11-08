@@ -12,9 +12,9 @@
     "cap:sync": "corepack pnpm --filter @hinario/mobile cap:sync",
     "cap:android": "corepack pnpm --filter @hinario/mobile cap:android",
     "cap:ios": "corepack pnpm --filter @hinario/mobile cap:ios",
-    "deploy": "corepack pnpm build && firebase deploy --only firestore,hosting",
-    "deploy:hosting": "corepack pnpm build && firebase deploy --only hosting",
-    "deploy:rules": "firebase deploy --only firestore",
+    "deploy": "corepack pnpm build && corepack pnpm --filter @hinario/infra-firebase exec firebase deploy --config ../../firebase.json --only firestore,hosting",
+    "deploy:hosting": "corepack pnpm build && corepack pnpm --filter @hinario/infra-firebase exec firebase deploy --config ../../firebase.json --only hosting",
+    "deploy:rules": "corepack pnpm --filter @hinario/infra-firebase exec firebase deploy --config ../../firebase.json --only firestore",
     "hymns:ingest": "python apps/hymns-pipeline/run.py ingest",
     "hymns:transform": "python apps/hymns-pipeline/run.py transform",
     "hymns:release": "python apps/hymns-pipeline/run.py release",
@@ -23,7 +23,10 @@
     "hymns:publish": "python apps/hymns-pipeline/run.py publish",
     "hymns:check": "python apps/hymns-pipeline/run.py check",
     "hymns:test": "python -m unittest discover -s apps/hymns-pipeline/tests -v",
-    "contracts:check": "corepack pnpm --filter @hinario/hymns-contracts check"
+    "contracts:check": "corepack pnpm --filter @hinario/hymns-contracts check",
+    "emulators": "corepack pnpm --filter @hinario/infra-firebase exec firebase emulators:start --config ../../firebase.json --project demo-hinario-idc --only firestore,hosting",
+    "infra:check": "node infra/firebase/check.mjs",
+    "infra:test": "corepack pnpm --filter @hinario/infra-firebase test"
   },
   "devDependencies": {
     "typescript": "^5.7.3"

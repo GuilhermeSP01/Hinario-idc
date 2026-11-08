@@ -10,6 +10,8 @@ Monorepo do ecossistema **Hinário IDC**, organizado com `pnpm workspaces` para 
 - **`apps/hymns-pipeline/`**: Pipeline Python medallion: fontes versionadas em bronze, hinos padronizados em silver e releases do Firestore em gold.
 - **`packages/hymns-contracts/`**: Contratos JSON Schema compartilhados e tipos TypeScript gerados.
 - **`tools/`**: Utilitários de assets do aplicativo.
+- **`infra/firebase/`**: Regras, índices, ferramentas e validação local do Firebase.
+- **`infra/docker/`**: Instruções de execução e smoke test dos containers.
 
 ## Configuração do Firebase
 
@@ -25,6 +27,16 @@ VITE_FIREBASE_APP_ID=...
 ```
 
 > Enquanto o `.env` não estiver preenchido ou o dispositivo estiver offline, o aplicativo opera normalmente utilizando o snapshot inicial embutido e o banco local IndexedDB.
+
+## Infraestrutura Firebase
+
+As regras e os índices do Firestore estão em [`infra/firebase/`](infra/firebase/README.md).
+O `firebase.json` e o `.firebaserc` ficam na raiz para definir o projeto e os caminhos
+do Hosting. O Firebase CLI é uma dependência de desenvolvimento do workspace de
+infraestrutura, com versão fixada no lockfile.
+
+Após gerar o build, `corepack pnpm infra:check` valida os caminhos da configuração.
+`corepack pnpm infra:test` executa os testes dos emuladores de Hosting e Firestore.
 
 ## Deploy no Firebase Hosting
 
@@ -76,3 +88,21 @@ corepack pnpm contracts:check
 O processamento usa os comandos `hymns:ingest`, `hymns:transform`,
 `hymns:release` e `hymns:validate`. A geração do seed usa `hymns:seed`,
 e a publicação no Firestore usa `hymns:publish`.
+
+## Docker
+
+O app web e a pipeline possuem imagens independentes. Execute os builds a partir
+da raiz do monorepo:
+
+```bash
+docker build -f apps/mobile/Dockerfile -t hinario-web .
+docker run --rm -p 8090:8080 hinario-web
+
+docker build -f apps/hymns-pipeline/Dockerfile -t hinario-pipeline .
+docker run --rm hinario-pipeline
+```
+
+A imagem web serve o build estático; a imagem da pipeline executa a verificação
+das camadas por padrão. Consulte [os comandos de Docker](infra/docker/README.md)
+para desenvolvimento com Vite, configurações Firebase, persistência de dados e
+credenciais em execução.

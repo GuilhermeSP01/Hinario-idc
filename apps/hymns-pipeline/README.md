@@ -190,3 +190,9 @@ permitidos, com impersonação da service account (`roles/iam.workloadIdentityUs
 O workflow não cadastra infraestrutura, permissões ou credenciais automaticamente.
 Configure também o check **Hymns Pipeline CI / validate** como obrigatório em
 `main` se desejar bloquear merges inválidos. O deploy de Hosting continua separado.
+
+## Docker
+
+A pipeline também pode ser executada pela imagem definida em `Dockerfile`, com a
+raiz do monorepo como contexto de build. Consulte as [instruções de Docker](../../infra/docker/README.md)
+para validar camadas, persistir resultados e fornecer credenciais em execução.

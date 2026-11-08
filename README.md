@@ -8,6 +8,7 @@ Monorepo do ecossistema **Hinário IDC**, organizado com `pnpm workspaces` para 
 - **`packages/firebase` (`@hinario/firebase`)**: Integração modular com o Cloud Firestore, sincronização delta por versão (`version > localVersion`) e snapshot inicial de hinos (seed offline).
 - **`apps/mobile` (`@hinario/mobile`)**: Aplicativo mobile com Vue 3, Vite, Tailwind CSS, Pinia, Dexie.js (IndexedDB) e Capacitor (Android/iOS).
 - **`apps/hymns-pipeline/`**: Pipeline Python medallion: fontes versionadas em bronze, hinos padronizados em silver e releases do Firestore em gold.
+- **`packages/observability/`**: Logger TypeScript compartilhado, com eventos estruturados e sanitização.
 - **`packages/hymns-contracts/`**: Contratos JSON Schema compartilhados e tipos TypeScript gerados.
 - **`tools/`**: Utilitários de assets do aplicativo.
 - **`infra/firebase/`**: Regras, índices, ferramentas e validação local do Firebase.
@@ -106,3 +107,14 @@ A imagem web serve o build estático; a imagem da pipeline executa a verificaç�
 das camadas por padrão. Consulte [os comandos de Docker](infra/docker/README.md)
 para desenvolvimento com Vite, configurações Firebase, persistência de dados e
 credenciais em execução.
+
+## Logs
+
+O app registra eventos JSON no console, a pipeline envia logs para `stderr` e o
+container web registra acessos HTTP em `stdout`. Debug é habilitado por padrão no
+desenvolvimento; testes e produção usam `info`. Os níveis podem ser ajustados com
+`VITE_LOG_LEVEL` no build web e `APP_ENV`/`LOG_LEVEL` na execução Python.
+
+Consulte o [guia de logs e diagnóstico](infra/observability/README.md) para conhecer
+os campos permitidos, a correlação de operações, os resultados de publicação,
+as limitações dos logs nativos e a retenção no CI.

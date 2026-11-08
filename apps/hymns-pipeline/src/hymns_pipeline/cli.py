@@ -9,8 +9,16 @@ from .seed import export_seed
 from .storage import DATA
 
 
+class SafeArgumentParser(argparse.ArgumentParser):
+    def error(self, message):
+        # argparse's default errors echo invalid argument values; keep those out of logs.
+        logs.configure('INFO', environment='production')
+        logs.emit('pipeline.configuration.failed', level='error', errorCode='invalid_arguments')
+        self.exit(2)
+
+
 def main():
-    parser = argparse.ArgumentParser(description=__doc__)
+    parser = SafeArgumentParser(description=__doc__)
     parser.add_argument('--log-level', type=str.upper, choices=logs.LEVELS, default=None)
     parser.add_argument('--data-dir', type=Path, default=DATA)
     commands = parser.add_subparsers(dest='command', required=True)

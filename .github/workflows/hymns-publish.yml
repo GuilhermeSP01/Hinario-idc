@@ -16,6 +16,10 @@ on:
         default: true
         type: boolean
 
+env:
+  APP_ENV: production
+  LOG_LEVEL: INFO
+
 permissions:
   contents: read
 

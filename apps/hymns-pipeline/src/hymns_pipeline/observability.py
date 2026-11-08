@@ -34,19 +34,19 @@ VALIDATORS = {
     'rulesHash': lambda v: isinstance(v, str) and bool(re.fullmatch(r'[a-f0-9]{64}', v)),
     'releaseHash': lambda v: isinstance(v, str) and bool(re.fullmatch(r'[a-f0-9]{64}', v)),
     'projectId': lambda v: isinstance(v, str) and bool(re.fullmatch(r'[a-z][a-z0-9-]{4,28}[a-z0-9]', v)),
-    'releaseVersion': number, 'durationMs': number, 'hymnCount': number, 'rawCount': number,
+    'expectedRemoteVersion': number, 'remoteVersion': number, 'releaseVersion': number, 'durationMs': number, 'hymnCount': number, 'rawCount': number,
     'excludedCount': number, 'approvedCount': number, 'writes': number, 'upserts': number,
     'removals': number, 'addedCount': number, 'changedCount': number, 'httpStatus': lambda v: type(v) is int and 100 <= v <= 599,
     'dryRun': lambda v: type(v) is bool,
     'errorType': lambda v: isinstance(v, str) and v in {'ValueError', 'OSError', 'KeyError', 'ValidationError', 'TypeError', 'Exception', 'PublicationError'},
     'errorCode': lambda v: isinstance(v, str) and v in {'invalid_input', 'filesystem_error', 'validation_failed', 'internal_error',
-                                'publication_failed', 'publication_outcome_unknown', 'invalid_configuration',
+                                'publication_failed', 'publication_outcome_unknown', 'invalid_configuration', 'invalid_arguments',
                                 'immutable_conflict', 'integrity_mismatch', 'editorial_review_required', 'remote_version_conflict',
                                 'release_version_used', 'version_downgrade', 'publication_limit', 'credentials_unavailable'},
     'schemaPath': lambda v: isinstance(v, str) and len(v) < 300 and bool(re.fullmatch(r'[A-Za-z0-9_/$.-]+', v)),
 }
 ERROR_FIELDS = {'errorType', 'errorCode', 'schemaPath', 'httpStatus'}
-RELEASE_FIELDS = {'releaseVersion', 'releaseHash', 'projectId', 'dryRun', 'writes', 'upserts',
+RELEASE_FIELDS = {'expectedRemoteVersion', 'remoteVersion', 'releaseVersion', 'releaseHash', 'projectId', 'dryRun', 'writes', 'upserts',
                   'removals', 'addedCount', 'changedCount', 'hymnCount'}
 EVENT_FIELDS = {
     'bronze.ingest.started': {'sourceVersion'},
@@ -128,7 +128,9 @@ def error_context(error):
                     schemaPath='/'.join(str(part) for part in error.absolute_schema_path))
     if isinstance(error, OSError):
         return dict(errorType='OSError', errorCode='filesystem_error')
-    if isinstance(error, (ValueError, KeyError, TypeError)):
+    if isinstance(error, TypeError):
+        return dict(errorType='TypeError', errorCode='internal_error')
+    if isinstance(error, (ValueError, KeyError)):
         reasons = {'Immutable artifact differs': 'immutable_conflict', 'checksum mismatch': 'integrity_mismatch',
                    'hash mismatch': 'integrity_mismatch', 'requires review': 'editorial_review_required',
                    'Remote version changed': 'remote_version_conflict', 'Version already used': 'release_version_used',

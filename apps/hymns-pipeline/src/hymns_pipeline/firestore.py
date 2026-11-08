@@ -174,11 +174,12 @@ class Firestore:
 def publish(release, manifest, project, expected_remote_version, dry_run=False, client=None):
     start = perf_counter()
     context = dict(projectId=project, releaseVersion=release['version'],
-                   releaseHash=manifest['releaseHash'], dryRun=dry_run)
+                   releaseHash=manifest['releaseHash'], dryRun=dry_run, expectedRemoteVersion=expected_remote_version)
     committing = False
     try:
         client = client or Firestore(project)
         metadata, existing = client.snapshot()
+        context['remoteVersion'] = document_fields(metadata).get('currentVersion', 0) if metadata else 0
         writes, summary = plan(release, manifest, client.base, metadata, existing, expected_remote_version)
         context.update(writes=len(writes), upserts=summary['upserts'], removals=summary['removals'],
                        addedCount=len(summary.get('addedIds', [])), changedCount=len(summary.get('changedIds', [])))

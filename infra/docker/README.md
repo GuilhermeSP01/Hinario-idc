@@ -96,3 +96,14 @@ A mesma opção funciona no Dockerfile web. O bundle deve incluir as raízes pú
 e a CA do proxy; não é gravado na imagem. Configure o proxy pelo mecanismo padrão
 do Docker. Containers que publicam dados também precisam receber a configuração
 de proxy/CA em execução conforme seu ambiente.
+
+## Logs e níveis
+
+O build web aceita `--build-arg VITE_LOG_LEVEL=info` (padrão de produção). O target
+de desenvolvimento usa o padrão `debug` do Vite, ajustável com `VITE_LOG_LEVEL` em
+execução. A imagem Python usa `APP_ENV=production`; `APP_ENV` e `LOG_LEVEL` podem
+ser sobrescritos no `docker run`.
+
+Acessos do Nginx são JSON em `stdout`, com `X-Request-ID` nas respostas. Erros
+nativos e mensagens de startup usam outro formato. Consulte o [guia de logs](../observability/README.md)
+para os campos registrados e as limitações de sanitização desses streams.

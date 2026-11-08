@@ -135,3 +135,18 @@ class LoggingTests(unittest.TestCase):
         self.assertEqual(sum(r['level'] == 'error' for r in records), 1)
         self.assertEqual(output.getvalue(), '')
         self.assertNotIn('secret', errors.getvalue())
+
+    def test_invalid_arguments_never_echo_input(self):
+        run = subprocess.run([sys.executable, str(APP/'run.py'), 'validate', '--release', 'PRIVATE_SENTINEL'],
+                             capture_output=True, text=True)
+        self.assertEqual(run.returncode, 2)
+        self.assertNotIn('PRIVATE_SENTINEL', run.stderr)
+        self.assertEqual(json.loads(run.stderr)['context']['errorCode'], 'invalid_arguments')
+
+    def test_cli_level_overrides_environment_after_subcommand(self):
+        env = dict(os.environ, APP_ENV='production', LOG_LEVEL='ERROR')
+        run = subprocess.run([sys.executable, str(APP/'run.py'), 'transform', '--source-version', 'sv-001', '--log-level', 'DEBUG'],
+                             capture_output=True, text=True, env=env)
+        self.assertEqual(run.returncode, 0)
+        records = [json.loads(line) for line in run.stderr.splitlines()]
+        self.assertTrue(any(record['level'] == 'debug' for record in records))

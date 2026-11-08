@@ -7,6 +7,10 @@ on:
     branches: [main]
   workflow_dispatch:
 
+env:
+  APP_ENV: test
+  LOG_LEVEL: INFO
+
 permissions:
   contents: read
 
@@ -36,10 +40,12 @@ jobs:
           corepack pnpm install --frozen-lockfile
       - name: Validar contratos, camadas e seed offline
         run: |
+          corepack pnpm logs:test
           corepack pnpm contracts:check
           corepack pnpm --filter @hinario/hymns-contracts test
           corepack pnpm hymns:test
-          corepack pnpm hymns:check
+          python apps/hymns-pipeline/run.py check 2> "$RUNNER_TEMP/hymns-check.jsonl"
+          python -m unittest discover -s infra/observability/tests -v
           corepack pnpm --filter @hinario/hymns-contracts validate --all
       - name: Validar consumidores TypeScript
         run: |
@@ -47,3 +53,19 @@ jobs:
           corepack pnpm build
       - name: Confirmar que validação não modifica artefatos rastreados
         run: git diff --exit-code
+
+      - name: Mostrar logs e resumo da verificação
+        if: always()
+        run: |
+          if [[ -f "$RUNNER_TEMP/hymns-check.jsonl" ]]; then
+            cat "$RUNNER_TEMP/hymns-check.jsonl"
+            python infra/observability/summarize.py "$RUNNER_TEMP/hymns-check.jsonl" >> "$GITHUB_STEP_SUMMARY"
+          fi
+      - name: Guardar logs do check executado no CI
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hymns-check-events
+          path: ${{ runner.temp }}/hymns-check.jsonl
+          if-no-files-found: ignore
+          retention-days: 3

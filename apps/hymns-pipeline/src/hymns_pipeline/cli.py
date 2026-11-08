@@ -1,14 +1,25 @@
 """CLI: every stage is explicit; extraction never publishes or overwrites the seed."""
 import argparse
-from jsonschema.exceptions import ValidationError
+import json
 from pathlib import Path
+from time import perf_counter
+from . import observability as logs
 from .layers import ingest, silver, gold, load_gold
 from .seed import export_seed
 from .storage import DATA
 
 
+class SafeArgumentParser(argparse.ArgumentParser):
+    def error(self, message):
+        # argparse's default errors echo invalid argument values; keep those out of logs.
+        logs.configure('INFO', environment='production')
+        logs.emit('pipeline.configuration.failed', level='error', errorCode='invalid_arguments')
+        self.exit(2)
+
+
 def main():
-    parser = argparse.ArgumentParser(description=__doc__)
+    parser = SafeArgumentParser(description=__doc__)
+    parser.add_argument('--log-level', type=str.upper, choices=logs.LEVELS, default=None)
     parser.add_argument('--data-dir', type=Path, default=DATA)
     commands = parser.add_subparsers(dest='command', required=True)
     commands.add_parser('check')
@@ -30,7 +41,17 @@ def main():
             p.add_argument('--project', required=True)
             p.add_argument('--dry-run', action='store_true')
             p.add_argument('--expected-remote-version', type=int, required=True)
+    for subparser in commands.choices.values():
+        subparser.add_argument('--log-level', type=str.upper, choices=logs.LEVELS, default=argparse.SUPPRESS)
     args = parser.parse_args()
+    try:
+        logs.configure(args.log_level, command=args.command)
+    except ValueError:
+        logs.configure('INFO', environment='production', command=args.command)
+        logs.emit('pipeline.configuration.failed', level='error', errorCode='invalid_configuration')
+        parser.exit(1)
+    start = perf_counter()
+    logs.emit('pipeline.command.started')
     try:
         if args.command == 'check':
             from .check import check
@@ -47,9 +68,12 @@ def main():
                 export_seed(release, args.check)
             elif args.command == 'publish':
                 from .firestore import publish
-                publish(release, manifest, args.project, args.expected_remote_version, args.dry_run)
-            print(f'{args.command}: release {args.release} OK')
-    except ValidationError as error:
-        parser.exit(1, f'Contract validation failed: {error.message}\n')
-    except (ValueError, OSError, KeyError) as error:
-        parser.exit(1, f'Pipeline failed: {error}\n')
+                summary = publish(release, manifest, args.project, args.expected_remote_version, args.dry_run)
+                print(json.dumps(dict(summary, project=args.project, dryRun=args.dry_run)))
+            if args.command != 'publish':
+                print(f'{args.command}: release {args.release} OK')
+        logs.emit('pipeline.command.succeeded', durationMs=logs.elapsed(start))
+    except Exception as error:
+        if not getattr(error, 'logged', False):
+            logs.emit('pipeline.command.failed', level='error', durationMs=logs.elapsed(start), **logs.error_context(error))
+        parser.exit(1)

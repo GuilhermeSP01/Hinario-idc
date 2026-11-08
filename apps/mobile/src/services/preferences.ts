@@ -1,3 +1,4 @@
+import { log, reportError } from '@hinario/observability';
 import { Preferences } from '@capacitor/preferences';
 
 export type ThemeMode = 'light' | 'dark' | 'sepia' | 'system';
@@ -25,69 +26,71 @@ export const DEFAULT_USER_SETTINGS: UserSettings = {
 };
 
 export async function getStoredLocalVersion(): Promise<number> {
-  const { value } = await Preferences.get({ key: KEYS.LOCAL_VERSION });
+  const { value } = await readPreference({ key: KEYS.LOCAL_VERSION });
   if (!value) return 0;
   const parsed = parseInt(value, 10);
   return Number.isNaN(parsed) ? 0 : parsed;
 }
 
 export async function setStoredLocalVersion(version: number): Promise<void> {
-  await Preferences.set({ key: KEYS.LOCAL_VERSION, value: String(version) });
+  await writePreference({ key: KEYS.LOCAL_VERSION, value: String(version) });
 }
 
 export async function getStoredFavoriteIds(): Promise<string[]> {
-  const { value } = await Preferences.get({ key: KEYS.FAVORITE_IDS });
+  const { value } = await readPreference({ key: KEYS.FAVORITE_IDS });
   if (!value) return [];
   try {
     const parsed = JSON.parse(value);
     return Array.isArray(parsed) ? parsed.map(String) : [];
-  } catch {
+  } catch (error) {
+    reportError('storage.invalid_json', error);
     return [];
   }
 }
 
 export async function setStoredFavoriteIds(ids: string[]): Promise<void> {
-  await Preferences.set({ key: KEYS.FAVORITE_IDS, value: JSON.stringify(ids) });
+  await writePreference({ key: KEYS.FAVORITE_IDS, value: JSON.stringify(ids) });
 }
 
 export async function getStoredWorshipIds(): Promise<string[]> {
-  const { value } = await Preferences.get({ key: KEYS.WORSHIP_IDS });
+  const { value } = await readPreference({ key: KEYS.WORSHIP_IDS });
   if (!value) return [];
   try {
     const parsed = JSON.parse(value);
     return Array.isArray(parsed) ? parsed.map(String) : [];
-  } catch {
+  } catch (error) {
+    reportError('storage.invalid_json', error);
     return [];
   }
 }
 
 export async function setStoredWorshipIds(ids: string[]): Promise<void> {
-  await Preferences.set({ key: KEYS.WORSHIP_IDS, value: JSON.stringify(ids) });
+  await writePreference({ key: KEYS.WORSHIP_IDS, value: JSON.stringify(ids) });
 }
 
 export async function getStoredWorshipEditedByUser(): Promise<boolean> {
-  const { value } = await Preferences.get({ key: KEYS.WORSHIP_EDITED_BY_USER });
+  const { value } = await readPreference({ key: KEYS.WORSHIP_EDITED_BY_USER });
   return value === 'true';
 }
 
 export async function setStoredWorshipEditedByUser(edited: boolean): Promise<void> {
-  await Preferences.set({
+  await writePreference({
     key: KEYS.WORSHIP_EDITED_BY_USER,
     value: edited ? 'true' : 'false',
   });
 }
 
 export async function getStoredLastHymnId(): Promise<string | null> {
-  const { value } = await Preferences.get({ key: KEYS.LAST_HYMN_ID });
+  const { value } = await readPreference({ key: KEYS.LAST_HYMN_ID });
   return value || null;
 }
 
 export async function setStoredLastHymnId(id: string): Promise<void> {
-  await Preferences.set({ key: KEYS.LAST_HYMN_ID, value: id });
+  await writePreference({ key: KEYS.LAST_HYMN_ID, value: id });
 }
 
 export async function getStoredUserSettings(): Promise<UserSettings> {
-  const { value } = await Preferences.get({ key: KEYS.USER_SETTINGS });
+  const { value } = await readPreference({ key: KEYS.USER_SETTINGS });
   if (!value) return { ...DEFAULT_USER_SETTINGS };
   try {
     const parsed = JSON.parse(value) as Partial<UserSettings>;
@@ -108,11 +111,35 @@ export async function getStoredUserSettings(): Promise<UserSettings> {
           ? parsed.keepAwake
           : DEFAULT_USER_SETTINGS.keepAwake,
     };
-  } catch {
+  } catch (error) {
+    reportError('storage.invalid_json', error);
     return { ...DEFAULT_USER_SETTINGS };
   }
 }
 
 export async function setStoredUserSettings(settings: UserSettings): Promise<void> {
-  await Preferences.set({ key: KEYS.USER_SETTINGS, value: JSON.stringify(settings) });
+  await writePreference({ key: KEYS.USER_SETTINGS, value: JSON.stringify(settings) });
+}
+
+async function readPreference(options: { key: string }): Promise<{ value: string | null }> {
+  const start = performance.now();
+  try {
+    const result = await Preferences.get(options);
+    log('storage.read.succeeded', { durationMs: performance.now() - start });
+    return result;
+  } catch (error) {
+    reportError('storage.read.failed', error, { durationMs: performance.now() - start });
+    throw error;
+  }
+}
+
+async function writePreference(options: { key: string; value: string }): Promise<void> {
+  const start = performance.now();
+  try {
+    await Preferences.set(options);
+    log('storage.write.succeeded', { durationMs: performance.now() - start });
+  } catch (error) {
+    reportError('storage.write.failed', error, { durationMs: performance.now() - start });
+    throw error;
+  }
 }

@@ -196,3 +196,10 @@ Configure também o check **Hymns Pipeline CI / validate** como obrigatório em
 A pipeline também pode ser executada pela imagem definida em `Dockerfile`, com a
 raiz do monorepo como contexto de build. Consulte as [instruções de Docker](../../infra/docker/README.md)
 para validar camadas, persistir resultados e fornecer credenciais em execução.
+
+## Logs
+
+Eventos estruturados são enviados para `stderr`; resultados dos comandos ficam em
+`stdout`. Cada execução recebe um `runId`. O ambiente e o nível são controlados por
+`APP_ENV`, `LOG_LEVEL` e `--log-level`. Veja as [convenções de logging](../../infra/observability/README.md)
+para detalhes de níveis, sanitização e resultados desconhecidos de publicação.

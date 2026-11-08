@@ -30,6 +30,7 @@ jobs:
       - name: Gerar build web
         env:
           IS_INTERNAL_PR: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
+          VITE_LOG_LEVEL: info
           VITE_FIREBASE_API_KEY: ${{ vars.VITE_FIREBASE_API_KEY }}
           VITE_FIREBASE_AUTH_DOMAIN: ${{ vars.VITE_FIREBASE_AUTH_DOMAIN }}
           VITE_FIREBASE_PROJECT_ID: ${{ vars.VITE_FIREBASE_PROJECT_ID }}

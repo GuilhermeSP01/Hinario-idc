@@ -26,7 +26,8 @@
     "contracts:check": "corepack pnpm --filter @hinario/hymns-contracts check",
     "emulators": "corepack pnpm --filter @hinario/infra-firebase exec firebase emulators:start --config ../../firebase.json --project demo-hinario-idc --only firestore,hosting",
     "infra:check": "node infra/firebase/check.mjs",
-    "infra:test": "corepack pnpm --filter @hinario/infra-firebase test"
+    "infra:test": "corepack pnpm --filter @hinario/infra-firebase test",
+    "logs:test": "corepack pnpm --filter @hinario/observability test"
   },
   "devDependencies": {
     "typescript": "^5.7.3"

@@ -2,6 +2,8 @@
 from pathlib import Path
 import zipfile
 import re
+from time import perf_counter
+from . import observability as logs
 from . import odt, transform
 from .storage import APP, DATA, digest, encode, file_hash, identifier, immutable_directory, read_json
 from .validation import timestamp, validate_hymns, validate_release
@@ -14,6 +16,8 @@ def rules_hash():
 
 
 def ingest(source, source_version, data=DATA):
+    start = perf_counter()
+    logs.emit('bronze.ingest.started', level='debug', sourceVersion=source_version)
     source = Path(source)
     identifier(source_version)
     if source.suffix.lower() != '.odt':
@@ -25,8 +29,10 @@ def ingest(source, source_version, data=DATA):
             archive.getinfo(name)
     manifest = {'schemaVersion': 1, 'sourceVersion': source_version, 'format': 'odt',
                 'file': 'source.odt', 'originalName': source.name, 'sha256': file_hash(source)}
-    return immutable_directory(Path(data) / 'bronze' / source_version,
+    result = immutable_directory(Path(data) / 'bronze' / source_version,
                                {'source.odt': source.read_bytes(), 'manifest.json': encode(manifest)})
+    logs.emit('bronze.ingest.succeeded', sourceVersion=source_version, sourceHash=manifest['sha256'], durationMs=logs.elapsed(start))
+    return result
 
 
 def load_bronze(source_version, data=DATA):
@@ -41,6 +47,8 @@ def load_bronze(source_version, data=DATA):
 
 
 def silver(source_version, data=DATA):
+    start = perf_counter()
+    logs.emit('silver.transform.started', level='debug', sourceVersion=source_version)
     directory, source = load_bronze(source_version, data)
     raw = odt.read_hymns(directory / 'source.odt')
     hymns, exclusions = transform.standardize(raw)
@@ -72,6 +80,11 @@ def silver(source_version, data=DATA):
     immutable_directory(Path(data) / 'silver' / dataset_id,
                         {'hymns.json': encode(payload), 'report.json': encode(report),
                          'manifest.json': encode(manifest)})
+    logs.emit('silver.transform.succeeded', sourceVersion=source_version, datasetId=dataset_id,
+              sourceHash=source['sha256'], rulesHash=payload['rulesHash'], hymnCount=len(hymns),
+              rawCount=len(raw), excludedCount=len(exclusions),
+              approvedCount=sum(event['reason'] == 'approved_legacy_duplicate' for event in exclusions),
+              durationMs=logs.elapsed(start))
     return dataset_id
 
 
@@ -91,6 +104,8 @@ def load_silver(dataset_id, data=DATA):
 
 
 def gold(dataset_id, version, updated_at, data=DATA):
+    start = perf_counter()
+    logs.emit('gold.release.started', level='debug', datasetId=dataset_id, releaseVersion=version)
     if type(version) is not int or version < 1:
         raise ValueError('Release version must be a positive integer')
     payload = load_silver(dataset_id, data)
@@ -103,8 +118,11 @@ def gold(dataset_id, version, updated_at, data=DATA):
     validate_release(release)
     manifest = {'schemaVersion': 1, 'datasetId': dataset_id, 'silverHash': digest(payload),
                 'releaseHash': digest(release)}
-    return immutable_directory(Path(data) / 'gold' / str(version),
+    result = immutable_directory(Path(data) / 'gold' / str(version),
                                {'hymns.json': encode(release), 'manifest.json': encode(manifest)})
+    logs.emit('gold.release.succeeded', datasetId=dataset_id, releaseVersion=version,
+              releaseHash=manifest['releaseHash'], hymnCount=len(hymns), durationMs=logs.elapsed(start))
+    return result
 
 
 def load_gold(version, data=DATA):

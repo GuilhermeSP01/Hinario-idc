@@ -7,6 +7,10 @@ on:
     branches: [main]
   workflow_dispatch:
 
+env:
+  APP_ENV: test
+  LOG_LEVEL: INFO
+
 permissions:
   contents: read
 
@@ -62,8 +66,8 @@ jobs:
       - name: Validar pipeline no container
         if: matrix.app == 'hymns-pipeline'
         run: |
-          docker run --rm hinario-hymns-pipeline:ci
-          docker run --rm --entrypoint python hinario-hymns-pipeline:ci \
+          docker run --rm -e APP_ENV -e LOG_LEVEL hinario-hymns-pipeline:ci
+          docker run --rm -e APP_ENV -e LOG_LEVEL --entrypoint python hinario-hymns-pipeline:ci \
             -m unittest discover -s apps/hymns-pipeline/tests -v
       - name: Validar servidor web no container
         if: matrix.app == 'mobile'
@@ -71,6 +75,7 @@ jobs:
           docker run -d --name hinario-web-ci -p 127.0.0.1:8090:8080 hinario-mobile:ci
           trap 'docker rm -f hinario-web-ci' EXIT
           node infra/docker/web-smoke.mjs
+          node infra/docker/log-smoke.mjs hinario-web-ci
       - name: Validar target de desenvolvimento web
         if: matrix.app == 'mobile'
         run: |

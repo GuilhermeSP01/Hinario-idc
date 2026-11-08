@@ -1,6 +1,7 @@
 """Publish an immutable Gold release in one conditional, atomic Firestore commit."""
-import json
 import re
+from time import perf_counter
+from . import observability as logs
 from urllib.parse import quote
 from .storage import canonical, digest
 from .validation import validate_release
@@ -104,6 +105,14 @@ def plan(release, manifest, base, metadata, existing, expected_remote_version):
                     'version': release['version'], 'writes': len(writes)}
 
 
+class PublicationError(ValueError):
+    def __init__(self, message, *, unknown=False, http_status=None):
+        super().__init__(message)
+        self.unknown = unknown
+        self.http_status = http_status
+        self.logged = False
+
+
 class Firestore:
     def __init__(self, project, session=None):
         if not re.fullmatch(r'[a-z][a-z0-9-]{4,28}[a-z0-9]', project):
@@ -127,16 +136,23 @@ class Firestore:
         from google.auth.exceptions import GoogleAuthError
         try:
             response = self.session.request(method, url, json=body, timeout=30)
-        except (RequestException, GoogleAuthError):
-            raise ValueError('Firestore request failed; publication not confirmed. '
-                             'Read remote state and repeat the dry-run before retrying.') from None
+        except GoogleAuthError:
+            raise PublicationError('Firestore authentication failed; no confirmed publication.') from None
+        except RequestException:
+            raise PublicationError('Firestore request failed; publication not confirmed. '
+                             'Read remote state and repeat the dry-run before retrying.', unknown=method == 'POST') from None
         if missing_ok and response.status_code == 404:
             return None
         if not 200 <= response.status_code < 300:
             # Do not dump auth headers, credentials or response payloads into logs.
-            raise ValueError(f'Firestore HTTP {response.status_code}; publication not confirmed. '
-                             'For conflicts or timeouts, read remote state and repeat the dry-run.')
-        return response.json()
+            raise PublicationError(f'Firestore HTTP {response.status_code}; publication not confirmed. '
+                             'For conflicts or timeouts, read remote state and repeat the dry-run.',
+                                   unknown=method == 'POST' and (response.status_code >= 500 or response.status_code == 408),
+                                   http_status=response.status_code)
+        try:
+            return response.json()
+        except ValueError:
+            raise PublicationError('Invalid Firestore response; publication not confirmed.', unknown=method == 'POST') from None
 
     def snapshot(self):
         metadata = self.request('GET', self.url + '/metadata/version', missing_ok=True)
@@ -156,11 +172,39 @@ class Firestore:
 
 
 def publish(release, manifest, project, expected_remote_version, dry_run=False, client=None):
-    client = client or Firestore(project)
-    metadata, existing = client.snapshot()
-    writes, summary = plan(release, manifest, client.base, metadata, existing, expected_remote_version)
-    print(json.dumps(dict(summary, project=project, dryRun=dry_run), ensure_ascii=False))
-    if writes and not dry_run:
-        # All documents and metadata share one commit. Per-document preconditions reject races.
-        client.request('POST', client.url + ':commit', {'writes': writes})
-    return summary
+    start = perf_counter()
+    context = dict(projectId=project, releaseVersion=release['version'],
+                   releaseHash=manifest['releaseHash'], dryRun=dry_run, expectedRemoteVersion=expected_remote_version)
+    committing = False
+    try:
+        client = client or Firestore(project)
+        metadata, existing = client.snapshot()
+        context['remoteVersion'] = document_fields(metadata).get('currentVersion', 0) if metadata else 0
+        writes, summary = plan(release, manifest, client.base, metadata, existing, expected_remote_version)
+        context.update(writes=len(writes), upserts=summary['upserts'], removals=summary['removals'],
+                       addedCount=len(summary.get('addedIds', [])), changedCount=len(summary.get('changedIds', [])))
+        logs.emit('firestore.publish.planned', **context)
+        if not writes:
+            outcome = 'unchanged'
+        elif dry_run:
+            outcome = 'simulated'
+        else:
+            logs.emit('firestore.publish.started', **context)
+            committing = True
+            client.request('POST', client.url + ':commit', {'writes': writes})
+            committing = False
+            outcome = 'succeeded'
+        logs.emit('firestore.publish.' + outcome, durationMs=logs.elapsed(start), **context)
+        return summary
+    except Exception as error:
+        unknown = error.unknown if isinstance(error, PublicationError) else committing
+        details = logs.error_context(error)
+        if isinstance(error, PublicationError):
+            details = dict(errorType='PublicationError', errorCode='publication_outcome_unknown' if unknown else 'publication_failed')
+            if error.http_status is not None:
+                details['httpStatus'] = error.http_status
+        logs.emit('firestore.publish.outcome_unknown' if unknown else 'firestore.publish.failed',
+                  level='error', durationMs=logs.elapsed(start), **details, **context)
+        failure = error if isinstance(error, PublicationError) else PublicationError('Publication failed.', unknown=unknown)
+        failure.logged = True
+        raise failure from None

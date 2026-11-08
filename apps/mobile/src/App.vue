@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { log, reportError, operationId, normalizeError } from '@hinario/observability';
 import { onMounted } from 'vue';
 import { RouterView, useRouter } from 'vue-router';
 import { App as CapApp } from '@capacitor/app';
@@ -31,31 +32,45 @@ async function processSharedUrlIfPresent(rawUrlOrSearch: string): Promise<void> 
 }
 
 onMounted(async () => {
-  await Promise.all([
-    settingsStore.initSettings(),
-    favoritesStore.initFavorites(),
-    worshipStore.initWorship(),
-    hymnsStore.initHymns(),
-  ]);
+  const start = performance.now();
+  const context = { operationId: operationId() };
+  log('app.init.started', context);
+  try {
+    await Promise.all([
+      settingsStore.initSettings(),
+      favoritesStore.initFavorites(),
+      worshipStore.initWorship(),
+      hymnsStore.initHymns(),
+    ]);
 
-  if (typeof window !== 'undefined' && window.location.search) {
-    await processSharedUrlIfPresent(window.location.search);
-  }
-
-  if (Capacitor.isNativePlatform()) {
-    try {
-      const launchUrl = await CapApp.getLaunchUrl();
-      if (launchUrl?.url) {
-        await processSharedUrlIfPresent(launchUrl.url);
-      }
-      await CapApp.addListener('appUrlOpen', (event) => {
-        if (event.url) {
-          void processSharedUrlIfPresent(event.url);
-        }
-      });
-    } catch {
-      // Ignora caso o plugin nativo não esteja disponível
+    if (typeof window !== 'undefined' && window.location.search) {
+      await processSharedUrlIfPresent(window.location.search);
     }
+
+    if (Capacitor.isNativePlatform()) {
+      try {
+        const launchUrl = await CapApp.getLaunchUrl();
+        if (launchUrl?.url) {
+          await processSharedUrlIfPresent(launchUrl.url);
+        }
+        await CapApp.addListener('appUrlOpen', (event) => {
+          if (event.url) {
+            void processSharedUrlIfPresent(event.url);
+          }
+        });
+      } catch (error) {
+        if (['UNIMPLEMENTED', 'UNAVAILABLE'].includes(normalizeError(error).errorCode)) {
+          log('native.plugin.unavailable', { plugin: 'deep_link' });
+        } else {
+          reportError('native.plugin.failed', error, { plugin: 'deep_link' });
+        }
+        // Preserve fallback when a native feature cannot be initialized.
+      }
+    }
+    log('app.init.succeeded', { ...context, durationMs: performance.now() - start });
+  } catch (error) {
+    reportError('app.init.failed', error, { ...context, durationMs: performance.now() - start });
+    throw error;
   }
 });
 </script>

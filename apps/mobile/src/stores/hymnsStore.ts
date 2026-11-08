@@ -1,10 +1,12 @@
 import { defineStore } from 'pinia';
+import { log, reportError, operationId, normalizeError } from '@hinario/observability';
 import { computed, ref } from 'vue';
 import { HymnSearchEngine, type Hymn, type HymnSearchResult } from '@hinario/core';
 import {
   fetchHymnsDelta,
   fetchRemoteMetadata,
   getOrInitFirestore,
+  isFirebaseConfigured,
   INITIAL_HINARIO_VERSION,
   INITIAL_HYMNS_SEED,
 } from '@hinario/firebase';
@@ -124,6 +126,7 @@ export const useHymnsStore = defineStore('hymns', () => {
    * caso a versão e quantidade de hinos não tenham mudado.
    */
   async function loadOrBuildSearchIndex(activeHymns: Hymn[], version: number): Promise<void> {
+    const start = performance.now();
     const cached = await localDb.searchCache.get(SEARCH_CACHE_ID);
     if (
       cached &&
@@ -131,6 +134,7 @@ export const useHymnsStore = defineStore('hymns', () => {
       cached.hymnCount === activeHymns.length &&
       searchEngine.loadSerializedIndex(cached.serializedIndex)
     ) {
+      log('hymns.index.loaded', { hymnCount: activeHymns.length, localVersion: version, durationMs: performance.now() - start });
       return;
     }
 
@@ -142,6 +146,7 @@ export const useHymnsStore = defineStore('hymns', () => {
       serializedIndex: searchEngine.serializeIndex(),
       updatedAt: new Date().toISOString(),
     });
+    log('hymns.index.rebuilt', { hymnCount: activeHymns.length, localVersion: version, durationMs: performance.now() - start });
   }
 
   /**
@@ -160,6 +165,7 @@ export const useHymnsStore = defineStore('hymns', () => {
       });
       storedHymns = [...INITIAL_HYMNS_SEED];
       version = INITIAL_HINARIO_VERSION;
+      log('hymns.seed.loaded', { hymnCount: storedHymns.length, localVersion: version });
       await setStoredLocalVersion(version);
     }
 
@@ -196,28 +202,39 @@ export const useHymnsStore = defineStore('hymns', () => {
    * Verifica silenciosamente a versão atual no Firestore e baixa apenas o delta de hinos.
    */
   async function syncWithFirestoreInBackground(): Promise<void> {
+    const start = performance.now();
+    const context = { operationId: operationId(), localVersion: localVersion.value };
     if (typeof navigator !== 'undefined' && !navigator.onLine) {
+      log('hymns.sync.skipped', { ...context, reason: 'offline' });
       return;
     }
 
-    const db = getOrInitFirestore({
+    const config = {
       apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
       authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
       projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
       storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
       messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
       appId: import.meta.env.VITE_FIREBASE_APP_ID,
-    });
+    };
+    const db = getOrInitFirestore(config);
 
-    if (!db) return;
+    if (!db) {
+      log('hymns.sync.skipped', { ...context, reason: isFirebaseConfigured(config) ? 'unavailable' : 'unconfigured' });
+      return;
+    }
+    let stage: 'remote' | 'storage' = 'remote';
+    log('hymns.sync.started', context);
 
     try {
       const remoteMeta = await fetchRemoteMetadata(db);
       if (!remoteMeta || remoteMeta.currentVersion <= localVersion.value) {
+        log('hymns.sync.skipped', { ...context, reason: remoteMeta ? 'up_to_date' : 'no_metadata', remoteVersion: remoteMeta?.currentVersion });
         return;
       }
 
       const deltaHymns = await fetchHymnsDelta(db, localVersion.value);
+      stage = 'storage';
       if (deltaHymns.length > 0) {
         const toDeleteIds = deltaHymns.filter((h) => h.deleted).map((h) => h.id);
         const toUpsert = deltaHymns.filter((h) => !h.deleted);
@@ -246,8 +263,16 @@ export const useHymnsStore = defineStore('hymns', () => {
         serializedIndex: searchEngine.serializeIndex(),
         updatedAt: new Date().toISOString(),
       });
-    } catch {
-      // Falha de rede ou permissão ignorada silenciosamente para não interromper o uso offline
+      log('hymns.sync.succeeded', { ...context, remoteVersion: remoteMeta.currentVersion, receivedCount: deltaHymns.length,
+        removedCount: deltaHymns.filter(hymn => hymn.deleted).length, durationMs: performance.now() - start });
+    } catch (error) {
+      if (stage === 'remote' && normalizeError(error).errorCode === 'unavailable') {
+        log('hymns.sync.skipped', { ...context, reason: 'unavailable', durationMs: performance.now() - start });
+      } else {
+        reportError(stage === 'remote' ? 'hymns.sync.remote_failed' : 'hymns.sync.storage_failed', error,
+          { ...context, durationMs: performance.now() - start });
+      }
+      // Preserve offline behavior; reporting does not interrupt use of local hymns.
     }
   }
 

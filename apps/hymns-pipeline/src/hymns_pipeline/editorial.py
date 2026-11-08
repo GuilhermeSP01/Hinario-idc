@@ -223,7 +223,9 @@ def release_revision(rid, version, updated_at, data=DATA):
     from .layers import load_silver
     from .validation import timestamp, validate_release
     record = load_revision(rid, data)
-    if type(version) is not int or version <= record['baseRelease']:
+    remote_version = (record['checkpoint']['snapshot']['metadata'] or {}).get('currentVersion',0) if record['checkpoint'] else 0
+    if type(remote_version) is not int: raise ValueError('Remote metadata version is invalid')
+    if type(version) is not int or version <= max(record['baseRelease'],remote_version):
         raise ValueError('Editorial release must be newer than its baseline')
     updated_at = timestamp(updated_at)
     hymns = [dict(h, version=version, updatedAt=updated_at, deleted=False) for h in record['hymns']]

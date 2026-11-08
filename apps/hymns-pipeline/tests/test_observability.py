@@ -86,13 +86,15 @@ class LoggingTests(unittest.TestCase):
                     self.assertNotIn('firestore.publish.succeeded', self.stream.getvalue())
                     if outcome == 'conflict': raise PublicationError('secret', http_status=409)
                     if outcome == 'timeout': raise PublicationError('secret', unknown=True)
+                from hymns_pipeline.remote import snapshot
+                baseline=dict(projectId='hinario-idc',snapshot=snapshot(client.snapshot.return_value[0],{}),allowMissingHash=False)
                 client.request.side_effect = commit
                 if outcome in ('conflict', 'timeout'):
                     with self.assertRaises(PublicationError) as error:
-                        publish(release, manifest, 'hinario-idc', 3, client=client)
+                        publish(release, manifest, 'hinario-idc', 3, client=client, baseline=baseline)
                     self.assertTrue(error.exception.logged)
                 else:
-                    publish(release, manifest, 'hinario-idc', 3, outcome == 'simulation', client)
+                    publish(release, manifest, 'hinario-idc', 3, outcome == 'simulation', client, baseline=baseline)
                 records = [json.loads(line) for line in self.stream.getvalue().splitlines()]
                 events = [r['event'] for r in records]
                 self.assertNotIn('secret', self.stream.getvalue())

@@ -38,6 +38,13 @@ def main():
     p.add_argument('--dataset', required=True)
     p.add_argument('--file', type=Path)
     p.add_argument('--reason')
+    for command in ('list', 'get', 'reconcile'):
+        p = commands.add_parser(command)
+        p.add_argument('--project', required=True)
+        if command == 'get': p.add_argument('--id', required=True)
+        if command == 'reconcile':
+            p.add_argument('--file', type=Path)
+            p.add_argument('--reason')
     for command in ('create', 'update', 'delete'):
         p = commands.add_parser(command)
         p.add_argument('--reason', required=True)
@@ -80,10 +87,23 @@ def main():
             result = mutate(args.command, hymn_id=getattr(args, 'id', None), payload=payload, reason=args.reason, data=args.data_dir)
             logs.emit('editorial.change.prepared', operation=args.command, revisionId=result['revision'])
             print(json.dumps(result, ensure_ascii=False))
+        elif args.command in ('list', 'get', 'reconcile'):
+            from .remote import read_remote, reconciliation_report, reconcile_remote
+            from .storage import read_json
+            if args.command == 'reconcile':
+                if args.file and not args.reason: raise ValueError('A reason is required to reconcile')
+                result = reconcile_remote(args.project,read_json(args.file),args.reason,args.data_dir) if args.file else reconciliation_report(args.project,args.data_dir)
+            else:
+                result = read_remote(args.project, getattr(args,'id',None))
+            if args.command == 'reconcile' and args.file:
+                logs.emit('editorial.change.prepared', operation='remote', revisionId=result['revision'])
+            print(json.dumps(result,ensure_ascii=False))
         elif args.command == 'source-reconcile':
             from .source_reconciliation import reconcile_source, source_report
             from .storage import read_json
+            if args.file and not args.reason: raise ValueError('A reason is required to reconcile')
             result = reconcile_source(args.dataset, read_json(args.file), args.reason, args.data_dir) if args.file else source_report(args.dataset,args.data_dir)
+            if args.file: logs.emit('editorial.change.prepared', operation='source', revisionId=result['revision'])
             print(json.dumps(result, ensure_ascii=False))
         elif args.command == 'check':
             from .check import check
@@ -107,7 +127,9 @@ def main():
                 export_seed(release, args.check)
             elif args.command == 'publish':
                 from .firestore import publish
-                summary = publish(release, manifest, args.project, args.expected_remote_version, args.dry_run)
+                from .remote import publication_baseline
+                baseline=publication_baseline(release,manifest,args.project,args.data_dir)
+                summary = publish(release, manifest, args.project, args.expected_remote_version, args.dry_run, baseline=baseline)
                 print(json.dumps(dict(summary, project=args.project, dryRun=args.dry_run)))
             if args.command != 'publish':
                 print(f'{args.command}: release {args.release} OK')

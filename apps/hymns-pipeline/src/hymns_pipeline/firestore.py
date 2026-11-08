@@ -1,5 +1,6 @@
 """Publish an immutable Gold release in one conditional, atomic Firestore commit."""
 import re
+import os
 from time import perf_counter
 from . import observability as logs
 from urllib.parse import quote
@@ -32,6 +33,10 @@ def from_value(value):
         return None
     if 'integerValue' in value:
         return int(value['integerValue'])
+    if 'doubleValue' in value:
+        return float(value['doubleValue'])
+    if 'timestampValue' in value:
+        return value['timestampValue']
     if 'booleanValue' in value:
         return value['booleanValue']
     if 'stringValue' in value:
@@ -69,9 +74,11 @@ def plan(release, manifest, base, metadata, existing, expected_remote_version):
     active = {key: document_fields(doc) for key, doc in existing.items()
               if not document_fields(doc).get('deleted', False)}
     if remote_version == release['version']:
-        if (remote.get('releaseHash') == manifest['releaseHash'] and active == desired
-                and remote.get('totalHymns') == len(desired)
-                and remote.get('updatedAt') == release['updatedAt']):
+        from .remote import normalize_fields
+        active_content = {key:normalize_fields(key,fields) for key,fields in active.items()}
+        desired_content = {key:normalize_fields(key,fields) for key,fields in desired.items()}
+        if (remote.get('releaseHash') == manifest['releaseHash'] and active_content == desired_content
+                and remote.get('totalHymns') == len(desired)):
             return [], {'unchanged': True, 'upserts': 0, 'removals': 0, 'version': remote_version}
         raise ValueError('Version already used by different content; create a higher Gold release')
     if release['version'] < remote_version:
@@ -85,8 +92,8 @@ def plan(release, manifest, base, metadata, existing, expected_remote_version):
         if fields.get('deleted', False):
             continue
         # Preserve old IDs (including legacy IDs) so delta clients receive tombstones.
-        tombstone = dict(id=key, number=int(fields.get('number', 0)),
-                         title=str(fields.get('title', '')), sections=[], deleted=True,
+        tombstone = dict(id=key, number=fields.get('number', 0) if type(fields.get('number',0)) is int else 0,
+                         title=fields.get('title','') if isinstance(fields.get('title',''),str) else '', sections=[], deleted=True,
                          version=release['version'], updatedAt=release['updatedAt'])
         writes.append(update_write(f'{base}/hymns/{key}', tombstone, previous))
         removals += 1
@@ -117,6 +124,14 @@ class Firestore:
     def __init__(self, project, session=None):
         if not re.fullmatch(r'[a-z][a-z0-9-]{4,28}[a-z0-9]', project):
             raise ValueError('Invalid Google Cloud project ID')
+        emulator = os.environ.get('FIRESTORE_EMULATOR_HOST')
+        if emulator:
+            if not project.startswith('demo-') or not re.fullmatch(r'(?:127\.0\.0\.1|localhost):[0-9]{1,5}',emulator) or not 0<int(emulator.rsplit(':',1)[1])<65536:
+                raise ValueError('Emulator requires a demo project and a loopback endpoint')
+            if session is None:
+                import requests
+                session = requests.Session()
+                session.headers['Authorization'] = 'Bearer owner'
         if session is None:
             import google.auth
             from google.auth.transport.requests import AuthorizedSession
@@ -129,7 +144,7 @@ class Firestore:
             session = AuthorizedSession(credentials)
         self.session = session
         self.base = f'projects/{project}/databases/(default)/documents'
-        self.url = f'https://firestore.googleapis.com/v1/{self.base}'
+        self.url = f'http://{emulator}/v1/{self.base}' if emulator else f'https://firestore.googleapis.com/v1/{self.base}'
 
     def request(self, method, url, body=None, missing_ok=False):
         from requests.exceptions import RequestException
@@ -171,7 +186,7 @@ class Firestore:
         return metadata, existing
 
 
-def publish(release, manifest, project, expected_remote_version, dry_run=False, client=None):
+def publish(release, manifest, project, expected_remote_version, dry_run=False, client=None, *, baseline=None):
     start = perf_counter()
     context = dict(projectId=project, releaseVersion=release['version'],
                    releaseHash=manifest['releaseHash'], dryRun=dry_run, expectedRemoteVersion=expected_remote_version)
@@ -181,6 +196,8 @@ def publish(release, manifest, project, expected_remote_version, dry_run=False, 
         metadata, existing = client.snapshot()
         context['remoteVersion'] = document_fields(metadata).get('currentVersion', 0) if metadata else 0
         writes, summary = plan(release, manifest, client.base, metadata, existing, expected_remote_version)
+        from .remote import verify_baseline
+        verify_baseline(release,baseline,project,metadata,existing,unchanged=not writes)
         context.update(writes=len(writes), upserts=summary['upserts'], removals=summary['removals'],
                        addedCount=len(summary.get('addedIds', [])), changedCount=len(summary.get('changedIds', [])))
         logs.emit('firestore.publish.planned', **context)
